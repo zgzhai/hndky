@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AntProjectFhnlpg" default="build" basedir=".">
+    <property name="srcDir" location="src/edu/xjtu/ee/fhnlpg"/>
+    <property name="binDir" location="ant/bin/edu/xjtu/ee/fhnlpg"/>
+    <property name="jarDir" location="ant/jar"/>
+    <property name="libDir" location="lib"/>
+    <path id="project.class.path">
+        <pathelement path="${binDir}"/>
+        <fileset dir="${libDir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <target name="init">
+        <mkdir dir="${binDir}"/>
+        <mkdir dir="${jarDir}"/>
+        <copy todir="${jarDir}">
+            <fileset dir="${libDir}"
+                     includes="/**"/>
+        </copy>
+    </target>
+    <target name="compile" depends="init">
+        <javac srcdir="${srcDir}" destdir="${binDir}">
+            <classpath refid="project.class.path"/>
+        </javac>
+    </target>
+    <target name="build" depends="init,compile">
+        <jar destfile="${jarDir}/fhnlpg.jar" basedir="${binDir}">
+            <manifest>
+                <attribute name="Main-Class"
+                           value="edu.xjtu.ee.fhnlpg.Main"/>
+                <attribute name="Class-Path"
+                           value="fhnlpg.jar Jama-1.0.3.jar tools.jar"/>
+            </manifest>
+        </jar>
+        <echo message="fhnlpg is successful!"/>
+    </target>
+</project>
