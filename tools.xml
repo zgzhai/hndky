@@ -32,6 +32,6 @@
                            value="tools.jar Jama-1.0.3.jar"/>
             </manifest>
         </jar>
-        <echo message="tools is successful!"/>
+        <echo message="tools is successful!!"/>
     </target>
 </project>
