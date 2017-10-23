@@ -9,7 +9,20 @@ public class Main {
             cr.solve();
             cr.print();
         } else {
-            System.out.println("show help");
+            System.out.println("                        .---.                                                            ");
+            System.out.println("                        |   |                                                            ");
+            System.out.println("                        '---'                         __.....__           __.....__      ");
+            System.out.println("                        .---.                     .-''         '.     .-''         '.    ");
+            System.out.println("                        |   |     .|             /     .-''''-.  `.  /     .-''''-.  `.  ");
+            System.out.println("   ____     _____       |   |   .' |_           /     /________\\   \\/     /________\\   \\ ");
+            System.out.println("  `.   \\  .'    /       |   | .'     |   _    _ |                  ||                  | ");
+            System.out.println("    `.  `'    .'        |   |'--.  .-'  | '  / |\\    .-------------'\\    .-------------' ");
+            System.out.println("      '.    .'          |   |   |  |   .' | .' | \\    '-.____...---. \\    '-.____...---. ");
+            System.out.println("      .'     `.         |   |   |  |   /  | /  |  `.             .'   `.             .'  ");
+            System.out.println("    .'  .'`.   `.    __.'   '   |  '.'|   `'.  |    `''-...... -'       `''-...... -'    ");
+            System.out.println("  .'   /    `.   `. |      '    |   / '   .'|  '/                                        ");
+            System.out.println(" '----'       '----'|____.'     `'-'   `-'  `--'                                         ");
+
         }
     }
 }
