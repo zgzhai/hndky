@@ -2,7 +2,7 @@ package edu.xjtu.ee.tools;
 
 import Jama.Matrix;
 
-/**
+/** 矩阵附加运算
  * Created by Administrator on 2017/10/19.
  */
 public class MatrixEx {
@@ -10,14 +10,6 @@ public class MatrixEx {
 
     public static void main(String[] args) {
         // write your code here
-        /*
-        double[][] a = {{-33.3333, 31.7460, 0, 0, 0},
-                {31.7460, -35.7379, 3.1120, 2.6415, 0},
-                {0, 3.1120, -66.9808, 3.9002, 63.4921},
-                {0, 2.6415, 3.9002, -6.2917, 0},
-                {0, 0, 63.4921, 0, -66.6667}};
-        */
-
         double[][] m = {{1,1,1}, {2,2,2},{3,3,3}};
         Matrix mx = new Matrix(m);
         mx.print(8,3);
@@ -37,6 +29,10 @@ public class MatrixEx {
         this.ma = ma;
     }
 
+    /**
+     * 根据向量值进行矩阵行删除
+     * @param v
+     */
     public void deleteRow(Vector v) {
         if (v == null) return;
 
@@ -53,6 +49,10 @@ public class MatrixEx {
         ma = m;
     }
 
+    /**
+     * 根据向量值进行矩阵列删除
+     * @param v
+     */
     public void deleteColumn(Vector v) {
         if (v == null) return;
 
@@ -70,6 +70,10 @@ public class MatrixEx {
         ma = m;
     }
 
+    /**
+     * 根据向量值进行矩阵行列删除
+     * @param v
+     */
     public void delete(Vector v){
         deleteRow(v);
         deleteColumn(v);

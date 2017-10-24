@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
+/** 复数矩阵
  * Created by Administrator on 2017/10/19.
  */
 public class MatrixComplex {

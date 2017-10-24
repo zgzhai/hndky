@@ -1,5 +1,8 @@
 package edu.xjtu.ee.tools;
 
+/**
+ * 复数向量
+ */
 public class VectorComplex {
     private Complex[] c;
     private int size;

@@ -5,6 +5,7 @@ import Jama.Matrix;
 import java.util.ArrayList;
 
 /**
+ * 向量运算
  * Created by Administrator on 2017/9/25.
  */
 public class Vector {
@@ -207,6 +208,10 @@ public class Vector {
         return this;
     }
 
+    public Vector sub(Vector a) {
+        return minus(a);
+    }
+
     /**
      * 获取元素值
      *
@@ -374,6 +379,11 @@ public class Vector {
         return minv;
     }
 
+    /**
+     * 向量点除
+     * @param b
+     * @return
+     */
     public Vector dotDiv(Vector b) {
         if (b.size != size) return null;
         Vector v = new Vector(size);
@@ -385,6 +395,11 @@ public class Vector {
         return v;
     }
 
+    /**
+     * 向量点乘
+     * @param b
+     * @return
+     */
     public Vector dotMul(Vector b) {
         if (b.size != size) return null;
         Vector v = new Vector(size);

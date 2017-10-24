@@ -230,6 +230,7 @@ public class CPQ {
                     } else {
                         modifyU(phpv, pqnum, pq, deltaQi);
                         kp = 1;
+                        kp = 1;
                         k = k + 1;
                     }
                 }
@@ -289,11 +290,11 @@ public class CPQ {
         for (int m = 0; m < x; m++) {
             Complex conj = Y.get(ph - 1, m).conj();
             Complex u = new Complex(U.get(m) * Math.cos(a.get(m)), -U.get(m) * Math.sin(a.get(m)));
-            sum3.add(conj.multipule(u));
+            sum3.add(conj.multiply(u));
         }
 
         Sph = new Complex(U.get(ph - 1) * Math.cos(a.get(ph - 1)), U.get(ph - 1) * Math.sin(a.get(ph - 1)));
-        Sph.multipule(sum3);
+        Sph.multiply(sum3);
     }
 
     private Complex calcOneSij1(int m) {
@@ -331,17 +332,17 @@ public class CPQ {
                 break;
         }
 
-        Complex s1 = s1a.multipule(s1b);
+        Complex s1 = s1a.multiply(s1b);
 
         //U(I(m))*cos(a(I(m)))-i*U(I(m))*sin(a(I(m)))
         Complex s2a = new Complex(U.get((int) I.get(m) - 1) * Math.cos(a.get((int) I.get(m) - 1)), -U.get((int) I.get(m) - 1) * Math.sin(a.get((int) I.get(m) - 1)));
         //-U(J(m))*cos(a(J(m)))+i*U(J(m))*sin(a(J(m)))
         Complex s2b = new Complex(-U.get((int) J.get(m) - 1) * Math.cos(a.get((int) J.get(m) - 1)), U.get((int) J.get(m) - 1) * Math.sin(a.get((int) J.get(m) - 1)));
         Complex conj = Y.get((int) I.get(m) - 1, (int) J.get(m) - 1).clone().times(-1).conj(); //conj(-Y(I(m),J(m)))
-        Complex s2 = s2a.add(s2b).multipule(conj);
+        Complex s2 = s2a.add(s2b).multiply(conj);
 
         Complex t2 = s1.add(s2);
-        Complex result = t1.multipule(t2);
+        Complex result = t1.multiply(t2);
         return result;
     }
 
@@ -363,17 +364,17 @@ public class CPQ {
                 break;
         }
 
-        Complex s1 = s1a.multipule(s1b);
+        Complex s1 = s1a.multiply(s1b);
 
         //U(I(m))*cos(a(I(m)))-i*U(I(m))*sin(a(I(m)))
         Complex s2a = new Complex(U.get((int) J.get(m) - 1) * Math.cos(a.get((int) J.get(m) - 1)), -U.get((int) J.get(m) - 1) * Math.sin(a.get((int) J.get(m) - 1)));
         //-U(J(m))*cos(a(J(m)))+i*U(J(m))*sin(a(J(m)))
         Complex s2b = new Complex(-U.get((int) I.get(m) - 1) * Math.cos(a.get((int) I.get(m) - 1)), U.get((int) I.get(m) - 1) * Math.sin(a.get((int) I.get(m) - 1)));
         Complex conj = Y.get((int) I.get(m) - 1, (int) J.get(m) - 1).clone().times(-1).conj(); //conj(-Y(I(m),J(m)))
-        Complex s2 = s2a.add(s2b).multipule(conj);
+        Complex s2 = s2a.add(s2b).multiply(conj);
 
         Complex t2 = s1.add(s2);
-        Complex result = t1.multipule(t2);
+        Complex result = t1.multiply(t2);
         return result;
     }
 

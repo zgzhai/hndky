@@ -1,6 +1,6 @@
 package edu.xjtu.ee.tools;
 
-/**
+/** 进行复数的的各种数学运算
  * Created by Administrator on 2017/10/19.
  */
 public class Complex {
@@ -34,7 +34,7 @@ public class Complex {
 
     /**
      * 负数倒数
-     *
+     * @param sign  -1
      * @return
      */
     public Complex inverse(int sign) {
@@ -52,29 +52,45 @@ public class Complex {
         return new Complex(a, -b);
     }
 
+    /**
+     * 加一个复数，改变本对象值并返回本对象
+     * @param c
+     * @return
+     */
     public Complex add(Complex c) {
         a += c.a;
         b += c.b;
         return this;
     }
 
+    /**
+     * 减一个复数，改变本对象值并返回本对象
+     * @param c
+     * @return
+     */
     public Complex sub(Complex c) {
         a -= c.a;
         b -= c.b;
         return this;
     }
 
+    /**
+     * 乘一个实数，改变本对象值并返回本对象
+     * @param x
+     * @return
+     */
     public Complex times(double x) {
         a *= x;
         b *= x;
         return this;
     }
 
-    public Complex clone() {
-        return new Complex(a, b);
-    }
-
-    public Complex multipule(Complex c) {
+    /**
+     * 乘一个复数，改变本对象值并返回本对象
+     * @param c
+     * @return
+     */
+    public Complex multiply(Complex c) {
         double aa = this.a;
         double bb = this.b;
         a = aa * c.a - bb * c.b;
@@ -82,6 +98,11 @@ public class Complex {
         return this;
     }
 
+    /**
+     * 除一个复数，改变本对象值并返回本对象
+     * @param c
+     * @return
+     */
     public Complex divide(Complex c) {
         double ccdd = c.a * c.a + c.b * c.b;
         if (ccdd == 0) return new Complex();
@@ -93,7 +114,23 @@ public class Complex {
     }
 
     /**
-     * 模
+     * 克隆对象
+     * @return
+     */
+    public Complex clone() {
+        return new Complex(a, b);
+    }
+
+    /**
+     * 拷贝对象，同克隆对象
+     * @return
+     */
+    public Complex copy() {
+        return new Complex(a, b);
+    }
+
+    /**
+     * 取模
      *
      * @return
      */
@@ -102,6 +139,12 @@ public class Complex {
         return Math.sqrt(a * a + b * b);
     }
 
+    /**
+     * 格式化复数字符串
+     * @param l    长度
+     * @param dot  小数位数
+     * @return
+     */
     public String toFormatString(int l, int dot) {
         String formatStr = "%-" + l + "." + dot + "f";
         String astr = String.format(formatStr, a).trim();
