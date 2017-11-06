@@ -8,8 +8,11 @@ public class Main {
             cr.init();
             cr.solve();
             cr.print();
-        } else if (args.length > 0 && args[0].toUpperCase().equals("RDWD")) {
-
+        } else if (args.length > 0 && args[0].toUpperCase().equals("COOL")) {
+            COOL cool = new COOL();
+            cool.init(6, 6, 6, 6, 0.2, 0.2, 60, 80, 0.7);
+            cool.solve(70, 85, 0.8);
+            cool.print();
         } else {
             System.out.println("                        .---.                                                            ");
             System.out.println("                        |   |                                                            ");
