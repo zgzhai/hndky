@@ -8,7 +8,7 @@ public class Main {
             c.init();
             c.solve();
             c.print();
-            c.OutToFile();
+            //c.OutToFile();
         } else if (args.length > 0 && args[0].toUpperCase().equals("PQ")) {
             CPQ cpq = new CPQ(5, 5, 0.00001);
             cpq.init();       //数据初始化
