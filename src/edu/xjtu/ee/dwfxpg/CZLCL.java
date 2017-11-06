@@ -31,7 +31,7 @@ public class CZLCL {
         c.init();
         c.solve();
         c.print();
-        c.OutToFile();
+        //c.OutToFile();
     }
 
     public void init() {
