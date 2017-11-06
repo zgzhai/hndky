@@ -264,12 +264,12 @@ public class CRDWD {
     public static void main(String[] args) {
         // write your code here
         CRDWD cr = new CRDWD();
-        cr.Init();
+        cr.init();
         cr.solve();
         cr.print();
     }
 
-    public void Init() {
+    public void init() {
         H = 1.1;
         type = 2;
         kind = 2;

@@ -5,9 +5,11 @@ public class Main {
         // write your code here
         if (args.length > 0 && args[0].toUpperCase().equals("RDWD")) {
             CRDWD cr = new CRDWD();
-            cr.Init();
+            cr.init();
             cr.solve();
             cr.print();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("RDWD")) {
+
         } else {
             System.out.println("                        .---.                                                            ");
             System.out.println("                        |   |                                                            ");

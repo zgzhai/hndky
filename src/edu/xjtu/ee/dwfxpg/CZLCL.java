@@ -28,13 +28,13 @@ public class CZLCL {
     public static void main(String[] args) {
         // write your code here
         CZLCL c = new CZLCL();
-        c.Init();
-        c.Calc();
-        c.OutputScreen();
+        c.init();
+        c.solve();
+        c.print();
         c.OutToFile();
     }
 
-    public void Init() {
+    public void init() {
         Bus.add(new CBus(1, 0.0, 1));
         Bus.add(new CBus(2, 0.0, 2));
         Bus.add(new CBus(3, 0.0, 1));
@@ -116,7 +116,7 @@ public class CZLCL {
 
     }
 
-    public void Calc() {
+    public void solve() {
         PrepareData();
         FormP();
         FormY();
@@ -203,7 +203,7 @@ public class CZLCL {
         }
     }
 
-    public void OutputScreen() {
+    public void print() {
         System.out.println("Y=\r\n");
         Y.print(10, 2);
 
