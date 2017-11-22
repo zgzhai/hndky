@@ -8,12 +8,16 @@ public class Main {
             c.init();
             c.solve();
             c.print();
-            //c.OutToFile();
         } else if (args.length > 0 && args[0].toUpperCase().equals("PQ")) {
-            CPQ cpq = new CPQ(5, 5, 0.00001);
-            cpq.init();       //数据初始化
-            cpq.solve();
-            cpq.output();
+            CPQ c = new CPQ(5, 5, 0.00001);
+            c.init();       //数据初始化
+            c.solve();
+            c.print();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("FHXJ")) {
+            CFHXJ c = new CFHXJ();
+            c.init();
+            c.solve();
+            c.print();
         } else {
             System.out.println("                        .---.                                                            ");
             System.out.println("                        |   |                                                            ");

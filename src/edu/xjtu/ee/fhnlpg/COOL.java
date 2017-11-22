@@ -1,6 +1,7 @@
 package edu.xjtu.ee.fhnlpg;
 
 /**
+ * 冷却器
  * Created by Administrator on 2017/11/6.
  */
 public class COOL {

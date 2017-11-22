@@ -4,15 +4,15 @@ public class Main {
     public static void main(String[] args) {
         // write your code here
         if (args.length > 0 && args[0].toUpperCase().equals("RDWD")) {
-            CRDWD cr = new CRDWD();
-            cr.init();
-            cr.solve();
-            cr.print();
+            CRDWD c = new CRDWD();
+            c.init();
+            c.solve();
+            c.print();
         } else if (args.length > 0 && args[0].toUpperCase().equals("COOL")) {
-            COOL cool = new COOL();
-            cool.init(6, 6, 6, 6, 0.2, 0.2, 60, 80, 0.7);
-            cool.solve(70, 85, 0.8);
-            cool.print();
+            COOL c = new COOL();
+            c.init(6, 6, 6, 6, 0.2, 0.2, 60, 80, 0.7);
+            c.solve(70, 85, 0.8);
+            c.print();
         } else {
             System.out.println("                        .---.                                                            ");
             System.out.println("                        |   |                                                            ");

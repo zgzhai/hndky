@@ -13,15 +13,15 @@ import java.util.HashMap;
  * 直流潮流计算类
  */
 public class CZLCL {
-    private ArrayList<CBus> Bus = new ArrayList<CBus>();
+    protected ArrayList<CBus> Bus = new ArrayList<CBus>();
     private HashMap<Integer, CBus> hashMapBus = new HashMap<Integer, CBus>();
-    private ArrayList<CLoad> Load = new ArrayList<CLoad>();
+    protected ArrayList<CLoad> Load = new ArrayList<CLoad>();
     private HashMap<Integer, Double> hashMapLoad = new HashMap<Integer, Double>();
-    private ArrayList<CGenerator> Generator = new ArrayList<CGenerator>();
+    protected ArrayList<CGenerator> Generator = new ArrayList<CGenerator>();
     private HashMap<Integer, Double> hashMapGenerator = new HashMap<Integer, Double>();
-    private ArrayList<CLine> Line = new ArrayList<CLine>();
+    protected ArrayList<CLine> Line = new ArrayList<CLine>();
     private Matrix P;
-    private Matrix Y;
+    protected Matrix Y;
     private Matrix Delta;
     private Matrix PIJ;
 

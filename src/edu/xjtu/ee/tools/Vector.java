@@ -1,6 +1,7 @@
 package edu.xjtu.ee.tools;
 
 import Jama.Matrix;
+import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.ArrayList;
 
@@ -26,8 +27,7 @@ public class Vector {
     public static void main(String[] args) {
         double[] a = {3, 1, 1, 1, 2};
         Vector v = new Vector(a);
-        v.find(1, GT).print(2, 1);
-
+        v.maxE().print(8,4);
     }
 
     public Vector(int size) {
@@ -381,6 +381,7 @@ public class Vector {
 
     /**
      * 向量点除
+     *
      * @param b
      * @return
      */
@@ -397,6 +398,7 @@ public class Vector {
 
     /**
      * 向量点乘
+     *
      * @param b
      * @return
      */
@@ -408,5 +410,33 @@ public class Vector {
         }
         v.type = COL;
         return v;
+    }
+
+    /**
+     * 获取部分向量
+     *
+     * @param m1 起始元素下标
+     * @param m2 结束元素下标
+     * @return
+     */
+    public Vector part(int m1, int m2) {
+        if (m1 > size - 1 || m2 > size - 1 || m1 < 0 || m2 < 0) return null;
+        Vector v = new Vector(m2 - m1 + 1);
+        v.setType(type);
+        for (int i = m1; i <= m2; i++) {
+            v.set(i - m1, A[i]);
+        }
+        return v;
+    }
+
+    public VElement maxE() {
+        VElement maxv = new VElement(0, A[0]);
+        for (int i = 1; i < size; i++) {
+            if (A[i] > maxv.getVal()) {
+                maxv.setIndex(i);
+                maxv.setVal(A[i]);
+            }
+        }
+        return maxv;
     }
 }

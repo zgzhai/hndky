@@ -2,6 +2,7 @@ package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
 import edu.xjtu.ee.tools.*;
+
 /**
  * 采用PQ法求解
  * Created by Administrator on 2017/10/18.
@@ -46,7 +47,7 @@ public class CPQ {
         CPQ cpq = new CPQ(5, 5, 0.00001);
         cpq.init();       //数据初始化
         cpq.solve();
-        cpq.output();
+        cpq.print();
     }
 
     public CPQ(int x, int y, double e) {
@@ -424,7 +425,7 @@ public class CPQ {
         sumdeltaS = new Complex(S.getReal().sum(), S.getImag().sum());
     }
 
-    public void output() {
+    public void print() {
         Sph.print("平衡节点1的复功率Sph为: = ", 8, 6);
 
         U.print("节点电压U为:", 8, 6);

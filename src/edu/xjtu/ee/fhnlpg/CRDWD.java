@@ -2,6 +2,9 @@ package edu.xjtu.ee.fhnlpg;
 
 import edu.xjtu.ee.tools.Vector;
 
+/**
+ * 热点温度计算
+ */
 public class CRDWD {
 
     private class Size {

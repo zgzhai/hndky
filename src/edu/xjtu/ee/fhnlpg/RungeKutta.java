@@ -3,6 +3,7 @@ package edu.xjtu.ee.fhnlpg;
 import edu.xjtu.ee.tools.Vector;
 
 /**
+ * 龙格库塔法求解微分方程
  * Created by Administrator on 2017/9/25.
  */
 public class RungeKutta {
