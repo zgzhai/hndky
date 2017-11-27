@@ -27,7 +27,6 @@ public class Vector {
     public static void main(String[] args) {
         double[] a = {3, 1, 1, 1, 2};
         Vector v = new Vector(a);
-        v.maxE().print(8,4);
         v.maxE().print(8, 4);
     }
 
