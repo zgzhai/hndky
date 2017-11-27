@@ -28,6 +28,7 @@ public class Vector {
         double[] a = {3, 1, 1, 1, 2};
         Vector v = new Vector(a);
         v.maxE().print(8,4);
+        v.maxE().print(8, 4);
     }
 
     public Vector(int size) {
@@ -52,6 +53,12 @@ public class Vector {
         this.A = a;
         this.size = a.length;
         this.type = COL;
+    }
+
+    public Vector(double[] a, int type) {
+        this.A = a;
+        this.size = a.length;
+        this.type = type;
     }
 
     /**
@@ -106,7 +113,21 @@ public class Vector {
     }
 
     public Vector(Matrix a) {
-        this(a, 0, COL);
+        if (a.getColumnDimension() == 1) {
+            this.type = COL;
+            this.size = a.getRowDimension();
+            A = new double[this.size];
+            for (int i = 0; i < this.size; i++) {
+                A[i] = a.get(i, 0);
+            }
+        } else if (a.getRowDimension() == 1) {
+            this.type = ROW;
+            this.size = a.getColumnDimension();
+            A = new double[this.size];
+            for (int i = 0; i < this.size; i++) {
+                A[i] = a.get(0, i);
+            }
+        }
     }
 
     public void set(double[] a) {
