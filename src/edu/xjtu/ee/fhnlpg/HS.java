@@ -10,11 +10,11 @@ public class HS {
     /**
      * 箱体尺寸
      */
-    private class Size {
+    protected class Size {
         private double l;   //输入变压器箱体长度（m）
         private double w;   //输入变压器箱体宽度（m）
         private double h;   //输入变压器箱体高度（m）
-        private double S;   //变压器表面积
+        protected double S;   //变压器表面积
 
         public void init() {
             l = 6.65;
@@ -83,27 +83,27 @@ public class HS {
     /**
      * 温升试验数据
      */
-    private class TRise {
-        private double T_top_r;     //读取温升试验下的顶层油温升（K）.
-        private double T_oil_r;     //读取温升试验下的平均油温升（K）.
-        private double T_wnd_r;     //读取温升试验下的绕组平均温升（K）.
-        private double T_amb_r;     //读取温升试验下的环境温度（℃）.
+    protected class TRise {
+        protected double T_top_r;     //读取温升试验下的顶层油温升（K）.
+        protected double T_oil_r;     //读取温升试验下的平均油温升（K）.
+        protected double T_wnd_r;     //读取温升试验下的绕组平均温升（K）.
+        protected double T_amb_r;     //读取温升试验下的环境温度（℃）.
 
         private double T_boil_r;    //计算温升试验下的底层油温升（K）.
         private double T_hs_r;      //计算热点温度温升（K）.
 
-        private double P_fe_r;      //读取温升试验下变压器的空载损耗（W）.
-        private double P_cu_r;      //读取温升试验下变压器的负载损耗（W）.
-        private double I_H_DC;      //读取温升试验下变压器高压侧负载电流（A）.
+        protected double P_fe_r;      //读取温升试验下变压器的空载损耗（W）.
+        protected double P_cu_r;      //读取温升试验下变压器的负载损耗（W）.
+        protected double I_H_DC;      //读取温升试验下变压器高压侧负载电流（A）.
         private double I_M_DC;
         private double I_L_DC;      //读取温升试验下变压器低压侧负载电流（A）.
 
         private double K_T;
-        private double P_dc_r;
-        private double P_fj_r;
-        private double R;
+        protected double P_dc_r;
+        protected double P_fj_r;
+        protected double R;
 
-        private double H;              //热点系数取值（1.1-1.5）
+        protected double H;              //热点系数取值（1.1-1.5）
         private double R_th_top_air;   //顶层油温至环境温度的传热热阻.
         private double R_th_oil_air;   //平均油温至环境温度的传热热阻.
         private double R_th_wnd_oil;   //绕组平均温度至平均油温的传热热阻.
@@ -171,6 +171,7 @@ public class HS {
             }
         }
 
+
     }
 
     /**
@@ -209,12 +210,12 @@ public class HS {
     /**
      * 第一次计算时模型温度初值
      */
-    private class Initial {
-        private double T_top_0;
-        private double T_oil_0;
-        private double T_wnd_0;
-        private double T_hs_0;
-        private double V_0;
+    protected class Initial {
+        protected double T_top_0;
+        protected double T_oil_0;
+        protected double T_wnd_0;
+        protected double T_hs_0;
+        protected double V_0;
 
         public void init(double H) {
             T_top_0 = 60;     //读取变压器的顶层油温初值（℃）
@@ -307,41 +308,41 @@ public class HS {
     private int Y_temdata;   //是否存在变压器额定负荷（100%）的温升数据和60-80%负荷的温升数据；若有，则Y_temdata=2，否则Y_temdata=1；
     private double Y_cool;   //冷却器投入0%，Y_cool=0；冷却器投入50%，Y_cool=0.5；冷却器投入100%，Y_cool=1；
     private int Y_resis;     //变压器绕组直流电阻及电压变比数据存在，Y_resis=1；否则，Y_resis=0.
-    private int Y_paper; //变压器采用热改性绝缘纸，Y_paper=1；采用非热改性绝缘纸，Y_paper=0.
+    protected int Y_paper; //变压器采用热改性绝缘纸，Y_paper=1；采用非热改性绝缘纸，Y_paper=0.
     private int Tap;     //输入高压侧实际分接位置.
-    private double n; //输入计算指数（0.8~1.0） 一般情况下，对于AN类型的变压器n取值接近0.8 对于AF类型的变压器n取值接近1.0
-    private double n1; //输入计算指数（0.8~2.0） 一般情况下，对于ON类型的变压器m取值接近0.8 对于OD类型的变压器m取值接近2.0
+    protected double n; //输入计算指数（0.8~1.0） 一般情况下，对于AN类型的变压器n取值接近0.8 对于AF类型的变压器n取值接近1.0
+    protected double n1; //输入计算指数（0.8~2.0） 一般情况下，对于ON类型的变压器m取值接近0.8 对于OD类型的变压器m取值接近2.0
 
-    private Size m_size = new Size();
+    protected Size m_size = new Size();
     private Resistance m_resist = new Resistance();
-    private TRise m_trise = new TRise();
+    protected TRise m_trise = new TRise();
     private Texture m_texture = new Texture();
-    private Initial m_initial = new Initial();
+    protected Initial m_initial = new Initial();
     private Onload m_onload = new Onload();
 
-    private double t_top;   //环境温度至顶层油温模型的时间常数
-    private double t_oil;   //环境温度至平均油温模型的时间常数
-    private double t_wnd;   //平均油温至绕组平均温度模型的时间常数
+    protected double t_top;   //环境温度至顶层油温模型的时间常数
+    protected double t_oil;   //环境温度至平均油温模型的时间常数
+    protected double t_wnd;   //平均油温至绕组平均温度模型的时间常数
 
-    private double a;       //辐射功率吸收系数
-    private double b;       //日照辐射面积系数
-    private int interval;   //对计算时间间隔（min）
+    protected double a;       //辐射功率吸收系数
+    protected double b;       //日照辐射面积系数
+    protected int interval;   //对计算时间间隔（min）
     private int C_bei;      //间隔缩小倍数
-    private int num;
+    protected int num;
 
-    private Vector T_top_G;
-    private Vector T_oil_G;
-    private Vector T_wnd_G;
-    private Vector T_hs_G;
-    private Vector V_G;
-    private double T_top_now;
-    private double T_oil_now;
-    private double T_wnd_now;
-    private double T_hs_now;
-    private double V_now;
-    private double T_top_rate;
-    private double T_oil_rate;
-    private double T_wnd_rate;
+    protected Vector T_top_G;
+    protected Vector T_oil_G;
+    protected Vector T_wnd_G;
+    protected Vector T_hs_G;
+    protected Vector V_G;
+    protected double T_top_now;
+    protected double T_oil_now;
+    protected double T_wnd_now;
+    protected double T_hs_now;
+    protected double V_now;
+    protected double T_top_rate;
+    protected double T_oil_rate;
+    protected double T_wnd_rate;
 
     public static void main(String[] args) {
         // write your code here
@@ -389,21 +390,6 @@ public class HS {
         interval = interval / C_bei;
 
         num = m_onload.T_amb.getSize();
-
-        T_top_G = new Vector(num, 0.0d);
-        T_oil_G = new Vector(num, 0.0d);
-        T_wnd_G = new Vector(num, 0.0d);
-        T_hs_G = new Vector(num, 0.0d);
-        V_G = new Vector(num, 0.0d);
-
-        T_top_now = m_initial.T_top_0;
-        T_oil_now = m_initial.T_oil_0;
-        T_wnd_now = m_initial.T_wnd_0;
-        T_hs_now = m_initial.T_hs_0;
-
-        T_top_rate = m_trise.T_amb_r + m_trise.T_top_r;
-        T_oil_rate = m_trise.T_amb_r + m_trise.T_oil_r;
-        T_wnd_rate = m_trise.T_amb_r + m_trise.T_wnd_r;
     }
 
     public void init_t() {
@@ -422,7 +408,7 @@ public class HS {
              R_th_top_air=(T_top_r-T_oil_r)/(P_fe_r+P_cu_r);                    %顶层油温至环境温度的传热热阻.
              R_th_oil_air=T_oil_r/(P_fe_r+P_cu_r);                              %平均油温至环境温度的传热热阻.
              R_th_wnd_oil=(T_wnd_r-T_oil_r)/P_cu_r;                             %绕组平均温度至平均油温的传热热阻.
-              */
+             */
 
             t_top = m_trise.R_th_top_air * m_texture.C_th_1;
             t_oil = m_trise.R_th_oil_air * m_texture.C_th_2;
@@ -454,6 +440,21 @@ public class HS {
     }
 
     public void solve() {
+        T_top_G = new Vector(num, 0.0d);
+        T_oil_G = new Vector(num, 0.0d);
+        T_wnd_G = new Vector(num, 0.0d);
+        T_hs_G = new Vector(num, 0.0d);
+        V_G = new Vector(num, 0.0d);
+
+        T_top_now = m_initial.T_top_0;
+        T_oil_now = m_initial.T_oil_0;
+        T_wnd_now = m_initial.T_wnd_0;
+        T_hs_now = m_initial.T_hs_0;
+
+        T_top_rate = m_trise.T_amb_r + m_trise.T_top_r;
+        T_oil_rate = m_trise.T_amb_r + m_trise.T_oil_r;
+        T_wnd_rate = m_trise.T_amb_r + m_trise.T_wnd_r;
+
         Vector t = new Vector(1.0, 1.0, 10.0);
         for (int i = 1; i < num; i++) {
             double T_amb_now = m_onload.T_amb.get(i - 1);
