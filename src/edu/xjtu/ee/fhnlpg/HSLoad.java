@@ -16,7 +16,7 @@ public class HSLoad extends HS {
         private Vector I_H_current;   //读取负载电流
         private Vector p_sun;       //读取太阳日辐射功率
 
-        public void init() {
+        public void init(double I_H_current_coef) {
             double in_T_amb = 34;
             double in_I_H_current = 564;
             double in_p_sun = 0;
@@ -26,7 +26,7 @@ public class HSLoad extends HS {
             p_sun = new Vector(n_iters, 0);
             for (int i = 0; i < n_iters; i++) {
                 T_amb.set(i, in_T_amb + 10);
-                I_H_current.set(i, 0.9 * in_I_H_current);
+                I_H_current.set(i, I_H_current_coef * in_I_H_current);
                 p_sun.set(i, in_p_sun);
             }
 
@@ -49,8 +49,10 @@ public class HSLoad extends HS {
     public static void main(String[] args) {
         // write your code here
         HSLoad hs = new HSLoad();
-        //读取变压器状态评分值
-        hs.init(100);
+        //load1.m
+        hs.init(100, 1, 0.9);
+        //load2.m
+        //hs.init(100, 10, 1);
         hs.solve();
         hs.print();
     }
@@ -58,19 +60,19 @@ public class HSLoad extends HS {
     /**
      * @param IC 变压器状态评分值
      */
-    public void init(double IC) {
+    public void init(double IC, double Llimit_L_coef, double I_H_current_coef) {
         super.init();
         n_iters = 96;
         Klimit_fu = 1.2;
         Tlimit_top = 105;
         Tlimit_hs = 120;
-        Llimit_L = 86400;
+        Llimit_L = 86400 * Llimit_L_coef;
 
         GZZT gzzt = new GZZT();
         gzzt.init();
         Flimit_IC = gzzt.solve(IC);
 
-        conLoad.init();
+        conLoad.init(I_H_current_coef);
         conLoad.p_sun.times(a * b * m_size.S);
         K1 = m_trise.I_H_DC;
         interval = 15;

@@ -45,17 +45,16 @@ public class HS {
         }
 
         public void init() {
-            Tap_r = 9;
-            Tap = 17;
-            U_fjt = 1.25;
-            T_C = 26;
-
             switch (kind) {
                 case 1:
                     //TODO
                     break;
                 //kind=2
                 case 2:
+                    Tap_r = 9;
+                    Tap = 17;
+                    U_fjt = 1.25;
+                    T_C = 26;
                     double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
                     R_H = new Vector(r_h);
                     double[] r_ld = {0.011712, 0.011727, 0.011759};
