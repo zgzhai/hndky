@@ -2,6 +2,11 @@ package edu.xjtu.ee.fhnlpg;
 
 import edu.xjtu.ee.tools.Vector;
 
+/**
+ * 正常周期性负荷能力评估程序
+ * 长期急救负荷能力评估程度
+ * 实现load1.m, load2.m程序
+ */
 public class HSLoad extends HS {
     /**
      * 在线数据
