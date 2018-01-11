@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        hs.init(100, 1, 0.9);
+        hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        //hs.init(100, 10, 1);
+        //hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -60,12 +60,12 @@ public class HSLoad extends HS {
     /**
      * @param IC 变压器状态评分值
      */
-    public void init(double IC, double Llimit_L_coef, double I_H_current_coef) {
-        super.init();
+    public void init(int in_type, int in_kind, int in_Tap, double IC, double I_H_current_coef, double in_Klimit_fu, double in_Tlimit_top, double in_Tlimit_hs, double Llimit_L_coef) {
+        super.init(in_type, in_kind, in_Tap);
         n_iters = 96;
-        Klimit_fu = 1.2;
-        Tlimit_top = 105;
-        Tlimit_hs = 120;
+        Klimit_fu = in_Klimit_fu;
+        Tlimit_top = in_Tlimit_top;
+        Tlimit_hs = in_Tlimit_hs;
         Llimit_L = 86400 * Llimit_L_coef;
 
         GZZT gzzt = new GZZT();

@@ -29,7 +29,7 @@ public class HS {
      */
     private class Resistance {
         private int Tap_r;
-        private int Tap;
+        private int Tap;     //输入高压侧实际分接位置.
         private double U_fjt;
         private double T_C;
         private Vector R_H;
@@ -44,7 +44,7 @@ public class HS {
             R_M = new Vector(3, 0);
         }
 
-        public void init() {
+        public void init(int in_Tap) {
             switch (kind) {
                 case 1:
                     //TODO
@@ -52,7 +52,7 @@ public class HS {
                 //kind=2
                 case 2:
                     Tap_r = 9;
-                    Tap = 17;
+                    Tap = in_Tap;
                     U_fjt = 1.25;
                     T_C = 26;
                     double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
@@ -308,7 +308,6 @@ public class HS {
     private double Y_cool;   //冷却器投入0%，Y_cool=0；冷却器投入50%，Y_cool=0.5；冷却器投入100%，Y_cool=1；
     private int Y_resis;     //变压器绕组直流电阻及电压变比数据存在，Y_resis=1；否则，Y_resis=0.
     protected int Y_paper; //变压器采用热改性绝缘纸，Y_paper=1；采用非热改性绝缘纸，Y_paper=0.
-    private int Tap;     //输入高压侧实际分接位置.
     protected double n; //输入计算指数（0.8~1.0） 一般情况下，对于AN类型的变压器n取值接近0.8 对于AF类型的变压器n取值接近1.0
     protected double n1; //输入计算指数（0.8~2.0） 一般情况下，对于ON类型的变压器m取值接近0.8 对于OD类型的变压器m取值接近2.0
 
@@ -346,26 +345,25 @@ public class HS {
     public static void main(String[] args) {
         // write your code here
         HS hs = new HS();
-        hs.init();
+        hs.init(3,2,17);
         hs.solve();
         hs.print();
 
     }
 
-    public void init() {
-        type = 3;
-        kind = 2;
+    public void init(int in_type, int in_kind, int in_Tap) {
+        type = in_type;
+        kind = in_kind;
         Y_text = 1;
         Y_temdata = 1;
         Y_cool = 1;
         Y_resis = 1;
         Y_paper = 0;
-        Tap = 9;
         n = 0.33;
         n1 = 0.5;
 
         m_size.init();
-        m_resist.init();
+        m_resist.init(in_Tap);
         m_trise.init(m_resist);
 
         //初始化t_top, t_oil,t_wnd
