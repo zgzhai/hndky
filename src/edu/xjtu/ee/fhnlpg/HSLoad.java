@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
+        //hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        //hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
+        hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -108,7 +108,7 @@ public class HSLoad extends HS {
                 double I_current_now = conLoad.I_H_current.get(i - 1);
                 double P_sun_now = conLoad.p_sun.get(i - 1);
 
-                for (int k = 1; k < 6 * interval; k++) {
+                for (int k = 0; k < 6 * interval; k++) {
                     K = I_current_now / m_trise.I_H_DC;
                     double P_cu_now = (m_trise.P_dc_r / m_trise.P_cu_r) * ((T_wnd_now + 235) / (T_wnd_rate + 235)) + (m_trise.P_fj_r / m_trise.P_cu_r) * ((T_wnd_rate + 235) / (T_wnd_now + 235));
                     //基于环境温度计算平均油温

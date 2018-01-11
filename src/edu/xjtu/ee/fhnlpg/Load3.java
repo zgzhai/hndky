@@ -124,7 +124,7 @@ public class Load3 extends HS {
                 double I_current_now = conLoad.I_H_current.get(r);
                 double P_sun_now = conLoad.p_sun.get(i - 1);
 
-                for (int k = 1; k < 6 * interval; k++) {
+                for (int k = 0; k < 6 * interval; k++) {
                     K = I_current_now / m_trise.I_H_DC;
                     double P_cu_now = (m_trise.P_dc_r / m_trise.P_cu_r) * ((T_wnd_now + 235) / (T_wnd_rate + 235)) + (m_trise.P_fj_r / m_trise.P_cu_r) * ((T_wnd_rate + 235) / (T_wnd_now + 235));
                     //基于环境温度计算平均油温
@@ -159,7 +159,7 @@ public class Load3 extends HS {
 
                     L1 += V_now * 10;
 
-                    Time1 = Time1 + 10;    //运行10秒
+                    Time1 += 10;    //运行10秒
                     if (T_hs_now >= Tlimit_hs || T_top_now >= Tlimit_top || K >= Klimit_fu || L >= Llimit_L) //判断负荷是否超出范围
                     {
                         break;
@@ -206,7 +206,7 @@ public class Load3 extends HS {
 
 
     public void print() {
-        super.print();
+        //super.print();
         double k2 = K2.get(n_load - 1);
         if (Flimit_IC > 1) {
             System.out.println("存在潜伏性故障，变压器过负荷运行有风险，建议尽快检修。");
