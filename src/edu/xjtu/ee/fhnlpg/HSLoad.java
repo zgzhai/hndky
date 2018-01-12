@@ -158,6 +158,7 @@ public class HSLoad extends HS {
                 }
             }//for(i<num) end
 
+            //System.out.println("T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
 
             //输出越限条件
             if (T_hs_now >= Tlimit_hs) {

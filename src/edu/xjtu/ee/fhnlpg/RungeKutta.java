@@ -78,7 +78,12 @@ public class RungeKutta {
     }
 
     public double f_top(double xx, double yy) {
-        double f = ((1 + R * Math.pow(K, 2) * P_cu_now) / (1 + R) * (T_top_r - T_oil_r) - (Math.pow(yy - T_oil_now, n1 + 1) / Math.pow(u_p * (T_top_r - T_oil_r), n1))) / t_top;
+        //double f = ((1 + R * Math.pow(K, 2) * P_cu_now) / (1 + R) * (T_top_r - T_oil_r) - (Math.pow(yy - T_oil_now, n1 + 1) / Math.pow(u_p * (T_top_r - T_oil_r), n1))) / t_top;
+        //如果指数底数为负数，则取实部，按0处理。Double.isNaN(B1)
+        double B1 = yy - T_oil_now < 0 ? 0 : Math.pow(yy - T_oil_now, n1 + 1);
+        double B2 = Math.pow(u_p * (T_top_r - T_oil_r), n1);
+        double A3 = B1 / B2;
+        double f = ((1 + R * Math.pow(K, 2) * P_cu_now) / (1 + R) * (T_top_r - T_oil_r) - A3) / t_top;
         return f;
     }
 

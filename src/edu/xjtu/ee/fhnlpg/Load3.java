@@ -182,6 +182,7 @@ public class Load3 extends HS {
                 }
             }//for(i<num) end
 
+            //System.out.println("r="+r+",T_top_now="+T_top_now+",T_oil_now="+T_oil_now);
 
             //输出越限条件
             if (T_hs_now >= Tlimit_hs) {
@@ -193,7 +194,6 @@ public class Load3 extends HS {
             } else if (L >= Llimit_L) {
                 System.out.println("相对老化速率越限");
             }
-
 
             T_hs_G.set(0, m_initial.T_hs_0);
             T_top_G.set(0, m_initial.T_top_0);
