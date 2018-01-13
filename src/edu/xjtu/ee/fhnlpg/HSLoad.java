@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        //hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
+        hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
+        //hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -89,7 +89,8 @@ public class HSLoad extends HS {
         V_G = new Vector(num, 0.0d);
 
         double L, L1;
-        Vector t = new Vector(1.0, 1.0, 10.0);
+        int seconds = 5;
+        Vector t = new Vector(1.0, 1.0, seconds);
         while (true) {
 
             T_top_now = m_initial.T_top_0;
@@ -108,7 +109,7 @@ public class HSLoad extends HS {
                 double I_current_now = conLoad.I_H_current.get(i - 1);
                 double P_sun_now = conLoad.p_sun.get(i - 1);
 
-                for (int k = 0; k < 6 * interval; k++) {
+                for (int k = 0; k < 60 * interval / seconds; k++) {
                     K = I_current_now / m_trise.I_H_DC;
                     double P_cu_now = (m_trise.P_dc_r / m_trise.P_cu_r) * ((T_wnd_now + 235) / (T_wnd_rate + 235)) + (m_trise.P_fj_r / m_trise.P_cu_r) * ((T_wnd_rate + 235) / (T_wnd_now + 235));
                     //基于环境温度计算平均油温
@@ -118,19 +119,19 @@ public class HSLoad extends HS {
                     rk.Init(m_trise.R, K, P_cu_now, P_sun_now, m_trise.P_fe_r, m_trise.T_top_r, m_trise.T_oil_r,
                             m_trise.T_wnd_r, T_amb_now, n, n1, u_p, t_oil, t_top, t_wnd, T_oil_now, T_top_now, T_wnd_now);
                     rk.solve_oil();
-                    T_oil_now = rk.getY(9);
+                    T_oil_now = rk.getY(seconds - 1);
 
                     //基于平均油温计算顶层油温
                     //u_p = Math.exp(2797.3 / (T_top_now + 273)) / Math.exp(2797.3 / (T_top_rate + 273));
                     rk.setY0(T_top_now);
                     rk.solve_top();
-                    T_top_now = rk.getY(9);
+                    T_top_now = rk.getY(seconds - 1);
 
                     //基于平均油温计算绕组平均温度
                     //u_p = Math.exp(2797.3 / (T_wnd_now + 273)) / Math.exp(2797.3 / (T_wnd_rate + 273));
                     rk.setY0(T_wnd_now);
                     rk.solve_wnd();
-                    T_wnd_now = rk.getY(9);
+                    T_wnd_now = rk.getY(seconds - 1);
 
                     //热点温度估算值
                     T_hs_now = m_trise.H * (T_wnd_now - T_oil_now) + T_top_now;
@@ -141,7 +142,7 @@ public class HSLoad extends HS {
                         V_now = Math.exp(15000 / (110 + 273) - 15000 / (T_hs_now + 273));
                     }
 
-                    L1 += V_now * 10;
+                    L1 += V_now * seconds;
                 } //for(k<interal) end
 
                 T_top_G.set(i, T_top_now);
