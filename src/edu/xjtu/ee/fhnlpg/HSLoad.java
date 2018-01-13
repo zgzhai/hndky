@@ -89,7 +89,7 @@ public class HSLoad extends HS {
         V_G = new Vector(num, 0.0d);
 
         double L, L1;
-        int seconds = 5;
+        int seconds = 10;
         Vector t = new Vector(1.0, 1.0, seconds);
         while (true) {
 
