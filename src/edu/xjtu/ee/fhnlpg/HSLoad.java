@@ -151,6 +151,7 @@ public class HSLoad extends HS {
                 T_hs_G.set(i, T_hs_now);
                 V_G.set(i, V_now);
                 L += L1;
+                System.out.println("i=" + i + ",L1=" + L1 + ",L=" + L+",T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
                 L1 = 0;
 
                 //判断负荷是否超出范围
