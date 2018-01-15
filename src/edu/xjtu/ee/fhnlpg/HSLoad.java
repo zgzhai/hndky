@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
+        //hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        //hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
+        hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -82,6 +82,12 @@ public class HSLoad extends HS {
 
 
     public void solve() {
+        Vector T_top_G_tmp = new Vector(num, 0.0d);
+        Vector T_oil_G_tmp = new Vector(num, 0.0d);
+        Vector T_wnd_G_tmp = new Vector(num, 0.0d);
+        Vector T_hs_G_tmp = new Vector(num, 0.0d);
+        Vector V_G_tmp = new Vector(num, 0.0d);
+
         T_top_G = new Vector(num, 0.0d);
         T_oil_G = new Vector(num, 0.0d);
         T_wnd_G = new Vector(num, 0.0d);
@@ -145,11 +151,11 @@ public class HSLoad extends HS {
                     L1 += V_now * seconds;
                 } //for(k<interal) end
 
-                T_top_G.set(i, T_top_now);
-                T_oil_G.set(i, T_oil_now);
-                T_wnd_G.set(i, T_wnd_now);
-                T_hs_G.set(i, T_hs_now);
-                V_G.set(i, V_now);
+                T_top_G_tmp.set(i, T_top_now);
+                T_oil_G_tmp.set(i, T_oil_now);
+                T_wnd_G_tmp.set(i, T_wnd_now);
+                T_hs_G_tmp.set(i, T_hs_now);
+                V_G_tmp.set(i, V_now);
                 L += L1;
                 //System.out.println("i=" + i + ",L1=" + L1 + ",L=" + L+",T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
                 L1 = 0;
@@ -179,6 +185,14 @@ public class HSLoad extends HS {
             K = K * m_trise.I_H_DC + 0.01 * K1;
             for (int i = 0; i < num; i++) {
                 conLoad.I_H_current.set(i, K);
+            }
+
+            for (int i = 0; i < num; i++) {
+                T_top_G.set(i,T_top_G_tmp.get(i));
+                T_oil_G.set(i,T_oil_G_tmp.get(i));
+                T_wnd_G.set(i,T_wnd_G_tmp.get(i));
+                T_hs_G.set(i,T_hs_G_tmp.get(i));
+                V_G.set(i,V_G_tmp.get(i));
             }
 
             T_hs_G.set(0, m_initial.T_hs_0);
