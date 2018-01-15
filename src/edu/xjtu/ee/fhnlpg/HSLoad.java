@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
+        //hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        //hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
+        hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -89,7 +89,7 @@ public class HSLoad extends HS {
         V_G = new Vector(num, 0.0d);
 
         double L, L1;
-        int seconds = 10;
+        int seconds = 5;
         Vector t = new Vector(1.0, 1.0, seconds);
         while (true) {
 
@@ -151,7 +151,7 @@ public class HSLoad extends HS {
                 T_hs_G.set(i, T_hs_now);
                 V_G.set(i, V_now);
                 L += L1;
-                System.out.println("i=" + i + ",L1=" + L1 + ",L=" + L+",T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
+                //System.out.println("i=" + i + ",L1=" + L1 + ",L=" + L+",T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
                 L1 = 0;
 
                 //判断负荷是否超出范围
@@ -159,8 +159,6 @@ public class HSLoad extends HS {
                     break;
                 }
             }//for(i<num) end
-
-            //System.out.println("T_top_now="+T_top_now+",T_oil_now="+T_oil_now+",T_wnd_now="+T_wnd_now);
 
             //输出越限条件
             if (T_hs_now >= Tlimit_hs) {
@@ -178,9 +176,9 @@ public class HSLoad extends HS {
                 break;
             }
 
-            K1 = K * m_trise.I_H_DC + 0.01 * K1;
+            K = K * m_trise.I_H_DC + 0.01 * K1;
             for (int i = 0; i < num; i++) {
-                conLoad.I_H_current.set(i, K1);
+                conLoad.I_H_current.set(i, K);
             }
 
             T_hs_G.set(0, m_initial.T_hs_0);
