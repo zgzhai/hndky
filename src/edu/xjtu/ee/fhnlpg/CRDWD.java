@@ -273,8 +273,8 @@ public class CRDWD {
     }
 
     public void init() {
-        H = 1.1;
-        type = 2;
+        H = 1.1;      //内部接口
+        type = 2;     //
         kind = 2;
         m_size.Init();
         m_texture.Init();

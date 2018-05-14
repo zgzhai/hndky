@@ -33,12 +33,12 @@ public class HSLoad extends HS {
         }
     }
 
-    private int n_iters;                  //迭代次数，一天24小时，每小时采4个点
-    private double Klimit_fu;             //辅助设备容量等级约束
-    private double Tlimit_top;            //顶层油温约束
-    private double Tlimit_hs;             //热点温度约束
-    private double Llimit_L;              //相对寿命损失约束
-    private double Flimit_IC;             //故障模式约束
+    private int n_iters;                  //迭代次数，一天24小时，每小时采4个点 //隐藏参数
+    private double Klimit_fu;             //辅助设备容量等级约束              //隐藏参数
+    private double Tlimit_top;            //顶层油温约束                     //隐藏参数
+    private double Tlimit_hs;             //热点温度约束                     //隐藏参数
+    private double Llimit_L;              //相对寿命损失约束                  //隐藏参数
+    private double Flimit_IC;             //故障模式约束                     //隐藏参数
 
     private double K1;
     private double K;
@@ -50,9 +50,9 @@ public class HSLoad extends HS {
         // write your code here
         HSLoad hs = new HSLoad();
         //load1.m
-        //hs.init(3, 2, 17, 100, 0.9, 1.2, 105, 120, 1);
+        //hs.init(3, 3, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        hs.init(3, 2, 17, 100, 1, 1.2, 105, 120, 10);
+        hs.init(3, 3, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
     }
@@ -166,7 +166,7 @@ public class HSLoad extends HS {
                 }
             }//for(i<num) end
 
-            //输出越限条件
+            //输出越限条件                    //输出参数，YXTJ=
             if (T_hs_now >= Tlimit_hs) {
                 System.out.println("热点温度越限");
             } else if (T_top_now >= Tlimit_top) {

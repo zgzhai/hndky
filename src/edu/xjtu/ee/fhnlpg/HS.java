@@ -51,10 +51,13 @@ public class HS {
                     break;
                 //kind=2
                 case 2:
+                    break;
+                case 3:
+                    //TODO, 改为kind3的代码逻辑
                     Tap_r = 9;
                     Tap = in_Tap;
                     U_fjt = 1.25;
-                    T_C = 26;
+                    T_C = 26;     //接口参数， D_H, Tap, D_M, D_L
                     double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
                     R_H = new Vector(r_h);
                     double[] r_ld = {0.011712, 0.011727, 0.011759};
@@ -71,9 +74,6 @@ public class HS {
                     K_V = new Vector(kv);
                     k_HL = K_V.get(Tap - 1);
                     break;
-                case 3:
-                    //TODO
-                    break;
             }
         }
 
@@ -83,26 +83,27 @@ public class HS {
      * 温升试验数据
      */
     protected class TRise {
-        protected double T_top_r;     //读取温升试验下的顶层油温升（K）.
-        protected double T_oil_r;     //读取温升试验下的平均油温升（K）.
-        protected double T_wnd_r;     //读取温升试验下的绕组平均温升（K）.
-        protected double T_amb_r;     //读取温升试验下的环境温度（℃）.
+        protected double T_top_r;     //读取温升试验下的顶层油温升（K）.//接口参数
+        protected double T_oil_r;     //读取温升试验下的平均油温升（K）.//接口参数
+        protected double T_wnd_r;     //读取温升试验下的绕组平均温升（K）.//接口参数
+        protected double T_amb_r;     //读取温升试验下的环境温度（℃）.//接口参数
 
-        private double T_boil_r;    //计算温升试验下的底层油温升（K）.
-        private double T_hs_r;      //计算热点温度温升（K）.
+        private double T_boil_r;    //计算温升试验下的底层油温升（K）.//接口参数
+        private double T_hs_r;      //计算热点温度温升（K）.//接口参数
 
-        protected double P_fe_r;      //读取温升试验下变压器的空载损耗（W）.
-        protected double P_cu_r;      //读取温升试验下变压器的负载损耗（W）.
-        protected double I_H_DC;      //读取温升试验下变压器高压侧负载电流（A）.
-        private double I_M_DC;
-        private double I_L_DC;      //读取温升试验下变压器低压侧负载电流（A）.
+        protected double P_fe_r;      //读取温升试验下变压器的空载损耗（W）.//接口参数
+        protected double P_cu_r;      //读取温升试验下变压器的负载损耗（W）.//接口参数
+        protected double I_H_DC;      //读取温升试验下变压器高压侧负载电流（A）.//接口参数
+        private double I_M_DC;       //接口参数
+        private double I_L_DC;      //读取温升试验下变压器低压侧负载电流（A）.//接口参数
+        protected double H;         //热点系数取值（1.1-1.5）//隐藏参数
 
         private double K_T;
         protected double P_dc_r;
         protected double P_fj_r;
         protected double R;
 
-        protected double H;              //热点系数取值（1.1-1.5）
+
         private double R_th_top_air;   //顶层油温至环境温度的传热热阻.
         private double R_th_oil_air;   //平均油温至环境温度的传热热阻.
         private double R_th_wnd_oil;   //绕组平均温度至平均油温的传热热阻.
@@ -117,6 +118,9 @@ public class HS {
                     //TODO
                     break;
                 case 2:
+                    break;
+                case 3:
+                    //TODO， 实现kind3里的代码逻辑
                     T_top_r = 41.2;
                     T_oil_r = 28.28;
                     T_wnd_r = 45.9;
@@ -142,9 +146,6 @@ public class HS {
 
                     P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
                     R = P_cu_r / P_fe_r;        //负载损耗比.
-                    break;
-                case 3:
-                    //TODO
                     break;
 
             }
@@ -210,9 +211,9 @@ public class HS {
      * 第一次计算时模型温度初值
      */
     protected class Initial {
-        protected double T_top_0;
-        protected double T_oil_0;
-        protected double T_wnd_0;
+        protected double T_top_0;  //接口参数
+        protected double T_oil_0;  //接口参数
+        protected double T_wnd_0;  //接口参数
         protected double T_hs_0;
         protected double V_0;
 
@@ -235,11 +236,11 @@ public class HS {
      * 在线数据
      */
     private class Onload {
-        private Vector T_amb;       //读取环境温度
-        private Vector I_H_current;   //读取负载电流
-        private Vector I_M_current;   //读取负载电流
-        private Vector I_L_current;   //读取负载电流
-        private Vector T_top_C;     //读取顶层油温测量值
+        private Vector T_amb;       //读取环境温度    //接口参数
+        private Vector I_H_current;   //读取负载电流  //接口参数
+        private Vector I_M_current;   //读取负载电流  //接口参数
+        private Vector I_L_current;   //读取负载电流  //接口参数
+        private Vector T_top_C;     //读取顶层油温测量值  //接口参数
         private Vector p_sun;       //读取太阳日辐射功率
 
         public void init() {
@@ -288,15 +289,15 @@ public class HS {
                     72.8,
                     71.6};
             T_top_C = new Vector(topc);
-            double[] psun = {658.75,
-                    658.75,
-                    658.75,
-                    658.75,
-                    289.75,
-                    289.75,
-                    289.75,
-                    289.75,
-                    289.75};
+            double[] psun = {0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0};
             p_sun = new Vector(psun);
         }
     }
@@ -345,7 +346,7 @@ public class HS {
     public static void main(String[] args) {
         // write your code here
         HS hs = new HS();
-        hs.init(3, 2, 17);
+        hs.init(3, 3, 17);
         hs.solve();
         hs.print();
 
@@ -354,15 +355,16 @@ public class HS {
     public void init(int in_type, int in_kind, int in_Tap) {
         type = in_type;
         kind = in_kind;
-        Y_text = 1;
-        Y_temdata = 1;
-        Y_cool = 1;
-        Y_resis = 1;
-        Y_paper = 0;
-        n = 0.33;
-        n1 = 0.5;
+        Y_text = 0;     //接口参数
+        Y_temdata = 1;  //接口参数
+        Y_cool = 1;     //接口参数
+        interval = 10;  //接口参数
+        Y_resis = 1;    //隐藏参数
+        Y_paper = 0;    //隐藏参数
+        n = 0.33;       //隐藏参数
+        n1 = 0.5;       //隐藏参数
 
-        m_size.init();
+        m_size.init();  //接口参数
         m_resist.init(in_Tap);
         m_trise.init(m_resist);
 
@@ -375,9 +377,8 @@ public class HS {
         //S=2*(l*w+w*h+l*h); 变压器表面积. 在Size.init()里已计算
         a = 0.5;
         b = 0.5;
-        interval = 30;
         //调整计算间隔进行插值
-        C_bei = 2;
+        C_bei = 1;
         m_onload.T_amb.expand(C_bei);
         m_onload.I_H_current.expand(C_bei);
         m_onload.T_top_C.expand(C_bei);
@@ -474,19 +475,19 @@ public class HS {
                 rk.Init(m_trise.R, K, P_cu_now, P_sun_now, m_trise.P_fe_r, m_trise.T_top_r, m_trise.T_oil_r,
                         m_trise.T_wnd_r, T_amb_now, n, n1, u_p, t_oil, t_top, t_wnd, T_oil_now, T_top_now, T_wnd_now);
                 rk.solve_oil();
-                T_oil_now = rk.getY(seconds-1);
+                T_oil_now = rk.getY(seconds - 1);
 
                 //基于平均油温计算顶层油温
                 //u_p = Math.exp(2797.3 / (T_top_now + 273)) / Math.exp(2797.3 / (T_top_rate + 273));
                 rk.setY0(T_top_now);
                 rk.solve_top();
-                T_top_now = rk.getY(seconds-1);
+                T_top_now = rk.getY(seconds - 1);
 
                 //基于平均油温计算绕组平均温度
                 //u_p = Math.exp(2797.3 / (T_wnd_now + 273)) / Math.exp(2797.3 / (T_wnd_rate + 273));
                 rk.setY0(T_wnd_now);
                 rk.solve_wnd();
-                T_wnd_now = rk.getY(seconds-1);
+                T_wnd_now = rk.getY(seconds - 1);
 
                 //热点温度估算值
                 T_hs_now = m_trise.H * (T_wnd_now - T_oil_now) + T_top_now;
@@ -517,11 +518,13 @@ public class HS {
         System.out.println("T_top_G=");
         T_top_G.print(l, dot);
         System.out.println("----");
-        System.out.println("T_hs_G=");
+        System.out.println("T_hs_G=");  // 输出参数
         T_hs_G.print(l, dot);
+        System.out.println(String.format("HST= %-8.4f", T_hs_G.get(8))); //输出参数
         System.out.println("----");
-        System.out.println("T_top_C=");
+        System.out.println("T_top_C="); // 输出参数
         m_onload.T_top_C.print(4, 1);
+        System.out.println(String.format("TOPT= %-8.4f", m_onload.T_top_C.get(8))); //输出参数
         System.out.println("----");
         System.out.println("V_G=");
         V_G.print(l, dot);

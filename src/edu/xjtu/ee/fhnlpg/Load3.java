@@ -54,7 +54,7 @@ public class Load3 extends HS {
         // write your code here
         Load3 hs = new Load3();
         //load3.m
-        hs.init(3, 2, 9, 100, 1, 2, 115, 140, 100);
+        hs.init(3, 3, 9, 100, 1, 2, 115, 140, 100);
         hs.solve();
         hs.print();
     }
