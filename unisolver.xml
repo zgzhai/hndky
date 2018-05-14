@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AntProjectUnisolver" default="build" basedir=".">
+    <property name="srcDir" location="src/edu/xjtu/ee/unisolver"/>
+    <property name="binDir" location="ant/bin/edu/xjtu/ee/unisolver"/>
+    <property name="jarDir" location="ant/jar"/>
+    <property name="libDir" location="lib"/>
+    <path id="project.class.path">
+        <pathelement path="${binDir}"/>
+        <fileset dir="${libDir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <target name="init">
+        <mkdir dir="${binDir}"/>
+        <mkdir dir="${jarDir}"/>
+        <copy todir="${jarDir}">
+            <fileset dir="${libDir}"
+                     includes="/**"/>
+        </copy>
+    </target>
+    <target name="compile" depends="init">
+        <javac srcdir="${srcDir}" destdir="${binDir}">
+            <classpath refid="project.class.path"/>
+        </javac>
+    </target>
+    <target name="build" depends="init,compile">
+        <jar destfile="${jarDir}/unisolver.jar" basedir="${binDir}">
+            <manifest>
+                <attribute name="Main-Class"
+                           value="edu.xjtu.ee.unisolver.Main"/>
+                <attribute name="Class-Path"
+                           value="unisolver.jar dwfxpg.jar fhnlpg.jar Jama-1.0.3.jar tools.jar"/>
+            </manifest>
+        </jar>
+        <echo message="unisolver is successful!"/>
+    </target>
+</project>
