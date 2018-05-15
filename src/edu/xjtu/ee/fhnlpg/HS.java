@@ -2,6 +2,8 @@ package edu.xjtu.ee.fhnlpg;
 
 import edu.xjtu.ee.tools.Vector;
 
+import java.util.ArrayList;
+
 /**
  * 热点温度计算（新）,对应HS.m
  */
@@ -25,6 +27,36 @@ public class HS {
     }
 
     /**
+     * A,B,C三相值
+     */
+    public class ResistanceABC {
+        private double A;
+        private double B;
+        private double C;
+
+        public ResistanceABC() {
+        }
+
+        public ResistanceABC(double a, double b, double c) {
+            A = a;
+            B = b;
+            C = c;
+        }
+
+        public void setA(double a) {
+            A = a;
+        }
+
+        public void setB(double b) {
+            B = b;
+        }
+
+        public void setC(double c) {
+            C = c;
+        }
+    }
+
+    /**
      * 变压器绕组直流电阻及电压变比
      */
     private class Resistance {
@@ -39,24 +71,46 @@ public class HS {
         private Vector R_L;
         private Vector K_V;
         private double k_HL;
+        private double k_ML;
+        private double k_HM;
 
         Resistance() {
             R_M = new Vector(3, 0);
         }
 
-        public void init(int in_Tap) {
+        public void init(int in_Tap, int in_T_C, ArrayList<ResistanceABC> D_H, ArrayList<ResistanceABC> D_M, ArrayList<ResistanceABC> D_L) {
             switch (kind) {
                 case 1:
                     //TODO
                     break;
                 //kind=2
                 case 2:
-                    break;
-                case 3:
-                    //TODO, 改为kind3的代码逻辑
+                    /*
                     Tap_r = 9;
                     Tap = in_Tap;
                     U_fjt = 1.25;
+                    T_C = 26;     //接口参数， D_H, Tap, D_M, D_L
+                    double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
+                    R_H = new Vector(r_h);
+                    double[] r_ld = {0.011712, 0.011727, 0.011759};
+                    R_Ld = new Vector(r_ld);
+                    R_p = R_Ld.sum() / 2;
+
+                    R_L = new Vector(3);    //低压侧相电阻
+                    R_L.set(0, (R_Ld.get(2) - R_p) - R_Ld.get(0) * R_Ld.get(1) / (R_Ld.get(2) - R_p));
+                    R_L.set(1, (R_Ld.get(0) - R_p) - R_Ld.get(2) * R_Ld.get(1) / (R_Ld.get(0) - R_p));
+                    R_L.set(2, (R_Ld.get(1) - R_p) - R_Ld.get(0) * R_Ld.get(2) / (R_Ld.get(1) - R_p));
+
+                    double[] kv = {11.524, 11.393, 11.262, 11.131, 11, 10.869, 10.738, 10.607,
+                            10.476, 10.345, 10.214, 10.083, 9.9524, 9.8214, 9.6905, 9.5595, 5.143};
+                    K_V = new Vector(kv);
+                    k_HL = K_V.get(Tap - 1);
+                    */
+                    break;
+                case 3:
+                    Tap_r = 9;
+                    Tap = in_Tap;
+                    U_fjt = 2.25;
                     T_C = 26;     //接口参数， D_H, Tap, D_M, D_L
                     double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
                     R_H = new Vector(r_h);
@@ -365,7 +419,7 @@ public class HS {
         n1 = 0.5;       //隐藏参数
 
         m_size.init();  //接口参数
-        m_resist.init(in_Tap);
+        m_resist.init(in_Tap, T_C, D_H, D_M, D_L);
         m_trise.init(m_resist);
 
         //初始化t_top, t_oil,t_wnd
@@ -388,6 +442,10 @@ public class HS {
         interval = interval / C_bei;
 
         num = m_onload.T_amb.getSize();
+    }
+
+    public void init_resistance(){
+
     }
 
     public void init_t() {
