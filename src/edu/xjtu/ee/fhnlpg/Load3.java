@@ -1,5 +1,6 @@
 package edu.xjtu.ee.fhnlpg;
 
+import edu.xjtu.ee.fhnlpg.io.*;
 import edu.xjtu.ee.tools.Vector;
 
 public class Load3 extends HS {
@@ -11,8 +12,8 @@ public class Load3 extends HS {
         private Vector I_H_current;   //读取负载电流
         private Vector p_sun;       //读取太阳日辐射功率
 
-        public void init(double I_H_current_coef) {
-            double in_T_amb = 34;
+        public void init(IFhnlpgLimit iFhnlpgLimit) {
+            double in_T_amb = iFhnlpgLimit.getT_amb();
             double in_I_H_current = m_trise.I_H_DC;
             double in_p_sun = 0;
 
@@ -48,42 +49,42 @@ public class Load3 extends HS {
     private Vector T2;
     private int n_load;
     private double Time;
-
+    private String YXTJ;
 
     public static void main(String[] args) {
         // write your code here
+        /*
         Load3 hs = new Load3();
         //load3.m
         hs.init(3, 3, 9, 100, 1, 2, 115, 140, 100);
         hs.solve();
         hs.print();
+        */
     }
 
     /**
-     * @param in_type
-     * @param in_kind
-     * @param in_Tap
-     * @param IC
-     * @param I_H_current_coef
-     * @param in_Klimit_fu
-     * @param in_Tlimit_top
-     * @param in_Tlimit_hs
-     * @param Llimit_L_coef
+     * int in_type, int in_kind, int in_Tap, double IC, double I_H_current_coef, double in_Klimit_fu, double in_Tlimit_top, double in_Tlimit_hs, double Llimit_L_coef,
      */
-    public void init(int in_type, int in_kind, int in_Tap, double IC, double I_H_current_coef, double in_Klimit_fu, double in_Tlimit_top, double in_Tlimit_hs, double Llimit_L_coef) {
-        super.init(in_type, in_kind, in_Tap);
+    public void init(IFhnlpgBase iFhnlpgBase,
+                     IFhnlpgInitial iFhnlpgInitial,
+                     IFhnlpgResistance iFhnlpgResistance,
+                     IFhnlpgTRise iFhnlpgTRise,
+                     IFhnlpgRatio iFhnlpgRatio,
+                     IFhnlpgOnLoad iFhnlpgOnLoad,
+                     IFhnlpgLimit iFhnlpgLimit) {
+        super.init(iFhnlpgBase, iFhnlpgInitial, iFhnlpgResistance, iFhnlpgTRise, iFhnlpgRatio, iFhnlpgOnLoad);
         n_load = 50;
-        n_iters = 96;
-        Klimit_fu = in_Klimit_fu;
-        Tlimit_top = in_Tlimit_top;
-        Tlimit_hs = in_Tlimit_hs;
-        Llimit_L = 86400 * Llimit_L_coef;
+        n_iters = iFhnlpgLimit.getN_iters();
+        Klimit_fu = iFhnlpgLimit.getKlimit_fu();
+        Tlimit_top = iFhnlpgLimit.getTlimit_top();
+        Tlimit_hs = iFhnlpgLimit.getTlimit_hs();
+        Llimit_L = 86400 * iFhnlpgLimit.getLlimit_L_coef();
 
         GZZT gzzt = new GZZT();
         gzzt.init();
-        Flimit_IC = gzzt.solve(IC);
+        Flimit_IC = gzzt.solve(iFhnlpgLimit.getIC());
 
-        conLoad.init(I_H_current_coef);
+        conLoad.init(iFhnlpgLimit);
         conLoad.p_sun.times(a * b * m_size.S);
         K1 = m_trise.I_H_DC;
         interval = 15;
@@ -135,19 +136,19 @@ public class Load3 extends HS {
                     rk.Init(m_trise.R, K, P_cu_now, P_sun_now, m_trise.P_fe_r, m_trise.T_top_r, m_trise.T_oil_r,
                             m_trise.T_wnd_r, T_amb_now, n, n1, u_p, t_oil, t_top, t_wnd, T_oil_now, T_top_now, T_wnd_now);
                     rk.solve_oil();
-                    T_oil_now = rk.getY(seconds-1);
+                    T_oil_now = rk.getY(seconds - 1);
 
                     //基于平均油温计算顶层油温
                     //u_p = Math.exp(2797.3 / (T_top_now + 273)) / Math.exp(2797.3 / (T_top_rate + 273));
                     rk.setY0(T_top_now);
                     rk.solve_top();
-                    T_top_now = rk.getY(seconds-1);
+                    T_top_now = rk.getY(seconds - 1);
 
                     //基于平均油温计算绕组平均温度
                     //u_p = Math.exp(2797.3 / (T_wnd_now + 273)) / Math.exp(2797.3 / (T_wnd_rate + 273));
                     rk.setY0(T_wnd_now);
                     rk.solve_wnd();
-                    T_wnd_now = rk.getY(seconds-1);
+                    T_wnd_now = rk.getY(seconds - 1);
 
                     //热点温度估算值
                     T_hs_now = m_trise.H * (T_wnd_now - T_oil_now) + T_top_now;
@@ -188,13 +189,17 @@ public class Load3 extends HS {
 
             //输出越限条件
             if (T_hs_now >= Tlimit_hs) {
-                System.out.println("热点温度越限");
+                //System.out.println("热点温度越限");
+                YXTJ = "热点温度越限";
             } else if (T_top_now >= Tlimit_top) {
-                System.out.println("顶层油温越限");
+                //System.out.println("顶层油温越限");
+                YXTJ = "顶层油温越限";
             } else if (K >= Klimit_fu) {
-                System.out.println("负荷率越限");
+                //System.out.println("负荷率越限");
+                YXTJ = "负荷率越限";
             } else if (L >= Llimit_L) {
-                System.out.println("相对老化速率越限");
+                //System.out.println("相对老化速率越限");
+                YXTJ = "相对老化速率越限";
             }
 
             T_hs_G.set(0, m_initial.T_hs_0);
@@ -221,5 +226,18 @@ public class Load3 extends HS {
         K2.print(8, 4);
         System.out.println("T2=");
         T2.print(8, 4);
+    }
+
+    public ODqfhnlpg output() {
+        ODqfhnlpg oDqfhnlpg = new ODqfhnlpg();
+        oDqfhnlpg.T_hs_G = T_hs_G.toArrayList();
+        oDqfhnlpg.T_top_C = m_onload.T_top_C.toArrayList();
+        oDqfhnlpg.HST = T_hs_G.get(T_hs_G.getSize() - 1);
+        oDqfhnlpg.TOPT = m_onload.T_top_C.get(m_onload.T_top_C.getSize() - 1);
+        oDqfhnlpg.YXTJ = YXTJ;
+        oDqfhnlpg.Flimit_IC = Flimit_IC;
+        oDqfhnlpg.K2 = K2.toArrayList();
+        oDqfhnlpg.T2 = T2.toArrayList();
+        return oDqfhnlpg;
     }
 }

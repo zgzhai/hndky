@@ -1,5 +1,6 @@
 package edu.xjtu.ee.fhnlpg;
 
+import edu.xjtu.ee.fhnlpg.io.*;
 import edu.xjtu.ee.tools.Vector;
 
 import java.util.ArrayList;
@@ -27,36 +28,6 @@ public class HS {
     }
 
     /**
-     * A,B,C三相值
-     */
-    public class ResistanceABC {
-        private double A;
-        private double B;
-        private double C;
-
-        public ResistanceABC() {
-        }
-
-        public ResistanceABC(double a, double b, double c) {
-            A = a;
-            B = b;
-            C = c;
-        }
-
-        public void setA(double a) {
-            A = a;
-        }
-
-        public void setB(double b) {
-            B = b;
-        }
-
-        public void setC(double c) {
-            C = c;
-        }
-    }
-
-    /**
      * 变压器绕组直流电阻及电压变比
      */
     private class Resistance {
@@ -75,10 +46,9 @@ public class HS {
         private double k_HM;
 
         Resistance() {
-            R_M = new Vector(3, 0);
         }
 
-        public void init(int in_Tap, int in_T_C, ArrayList<ResistanceABC> D_H, ArrayList<ResistanceABC> D_M, ArrayList<ResistanceABC> D_L) {
+        public void init(IFhnlpgResistance iFhnlpgResistance, IFhnlpgRatio iFhnlpgRatio) {
             switch (kind) {
                 case 1:
                     //TODO
@@ -109,12 +79,23 @@ public class HS {
                     break;
                 case 3:
                     Tap_r = 9;
-                    Tap = in_Tap;
+                    Tap = iFhnlpgResistance.getTap();
                     U_fjt = 2.25;
-                    T_C = 26;     //接口参数， D_H, Tap, D_M, D_L
-                    double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
+                    T_C = iFhnlpgResistance.getT_C();
+
+                    ResistanceABC abc = iFhnlpgResistance.getD_H().get(Tap - 1);
+                    //double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
+                    double[] r_h = {abc.getA(), abc.getB(), abc.getC()};
                     R_H = new Vector(r_h);
-                    double[] r_ld = {0.011712, 0.011727, 0.011759};
+
+                    ResistanceABC abc1 = iFhnlpgResistance.getD_M().get(0);
+                    //double[] r_m = {0.11589, 0.11594, 0.11667};
+                    double[] r_m = {abc1.getA(), abc1.getB(), abc1.getC()};
+                    R_M = new Vector(r_m);
+
+                    ResistanceABC abc2 = iFhnlpgResistance.getD_L().get(0);
+                    //double[] r_ld = {0.011712, 0.011727, 0.011759};
+                    double[] r_ld = {abc2.getA(), abc2.getB(), abc2.getC()};
                     R_Ld = new Vector(r_ld);
                     R_p = R_Ld.sum() / 2;
 
@@ -122,11 +103,16 @@ public class HS {
                     R_L.set(0, (R_Ld.get(2) - R_p) - R_Ld.get(0) * R_Ld.get(1) / (R_Ld.get(2) - R_p));
                     R_L.set(1, (R_Ld.get(0) - R_p) - R_Ld.get(2) * R_Ld.get(1) / (R_Ld.get(0) - R_p));
                     R_L.set(2, (R_Ld.get(1) - R_p) - R_Ld.get(0) * R_Ld.get(2) / (R_Ld.get(1) - R_p));
-
+                    /*
                     double[] kv = {11.524, 11.393, 11.262, 11.131, 11, 10.869, 10.738, 10.607,
                             10.476, 10.345, 10.214, 10.083, 9.9524, 9.8214, 9.6905, 9.5595, 5.143};
                     K_V = new Vector(kv);
                     k_HL = K_V.get(Tap - 1);
+                    */
+                    RatioHML ratioHML = iFhnlpgRatio.getRatio().get(Tap - 1);
+                    k_HM = ratioHML.getHM();
+                    k_ML = ratioHML.getML();
+                    k_HL = ratioHML.getHL();
                     break;
             }
         }
@@ -163,45 +149,62 @@ public class HS {
         private double R_th_wnd_oil;   //绕组平均温度至平均油温的传热热阻.
 
         TRise() {
-            I_M_DC = 0;
         }
 
-        public void init(Resistance resist) {
+        public void init(Resistance resist, IFhnlpgBase base, TRiseV rise100, TRiseV rise70) {
             switch (kind) {
                 case 1:
                     //TODO
                     break;
                 case 2:
+                    /**
+                     T_top_r = 41.2;
+                     T_oil_r = 28.28;
+                     T_wnd_r = 45.9;
+                     T_amb_r = 32;
+                     H = 1.1;
+
+                     T_boil_r = 2 * T_oil_r - T_top_r;
+                     T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
+
+                     P_fe_r = 82169;
+                     P_cu_r = 512386;
+                     I_H_DC = 564.9;
+                     I_L_DC = I_H_DC * resist.k_HL;
+
+                     //附加损耗计算
+                     if (Y_resis == 1) {
+                     K_T = (235 + T_wnd_r) / (235 + resist.T_C);
+                     //额定下的直流电阻损耗.
+                     P_dc_r = K_T * resist.R_H.sum() * Math.pow(I_H_DC, 2) + K_T * resist.R_L.sum() * Math.pow(I_L_DC, 2);
+                     } else {
+                     P_dc_r = P_cu_r;
+                     }
+
+                     P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
+                     R = P_cu_r / P_fe_r;        //负载损耗比.
+                     */
                     break;
                 case 3:
-                    //TODO， 实现kind3里的代码逻辑
-                    T_top_r = 41.2;
-                    T_oil_r = 28.28;
-                    T_wnd_r = 45.9;
-                    T_amb_r = 32;
-                    H = 1.1;
-
-                    T_boil_r = 2 * T_oil_r - T_top_r;
-                    T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
-
-                    P_fe_r = 82169;
-                    P_cu_r = 512386;
-                    I_H_DC = 564.9;
-                    I_L_DC = I_H_DC * resist.k_HL;
-
-                    //附加损耗计算
-                    if (Y_resis == 1) {
-                        K_T = (235 + T_wnd_r) / (235 + resist.T_C);
-                        //额定下的直流电阻损耗.
-                        P_dc_r = K_T * resist.R_H.sum() * Math.pow(I_H_DC, 2) + K_T * resist.R_L.sum() * Math.pow(I_L_DC, 2);
+                    if (base.getY_temdata() == 1 || (base.getY_temdata() == 0 && base.getY_cool() == 0)) {
+                        init_rise(rise100);
+                    } else if (base.getY_temdata() == 0 && base.getY_cool() == 1) {
+                        init_rise(rise70);
                     } else {
-                        P_dc_r = P_cu_r;
+                        T_top_r = (rise100.getT_top_r() + rise70.getT_top_r()) / 2;
+                        T_oil_r = (rise100.getT_oil_r() + rise70.getT_oil_r()) / 2;
+                        T_wnd_r = (rise100.getT_wnd_r() + rise70.getT_wnd_r()) / 2;
+                        T_amb_r = (rise100.getT_amb_r() + rise70.getT_amb_r()) / 2;
+                        H = rise100.getH();
+                        T_boil_r = 2 * T_oil_r - T_top_r;
+                        T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
+                        P_fe_r = (rise100.getP_fe_r() + rise70.getP_fe_r()) / 2;
+                        P_cu_r = (rise100.getP_cu_r() + rise70.getP_cu_r()) / 2;
+                        I_H_DC = (rise100.getI_H_DC() + rise70.getI_H_DC()) / 2;
+                        I_M_DC = (rise100.getI_M_DC() + rise70.getI_M_DC()) / 2;
+                        I_L_DC = (rise100.getI_L_DC() + rise70.getI_L_DC()) / 2;
                     }
-
-                    P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
-                    R = P_cu_r / P_fe_r;        //负载损耗比.
                     break;
-
             }
 
             //附加损耗计算
@@ -225,7 +228,20 @@ public class HS {
             }
         }
 
-
+        private void init_rise(TRiseV rise) {
+            T_top_r = rise.getT_top_r();
+            T_oil_r = rise.getT_oil_r();
+            T_wnd_r = rise.getT_wnd_r();
+            T_amb_r = rise.getT_amb_r();
+            H = rise.getH();
+            T_boil_r = 2 * T_oil_r - T_top_r;
+            T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
+            P_fe_r = rise.getP_fe_r();
+            P_cu_r = rise.getP_cu_r();
+            I_H_DC = rise.getI_H_DC();
+            I_M_DC = rise.getI_M_DC();
+            I_L_DC = rise.getI_L_DC();
+        }
     }
 
     /**
@@ -271,10 +287,11 @@ public class HS {
         protected double T_hs_0;
         protected double V_0;
 
-        public void init(double H) {
-            T_top_0 = 60;     //读取变压器的顶层油温初值（℃）
-            T_oil_0 = 50;     //读取变压器的平均油温初值（℃）
-            T_wnd_0 = 65;     //读取变压器的绕组平均温度初值（℃）
+        public void init(double H, IFhnlpgInitial initial) {
+            T_top_0 = initial.getT_top_0();     //读取变压器的顶层油温初值（℃）
+            T_oil_0 = initial.getT_oil_0();     //读取变压器的平均油温初值（℃）
+            T_wnd_0 = initial.getT_wnd_0();     //读取变压器的绕组平均温度初值（℃）
+
             T_hs_0 = H * (T_wnd_0 - T_oil_0) + T_top_0;   //读取变压器当前的热点温度（℃）.
 
             //相对老化速率
@@ -289,69 +306,26 @@ public class HS {
     /**
      * 在线数据
      */
-    private class Onload {
-        private Vector T_amb;       //读取环境温度    //接口参数
+    protected class Onload {
+        private Vector T_amb;          //读取环境温度    //接口参数
         private Vector I_H_current;   //读取负载电流  //接口参数
         private Vector I_M_current;   //读取负载电流  //接口参数
         private Vector I_L_current;   //读取负载电流  //接口参数
-        private Vector T_top_C;     //读取顶层油温测量值  //接口参数
-        private Vector p_sun;       //读取太阳日辐射功率
+        protected Vector T_top_C;       //读取顶层油温测量值  //接口参数
+        private Vector p_sun;         //读取太阳日辐射功率
 
-        public void init() {
-            double[] amb = {30.5, 30.9, 31.3, 31.5, 32, 32.2, 32.9, 32.5, 32.5};
-            T_amb = new Vector(amb);
-            double[] h_current = {564.7,
-                    565.02,
-                    565.04,
-                    564.62,
-                    563.73,
-                    564.2,
-                    524.04,
-                    523.22,
-                    524.24};
-            I_H_current = new Vector(h_current);
-
-            double[] m_current = {564.7,
-                    565.02,
-                    565.04,
-                    564.62,
-                    563.73,
-                    564.2,
-                    524.04,
-                    523.22,
-                    524.24};
-            I_M_current = new Vector(m_current);
-
-            double[] l_current = {564.7,
-                    565.02,
-                    565.04,
-                    564.62,
-                    563.73,
-                    564.2,
-                    524.04,
-                    523.22,
-                    524.24};
-            I_L_current = new Vector(l_current);
-
-            double[] topc = {71.6,
-                    72.2,
-                    72.5,
-                    72.8,
-                    73.4,
-                    73.8,
-                    74.1,
-                    72.8,
-                    71.6};
-            T_top_C = new Vector(topc);
-            double[] psun = {0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0};
+        public void init(IFhnlpgOnLoad load) {
+            //double[] amb = {30.5, 30.9, 31.3, 31.5, 32, 32.2, 32.9, 32.5, 32.5};
+            T_amb = new Vector(load.getT_amb());
+            //double[] h_current = {564.7, 565.02, 565.04, 564.62, 563.73, 564.2, 524.04, 523.22, 524.24};
+            I_H_current = new Vector(load.getI_H_current());
+            //double[] m_current = {564.7, 565.02, 565.04, 564.62, 563.73, 564.2, 524.04, 523.22, 524.24};
+            I_M_current = new Vector(load.getI_M_current());
+            //double[] l_current = {564.7, 565.02, 565.04, 564.62, 563.73, 564.2, 524.04, 523.22, 524.24};
+            I_L_current = new Vector(load.getI_L_current());
+            //double[] topc = {71.6, 72.2, 72.5, 72.8, 73.4, 73.8, 74.1, 72.8, 71.6};
+            T_top_C = new Vector(load.getT_top_C());
+            double[] psun = {0, 0, 0, 0, 0, 0, 0, 0, 0};
             p_sun = new Vector(psun);
         }
     }
@@ -371,7 +345,7 @@ public class HS {
     protected TRise m_trise = new TRise();
     private Texture m_texture = new Texture();
     protected Initial m_initial = new Initial();
-    private Onload m_onload = new Onload();
+    protected Onload m_onload = new Onload();
 
     protected double t_top;   //环境温度至顶层油温模型的时间常数
     protected double t_oil;   //环境温度至平均油温模型的时间常数
@@ -400,33 +374,37 @@ public class HS {
     public static void main(String[] args) {
         // write your code here
         HS hs = new HS();
-        hs.init(3, 3, 17);
+        hs.init(new IFhnlpgBase(), new IFhnlpgInitial(), new IFhnlpgResistance(), new IFhnlpgTRise(), new IFhnlpgRatio(), new IFhnlpgOnLoad(new ArrayList<Load>()));
         hs.solve();
         hs.print();
-
     }
 
-    public void init(int in_type, int in_kind, int in_Tap) {
-        type = in_type;
-        kind = in_kind;
-        Y_text = 0;     //接口参数
-        Y_temdata = 1;  //接口参数
-        Y_cool = 1;     //接口参数
-        interval = 10;  //接口参数
-        Y_resis = 1;    //隐藏参数
-        Y_paper = 0;    //隐藏参数
-        n = 0.33;       //隐藏参数
-        n1 = 0.5;       //隐藏参数
+    public void init(IFhnlpgBase iFhnlpgBase,
+                     IFhnlpgInitial iFhnlpgInitial,
+                     IFhnlpgResistance iFhnlpgResistance,
+                     IFhnlpgTRise iFhnlpgTRise,
+                     IFhnlpgRatio iFhnlpgRatio,
+                     IFhnlpgOnLoad iFhnlpgOnLoad) {
+        type = iFhnlpgBase.getType();
+        kind = iFhnlpgBase.getKind();
+        Y_text = iFhnlpgBase.getY_text();     //接口参数
+        Y_temdata = iFhnlpgBase.getY_temdata();  //接口参数
+        Y_cool = iFhnlpgBase.getY_cool();     //接口参数
+        interval = iFhnlpgBase.getInterval();  //接口参数
+        Y_resis = iFhnlpgBase.getY_resis();    //隐藏参数
+        Y_paper = iFhnlpgBase.getY_paper();    //隐藏参数
+        n = iFhnlpgBase.getN();       //隐藏参数
+        n1 = iFhnlpgBase.getN1();       //隐藏参数
 
         m_size.init();  //接口参数
-        m_resist.init(in_Tap, T_C, D_H, D_M, D_L);
-        m_trise.init(m_resist);
+        m_resist.init(iFhnlpgResistance, iFhnlpgRatio);
+        m_trise.init(m_resist, iFhnlpgBase, iFhnlpgTRise.getRise100(), iFhnlpgTRise.getRise70());
 
         //初始化t_top, t_oil,t_wnd
         init_t();
 
-        m_initial.init(m_trise.H);
-        m_onload.init();
+        m_initial.init(m_trise.H, iFhnlpgInitial);
+        m_onload.init(iFhnlpgOnLoad);
 
         //S=2*(l*w+w*h+l*h); 变压器表面积. 在Size.init()里已计算
         a = 0.5;
@@ -442,10 +420,6 @@ public class HS {
         interval = interval / C_bei;
 
         num = m_onload.T_amb.getSize();
-    }
-
-    public void init_resistance(){
-
     }
 
     public void init_t() {
@@ -587,5 +561,14 @@ public class HS {
         System.out.println("V_G=");
         V_G.print(l, dot);
 
+    }
+
+    public OHst output() {
+        OHst hst = new OHst();
+        hst.T_hs_G = T_hs_G.toArrayList();
+        hst.T_top_C = m_onload.T_top_C.toArrayList();
+        hst.HST = T_hs_G.get(T_hs_G.getSize() - 1);
+        hst.TOPT = m_onload.T_top_C.get(m_onload.T_top_C.getSize() - 1);
+        return hst;
     }
 }

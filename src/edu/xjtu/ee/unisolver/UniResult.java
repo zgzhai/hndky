@@ -1,7 +1,9 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.fhnlpg.io.*;
+
 public class UniResult {
-    public int errcode;
+    public int errcode = 0;
     public String errmsg;
     public OCool oCool;
     public OHst oHst;
@@ -9,8 +11,4 @@ public class UniResult {
     public OCqfhnlpg oCqfhnlpg;
     public ODqfhnlpg oDqfhnlpg;
     public OFhzt oFhzt;
-
-    public UniResult() {
-        this.errcode = 0;
-    }
 }

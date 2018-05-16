@@ -3,6 +3,7 @@ package edu.xjtu.ee.fhnlpg;
 public class Main {
     public static void main(String[] args) {
         // write your code here
+        /*
         if (args.length > 0 && args[0].toUpperCase().equals("RDWD")) {
             //废弃
             CRDWD c = new CRDWD();
@@ -18,7 +19,7 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("HST")) {
             //热点温度 hs.m
             HS hs = new HS();
-            hs.init(3, 3, 17);
+            //hs.init(3, 3, 17);
             hs.solve();
             hs.print();
         } else if (args.length > 0 && args[0].toUpperCase().equals("ZCFHNLPG")) {
@@ -65,5 +66,6 @@ public class Main {
             System.out.println(" '----'       '----'|____.'     `'-'   `-'  `--'                                         ");
 
         }
+        */
     }
 }

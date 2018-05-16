@@ -1,5 +1,6 @@
 package edu.xjtu.ee.fhnlpg;
 
+import edu.xjtu.ee.fhnlpg.io.*;
 import edu.xjtu.ee.tools.Vector;
 
 /**
@@ -16,9 +17,9 @@ public class HSLoad extends HS {
         private Vector I_H_current;   //读取负载电流
         private Vector p_sun;       //读取太阳日辐射功率
 
-        public void init(double I_H_current_coef) {
-            double in_T_amb = 34;
-            double in_I_H_current = 564;
+        public void init(IFhnlpgLimit iFhnlpgLimit) {
+            double in_T_amb = iFhnlpgLimit.getT_amb();
+            double in_I_H_current = iFhnlpgLimit.getI_H_current();
             double in_p_sun = 0;
 
             T_amb = new Vector(n_iters, 0);
@@ -26,7 +27,7 @@ public class HSLoad extends HS {
             p_sun = new Vector(n_iters, 0);
             for (int i = 0; i < n_iters; i++) {
                 T_amb.set(i, in_T_amb + 10);
-                I_H_current.set(i, I_H_current_coef * in_I_H_current);
+                I_H_current.set(i, iFhnlpgLimit.getI_H_current_coef() * in_I_H_current);
                 p_sun.set(i, in_p_sun);
             }
 
@@ -45,34 +46,43 @@ public class HSLoad extends HS {
 
     private ConLoad conLoad = new ConLoad();
 
+    private String YXTJ;
 
     public static void main(String[] args) {
         // write your code here
+        /*
         HSLoad hs = new HSLoad();
         //load1.m
         //hs.init(3, 3, 17, 100, 0.9, 1.2, 105, 120, 1);
         //load2.m
-        hs.init(3, 3, 17, 100, 1, 1.2, 105, 120, 10);
+        //hs.init(3, 3, 17, 100, 1, 1.2, 105, 120, 10);
         hs.solve();
         hs.print();
+        */
     }
 
     /**
-     * @param IC 变压器状态评分值
+     *
      */
-    public void init(int in_type, int in_kind, int in_Tap, double IC, double I_H_current_coef, double in_Klimit_fu, double in_Tlimit_top, double in_Tlimit_hs, double Llimit_L_coef) {
-        super.init(in_type, in_kind, in_Tap);
-        n_iters = 96;
-        Klimit_fu = in_Klimit_fu;
-        Tlimit_top = in_Tlimit_top;
-        Tlimit_hs = in_Tlimit_hs;
-        Llimit_L = 86400 * Llimit_L_coef;
+    public void init(IFhnlpgBase iFhnlpgBase,
+                     IFhnlpgInitial iFhnlpgInitial,
+                     IFhnlpgResistance iFhnlpgResistance,
+                     IFhnlpgTRise iFhnlpgTRise,
+                     IFhnlpgRatio iFhnlpgRatio,
+                     IFhnlpgOnLoad iFhnlpgOnLoad,
+                     IFhnlpgLimit iFhnlpgLimit) {
+        super.init(iFhnlpgBase, iFhnlpgInitial, iFhnlpgResistance, iFhnlpgTRise, iFhnlpgRatio, iFhnlpgOnLoad);
+        n_iters = iFhnlpgLimit.getN_iters();
+        Klimit_fu = iFhnlpgLimit.getKlimit_fu();
+        Tlimit_top = iFhnlpgLimit.getTlimit_top();
+        Tlimit_hs = iFhnlpgLimit.getTlimit_hs();
+        Llimit_L = 86400 * iFhnlpgLimit.getLlimit_L_coef();
 
         GZZT gzzt = new GZZT();
         gzzt.init();
-        Flimit_IC = gzzt.solve(IC);
+        Flimit_IC = gzzt.solve(iFhnlpgLimit.getIC());
 
-        conLoad.init(I_H_current_coef);
+        conLoad.init(iFhnlpgLimit);
         conLoad.p_sun.times(a * b * m_size.S);
         K1 = m_trise.I_H_DC;
         interval = 15;
@@ -168,13 +178,17 @@ public class HSLoad extends HS {
 
             //输出越限条件                    //输出参数，YXTJ=
             if (T_hs_now >= Tlimit_hs) {
-                System.out.println("热点温度越限");
+                //System.out.println("热点温度越限");
+                YXTJ = "热点温度越限";
             } else if (T_top_now >= Tlimit_top) {
-                System.out.println("顶层油温越限");
+                //System.out.println("顶层油温越限");
+                YXTJ = "顶层油温越限";
             } else if (K >= Klimit_fu) {
-                System.out.println("负荷率越限");
+                //System.out.println("负荷率越限");
+                YXTJ = "负荷率越限";
             } else if (L >= Llimit_L) {
-                System.out.println("相对老化速率越限");
+                //System.out.println("相对老化速率越限");
+                YXTJ = "相对老化速率越限";
             }
 
             //判断负荷是否超出约束范围
@@ -188,11 +202,11 @@ public class HSLoad extends HS {
             }
 
             for (int i = 0; i < num; i++) {
-                T_top_G.set(i,T_top_G_tmp.get(i));
-                T_oil_G.set(i,T_oil_G_tmp.get(i));
-                T_wnd_G.set(i,T_wnd_G_tmp.get(i));
-                T_hs_G.set(i,T_hs_G_tmp.get(i));
-                V_G.set(i,V_G_tmp.get(i));
+                T_top_G.set(i, T_top_G_tmp.get(i));
+                T_oil_G.set(i, T_oil_G_tmp.get(i));
+                T_wnd_G.set(i, T_wnd_G_tmp.get(i));
+                T_hs_G.set(i, T_hs_G_tmp.get(i));
+                V_G.set(i, V_G_tmp.get(i));
             }
 
             T_hs_G.set(0, m_initial.T_hs_0);
@@ -213,5 +227,17 @@ public class HSLoad extends HS {
         }
 
         System.out.println(String.format("K= %-8.4f", K));
+    }
+
+    public OZcfhnlpg output() {
+        OZcfhnlpg oZcfhnlpg = new OZcfhnlpg();
+        oZcfhnlpg.T_hs_G = T_hs_G.toArrayList();
+        oZcfhnlpg.T_top_C = m_onload.T_top_C.toArrayList();
+        oZcfhnlpg.HST = T_hs_G.get(T_hs_G.getSize() - 1);
+        oZcfhnlpg.TOPT = m_onload.T_top_C.get(m_onload.T_top_C.getSize() - 1);
+        oZcfhnlpg.YXTJ = YXTJ;
+        oZcfhnlpg.Flimit_IC = Flimit_IC;
+        oZcfhnlpg.K = K;
+        return oZcfhnlpg;
     }
 }

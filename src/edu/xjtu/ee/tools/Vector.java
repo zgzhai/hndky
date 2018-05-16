@@ -54,6 +54,16 @@ public class Vector {
         this.type = COL;
     }
 
+    public Vector(ArrayList<Double> a) {
+        if (a == null) return;
+        this.type = COL;
+        this.size = a.size();
+        A = new double[size];
+        for (int i = 0; i < size; i++) {
+            A[i] = a.get(i);
+        }
+    }
+
     public Vector(double[] a, int type) {
         this.A = a;
         this.size = a.length;
@@ -458,5 +468,13 @@ public class Vector {
             }
         }
         return maxv;
+    }
+
+    public ArrayList<Double> toArrayList() {
+        ArrayList<Double> arrayList = new ArrayList<Double>();
+        for (int i = 0; i < size; i++) {
+            arrayList.add(A[i]);
+        }
+        return arrayList;
     }
 }

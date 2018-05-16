@@ -1,14 +1,72 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.fhnlpg.io.*;
+
 public class UniParameter {
-    public IFhnlpgBase iFhnlpgBase;
-    public IFhnlpgInitial iFhnlpgInitial;
-    public IFhnlpgOnLoad iFhnlpgOnLoad;
-    public IFhnlpgTRise iFhnlpgTRise;
-    public IFhnlpgExtra iFhnlpgExtra;
-    public IFhnlpgResistance iFhnlpgResistance;
+    private IFhnlpgBase iFhnlpgBase;
+    private IFhnlpgInitial iFhnlpgInitial;
+    private IFhnlpgOnLoad iFhnlpgOnLoad;
+    private IFhnlpgTRise iFhnlpgTRise;
+    private IFhnlpgResistance iFhnlpgResistance;
+    private IFhnlpgRatio iFhnlpgRatio;
+    private IFhnlpgLimit iFhnlpgLimit;
 
     public UniParameter() {
     }
 
+    public IFhnlpgBase getiFhnlpgBase() {
+        return iFhnlpgBase;
+    }
+
+    public void setiFhnlpgBase(IFhnlpgBase iFhnlpgBase) {
+        this.iFhnlpgBase = iFhnlpgBase;
+    }
+
+    public IFhnlpgInitial getiFhnlpgInitial() {
+        return iFhnlpgInitial;
+    }
+
+    public void setiFhnlpgInitial(IFhnlpgInitial iFhnlpgInitial) {
+        this.iFhnlpgInitial = iFhnlpgInitial;
+    }
+
+    public IFhnlpgOnLoad getiFhnlpgOnLoad() {
+        return iFhnlpgOnLoad;
+    }
+
+    public void setiFhnlpgOnLoad(IFhnlpgOnLoad iFhnlpgOnLoad) {
+        this.iFhnlpgOnLoad = iFhnlpgOnLoad;
+    }
+
+    public IFhnlpgTRise getiFhnlpgTRise() {
+        return iFhnlpgTRise;
+    }
+
+    public void setiFhnlpgTRise(IFhnlpgTRise iFhnlpgTRise) {
+        this.iFhnlpgTRise = iFhnlpgTRise;
+    }
+
+    public IFhnlpgResistance getiFhnlpgResistance() {
+        return iFhnlpgResistance;
+    }
+
+    public void setiFhnlpgResistance(IFhnlpgResistance iFhnlpgResistance) {
+        this.iFhnlpgResistance = iFhnlpgResistance;
+    }
+
+    public IFhnlpgRatio getiFhnlpgRatio() {
+        return iFhnlpgRatio;
+    }
+
+    public void setiFhnlpgRatio(IFhnlpgRatio iFhnlpgRatio) {
+        this.iFhnlpgRatio = iFhnlpgRatio;
+    }
+
+    public IFhnlpgLimit getiFhnlpgLimit() {
+        return iFhnlpgLimit;
+    }
+
+    public void setiFhnlpgLimit(IFhnlpgLimit iFhnlpgLimit) {
+        this.iFhnlpgLimit = iFhnlpgLimit;
+    }
 }
