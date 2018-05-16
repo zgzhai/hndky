@@ -157,7 +157,6 @@ public class HS {
                     //TODO
                     break;
                 case 2:
-                    /**
                      T_top_r = 41.2;
                      T_oil_r = 28.28;
                      T_wnd_r = 45.9;
@@ -183,7 +182,6 @@ public class HS {
 
                      P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
                      R = P_cu_r / P_fe_r;        //负载损耗比.
-                     */
                     break;
                 case 3:
                     if (base.getY_temdata() == 1 || (base.getY_temdata() == 0 && base.getY_cool() == 0)) {
@@ -373,10 +371,12 @@ public class HS {
 
     public static void main(String[] args) {
         // write your code here
+        /*
         HS hs = new HS();
         hs.init(new IFhnlpgBase(), new IFhnlpgInitial(), new IFhnlpgResistance(), new IFhnlpgTRise(), new IFhnlpgRatio(), new IFhnlpgOnLoad(new ArrayList<Load>()));
         hs.solve();
         hs.print();
+        */
     }
 
     public void init(IFhnlpgBase iFhnlpgBase,
