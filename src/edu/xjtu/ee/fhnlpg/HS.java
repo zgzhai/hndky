@@ -55,9 +55,8 @@ public class HS {
                     break;
                 //kind=2
                 case 2:
-                    /*
                     Tap_r = 9;
-                    Tap = in_Tap;
+                    Tap = iFhnlpgResistance.getTap();
                     U_fjt = 1.25;
                     T_C = 26;     //接口参数， D_H, Tap, D_M, D_L
                     double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
@@ -65,6 +64,7 @@ public class HS {
                     double[] r_ld = {0.011712, 0.011727, 0.011759};
                     R_Ld = new Vector(r_ld);
                     R_p = R_Ld.sum() / 2;
+                    R_M = new Vector(3, 0);
 
                     R_L = new Vector(3);    //低压侧相电阻
                     R_L.set(0, (R_Ld.get(2) - R_p) - R_Ld.get(0) * R_Ld.get(1) / (R_Ld.get(2) - R_p));
@@ -75,7 +75,6 @@ public class HS {
                             10.476, 10.345, 10.214, 10.083, 9.9524, 9.8214, 9.6905, 9.5595, 5.143};
                     K_V = new Vector(kv);
                     k_HL = K_V.get(Tap - 1);
-                    */
                     break;
                 case 3:
                     Tap_r = 9;
@@ -85,8 +84,8 @@ public class HS {
 
                     ResistanceABC abc = iFhnlpgResistance.getD_H().get(Tap - 1);
                     //double[] r_h = {0.2974, 0.298, 0.2983}; //ResistanceH第17行数据
-                    double[] r_h = {abc.getA(), abc.getB(), abc.getC()};
-                    R_H = new Vector(r_h);
+                    double[] r_h1 = {abc.getA(), abc.getB(), abc.getC()};
+                    R_H = new Vector(r_h1);
 
                     ResistanceABC abc1 = iFhnlpgResistance.getD_M().get(0);
                     //double[] r_m = {0.11589, 0.11594, 0.11667};
@@ -95,8 +94,8 @@ public class HS {
 
                     ResistanceABC abc2 = iFhnlpgResistance.getD_L().get(0);
                     //double[] r_ld = {0.011712, 0.011727, 0.011759};
-                    double[] r_ld = {abc2.getA(), abc2.getB(), abc2.getC()};
-                    R_Ld = new Vector(r_ld);
+                    double[] r_ld1 = {abc2.getA(), abc2.getB(), abc2.getC()};
+                    R_Ld = new Vector(r_ld1);
                     R_p = R_Ld.sum() / 2;
 
                     R_L = new Vector(3);    //低压侧相电阻
@@ -149,6 +148,7 @@ public class HS {
         private double R_th_wnd_oil;   //绕组平均温度至平均油温的传热热阻.
 
         TRise() {
+            I_M_DC = 0;
         }
 
         public void init(Resistance resist, IFhnlpgBase base, TRiseV rise100, TRiseV rise70) {
@@ -157,31 +157,31 @@ public class HS {
                     //TODO
                     break;
                 case 2:
-                     T_top_r = 41.2;
-                     T_oil_r = 28.28;
-                     T_wnd_r = 45.9;
-                     T_amb_r = 32;
-                     H = 1.1;
+                    T_top_r = 41.2;
+                    T_oil_r = 28.28;
+                    T_wnd_r = 45.9;
+                    T_amb_r = 32;
+                    H = 1.1;
 
-                     T_boil_r = 2 * T_oil_r - T_top_r;
-                     T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
+                    T_boil_r = 2 * T_oil_r - T_top_r;
+                    T_hs_r = H * (T_wnd_r - T_oil_r) + T_top_r;
 
-                     P_fe_r = 82169;
-                     P_cu_r = 512386;
-                     I_H_DC = 564.9;
-                     I_L_DC = I_H_DC * resist.k_HL;
+                    P_fe_r = 82169;
+                    P_cu_r = 512386;
+                    I_H_DC = 564.9;
+                    I_L_DC = I_H_DC * resist.k_HL;
 
-                     //附加损耗计算
-                     if (Y_resis == 1) {
-                     K_T = (235 + T_wnd_r) / (235 + resist.T_C);
-                     //额定下的直流电阻损耗.
-                     P_dc_r = K_T * resist.R_H.sum() * Math.pow(I_H_DC, 2) + K_T * resist.R_L.sum() * Math.pow(I_L_DC, 2);
-                     } else {
-                     P_dc_r = P_cu_r;
-                     }
+                    //附加损耗计算
+                    if (Y_resis == 1) {
+                        K_T = (235 + T_wnd_r) / (235 + resist.T_C);
+                        //额定下的直流电阻损耗.
+                        P_dc_r = K_T * resist.R_H.sum() * Math.pow(I_H_DC, 2) + K_T * resist.R_L.sum() * Math.pow(I_L_DC, 2);
+                    } else {
+                        P_dc_r = P_cu_r;
+                    }
 
-                     P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
-                     R = P_cu_r / P_fe_r;        //负载损耗比.
+                    P_fj_r = P_cu_r - P_dc_r;   //额定下的附加损耗.
+                    R = P_cu_r / P_fe_r;        //负载损耗比.
                     break;
                 case 3:
                     if (base.getY_temdata() == 1 || (base.getY_temdata() == 0 && base.getY_cool() == 0)) {
@@ -323,7 +323,15 @@ public class HS {
             I_L_current = new Vector(load.getI_L_current());
             //double[] topc = {71.6, 72.2, 72.5, 72.8, 73.4, 73.8, 74.1, 72.8, 71.6};
             T_top_C = new Vector(load.getT_top_C());
-            double[] psun = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            double[] psun = {658.75,
+                    658.75,
+                    658.75,
+                    658.75,
+                    289.75,
+                    289.75,
+                    289.75,
+                    289.75,
+                    289.75};
             p_sun = new Vector(psun);
         }
     }
@@ -410,7 +418,7 @@ public class HS {
         a = 0.5;
         b = 0.5;
         //调整计算间隔进行插值
-        C_bei = 1;
+        C_bei = iFhnlpgBase.getC_bei();
         m_onload.T_amb.expand(C_bei);
         m_onload.I_H_current.expand(C_bei);
         m_onload.T_top_C.expand(C_bei);

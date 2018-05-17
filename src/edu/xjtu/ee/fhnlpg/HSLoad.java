@@ -215,21 +215,23 @@ public class HSLoad extends HS {
         } //while end
     }
 
-
-    public void print() {
-        super.print();
-
+    private void calcK(){
         if (Flimit_IC > 1) {
             System.out.println("存在潜伏性故障，变压器过负荷运行有风险，建议尽快检修。");
             K = (Flimit_IC - 1) * (K - 0.01);
         } else {
             K = Flimit_IC * (K - 0.01);
         }
+    }
 
+    public void print() {
+        super.print();
+        calcK();
         System.out.println(String.format("K= %-8.4f", K));
     }
 
     public OZcfhnlpg output() {
+        calcK();
         OZcfhnlpg oZcfhnlpg = new OZcfhnlpg();
         oZcfhnlpg.T_hs_G = T_hs_G.toArrayList();
         oZcfhnlpg.T_top_C = m_onload.T_top_C.toArrayList();

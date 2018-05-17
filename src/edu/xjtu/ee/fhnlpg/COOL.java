@@ -1,5 +1,7 @@
 package edu.xjtu.ee.fhnlpg;
 
+import edu.xjtu.ee.fhnlpg.io.OCool;
+
 /**
  * 冷却器
  * Created by Administrator on 2017/11/6.
@@ -68,5 +70,11 @@ public class COOL {
 
     public void print() {
         System.out.println(String.format("冷却器投入%3.0f%%", ratio * 100));
+    }
+
+    public OCool output() {
+        OCool oCool = new OCool();
+        oCool.ratio = String.format("冷却器投入%3.0f%%", ratio * 100);
+        return oCool;
     }
 }

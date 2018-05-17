@@ -1,5 +1,9 @@
 package edu.xjtu.ee.fhnlpg;
 
+import edu.xjtu.ee.fhnlpg.io.Nameplate;
+import edu.xjtu.ee.fhnlpg.io.OFhzt;
+import edu.xjtu.ee.fhnlpg.io.Operation;
+
 /**
  * 计算变压器负荷状态，对应condition.m文件
  * 将变压器负荷状态分为过负荷，重载，正常，轻载四个状态。
@@ -7,59 +11,25 @@ package edu.xjtu.ee.fhnlpg;
  * 热点温度超过98℃或110℃，高压、中压、低压超过额定负荷电流。
  */
 public class TStatus {
-
-    private class Nameplate {
-        private double C_H_r;   //输入变压器高压侧额定容量（MVA）
-        private double C_M_r;   //输入变压器中压侧额定容量（MVA）
-        private double C_L_r;   //输入变压器低压侧额定容量（MVA
-        private double V_H_r;   //输入变压器高压侧额定电压（kV）
-        private double V_M_r;   //输入变压器中压侧额定电压（kV）
-        private double V_L_r;   //输入变压器低压侧额定电压（kV）
-        private double I_H_r;   //输入变压器高压侧额定电流（A）
-        private double I_M_r;   //输入变压器中压侧额定电流（A）
-        private double I_L_r;   //输入变压器低压侧额定电流（A）
-
-        public void init() {
-            C_H_r = 180000;
-            C_M_r = 180000;
-            C_L_r = 90000;
-            V_H_r = 220;
-            V_M_r = 121;
-            V_L_r = 38.5;
-            I_H_r = 818;
-            I_M_r = 1636;
-            I_L_r = 2337;
-        }
-    }
-
-    private class Operation {
-        private double TH_hs;   //读取变压器当前热点温度值
-        private double TH_top;  //读取变压器当前顶层油温值
-        private double V_H_C;   //读取变压器当前高压侧电压值
-        private double V_M_C;   //读取变压器当前中压侧电压值
-        private double V_L_C;   //读取变压器当前低压侧电压值
-        private double I_H_C;   //读取变压器当前高压侧电流值
-        private double I_M_C;   //读取变压器当前中压侧电流值
-        private double I_L_C;   //读取变压器当前低压侧电流值
-
-        public void init() {
-            TH_hs = 95;
-            TH_top = 70;
-            V_H_C = 220;
-            V_M_C = 121;
-            V_L_C = 38.5;
-            I_H_C = 810;
-            I_M_C = 1600;
-            I_L_C = 2300;
-        }
-    }
-
     private double Tlimit_top;    //顶层油温限值，热改性绝缘纸采用85，非热改性绝缘纸采用75.
     private double Tlimit_hs;     //热点温度限值,热改性绝缘纸采用110，非热改性绝缘纸采用98.
     private String result;
 
-    private Nameplate nameplate = new Nameplate();
-    private Operation operation = new Operation();
+    private Nameplate nameplate;
+
+    private Operation operation;
+
+    public TStatus() {
+        nameplate = new Nameplate();
+        operation = new Operation();
+    }
+
+    public TStatus(double tlimit_top, double tlimit_hs, Nameplate nameplate, Operation operation) {
+        Tlimit_top = tlimit_top;
+        Tlimit_hs = tlimit_hs;
+        this.nameplate = nameplate;
+        this.operation = operation;
+    }
 
     public static void main(String[] args) {
         // write your code here
@@ -96,5 +66,11 @@ public class TStatus {
 
     public void print() {
         System.out.println(result);
+    }
+
+    public OFhzt output() {
+        OFhzt oFhzt = new OFhzt();
+        oFhzt.result = result;
+        return oFhzt;
     }
 }

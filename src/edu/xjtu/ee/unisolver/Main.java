@@ -1,5 +1,6 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.fhnlpg.TStatus;
 import edu.xjtu.ee.fhnlpg.io.*;
 
 import java.util.ArrayList;
@@ -24,13 +25,26 @@ public class Main {
     }
 
     public static void COOL() {
-
+        UniParameter uniParameter = new UniParameter();
+        //1.
+        uniParameter.setiFhnlpgCool(new IFhnlpgCool(6, 6, 6, 6, 0.2, 0.2, 60, 80, 0.7, 70, 85, 0.8));
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "COOL");
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oCool.print();
+        }
     }
 
     public static void HST() {
         UniParameter uniParameter = new UniParameter();
         //1. 基本参数
-        uniParameter.setiFhnlpgBase(new IFhnlpgBase(0, 1, 1, 10));
+        IFhnlpgBase iFhnlpgBase = new IFhnlpgBase(1, 1, 1, 10);
+        //iFhnlpgBase.setKind(2);
+        //iFhnlpgBase.setInterval(30);
+        //iFhnlpgBase.setC_bei(2);
+        uniParameter.setiFhnlpgBase(iFhnlpgBase);
 
         //2. 变压器绕组直流电阻及电压变比
         ArrayList<ResistanceABC> D_H = new ArrayList<ResistanceABC>();
@@ -112,7 +126,11 @@ public class Main {
     public static void ZCFHNLPG() {
         UniParameter uniParameter = new UniParameter();
         //1. 基本参数
-        uniParameter.setiFhnlpgBase(new IFhnlpgBase(0, 1, 1, 10));
+        IFhnlpgBase iFhnlpgBase = new IFhnlpgBase(1, 1, 1, 10);
+        //iFhnlpgBase.setKind(2);
+        //iFhnlpgBase.setInterval(30);
+        //iFhnlpgBase.setC_bei(2);
+        uniParameter.setiFhnlpgBase(iFhnlpgBase);
 
         //2. 变压器绕组直流电阻及电压变比
         ArrayList<ResistanceABC> D_H = new ArrayList<ResistanceABC>();
@@ -180,12 +198,15 @@ public class Main {
         load.add(new Load(32.5, 523.22, 523.22, 523.22, 72.8));
         load.add(new Load(32.5, 524.24, 524.24, 524.24, 71.6));
         uniParameter.setiFhnlpgOnLoad(new IFhnlpgOnLoad(load));
+
+        //7. 参数7
         IFhnlpgLimit iFhnlpgLimit = new IFhnlpgLimit(34, 564, 1);
         iFhnlpgLimit.setI_H_current_coef(0.9);
         iFhnlpgLimit.setLlimit_L_coef(1);
 
         uniParameter.setiFhnlpgLimit(iFhnlpgLimit);
 
+        //开始求解
         UniSolver uniSolver = new UniSolver();
         UniResult uniResult = uniSolver.solve(uniParameter, "ZCFHNLPG");
         if (uniResult.errcode != 0) {
@@ -198,7 +219,12 @@ public class Main {
     public static void CQFHNLPG() {
         UniParameter uniParameter = new UniParameter();
         //1. 基本参数
-        uniParameter.setiFhnlpgBase(new IFhnlpgBase(0, 1, 1, 10));
+        IFhnlpgBase iFhnlpgBase = new IFhnlpgBase(1, 1, 1, 10);
+        //iFhnlpgBase.setKind(2);
+        //iFhnlpgBase.setInterval(30);
+        //iFhnlpgBase.setC_bei(2);
+        uniParameter.setiFhnlpgBase(iFhnlpgBase);
+
 
         //2. 变压器绕组直流电阻及电压变比
         ArrayList<ResistanceABC> D_H = new ArrayList<ResistanceABC>();
@@ -266,11 +292,13 @@ public class Main {
         load.add(new Load(32.5, 523.22, 523.22, 523.22, 72.8));
         load.add(new Load(32.5, 524.24, 524.24, 524.24, 71.6));
         uniParameter.setiFhnlpgOnLoad(new IFhnlpgOnLoad(load));
+        //7.
         IFhnlpgLimit iFhnlpgLimit = new IFhnlpgLimit(34, 564, 1);
         iFhnlpgLimit.setI_H_current_coef(1);
         iFhnlpgLimit.setLlimit_L_coef(10);
         uniParameter.setiFhnlpgLimit(iFhnlpgLimit);
 
+        //开始求解
         UniSolver uniSolver = new UniSolver();
         UniResult uniResult = uniSolver.solve(uniParameter, "CQFHNLPG");
         if (uniResult.errcode != 0) {
@@ -293,7 +321,11 @@ public class Main {
 
         UniParameter uniParameter = new UniParameter();
         //1. 基本参数
-        uniParameter.setiFhnlpgBase(new IFhnlpgBase(0, 1, 1, 10));
+        IFhnlpgBase iFhnlpgBase = new IFhnlpgBase(1, 1, 1, 10);
+        //iFhnlpgBase.setKind(2);
+        //iFhnlpgBase.setInterval(30);
+        //iFhnlpgBase.setC_bei(2);
+        uniParameter.setiFhnlpgBase(iFhnlpgBase);
 
         //2. 变压器绕组直流电阻及电压变比
         ArrayList<ResistanceABC> D_H = new ArrayList<ResistanceABC>();
@@ -380,10 +412,17 @@ public class Main {
     }
 
     public static void FHZT() {
+        UniParameter uniParameter = new UniParameter();
+        //1.
+        uniParameter.setiFhnlpgTStatus(new IFhnlpgTStatus(75, 98, new Nameplate(), new Operation()));
 
-    }
-
-    public static void HSBase(UniParameter uniParameter) {
-
+        //开始求解
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "FHZT");
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oFhzt.print();
+        }
     }
 }

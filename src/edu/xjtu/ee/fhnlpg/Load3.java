@@ -211,9 +211,7 @@ public class Load3 extends HS {
         } //for(r:n_laod)
     }
 
-
-    public void print() {
-        //super.print();
+    private void calcK() {
         double k2 = K2.get(n_load - 1);
         if (Flimit_IC > 1) {
             System.out.println("存在潜伏性故障，变压器过负荷运行有风险，建议尽快检修。");
@@ -221,7 +219,11 @@ public class Load3 extends HS {
         } else {
             K2.set(n_load - 1, Flimit_IC * (k2 - 0.01));
         }
+    }
 
+    public void print() {
+        //super.print();
+        calcK();
         System.out.println("K2=");
         K2.print(8, 4);
         System.out.println("T2=");
@@ -229,6 +231,7 @@ public class Load3 extends HS {
     }
 
     public ODqfhnlpg output() {
+        calcK();
         ODqfhnlpg oDqfhnlpg = new ODqfhnlpg();
         oDqfhnlpg.T_hs_G = T_hs_G.toArrayList();
         oDqfhnlpg.T_top_C = m_onload.T_top_C.toArrayList();

@@ -4,10 +4,11 @@ package edu.xjtu.ee.fhnlpg.io;
 public class IFhnlpgBase {
     private int type = 3;       //默认值
     private int kind = 3;       //默认值
-    private int Y_text = 0;     //接口参数
+    private int Y_text = 1;     //接口参数
     private int Y_temdata = 1;  //接口参数
     private int Y_cool = 1;     //接口参数
     private int interval = 10;  //接口参数
+    private int C_bei = 1;      //隐藏参数
     private int Y_resis = 1;    //隐藏参数
     private int Y_paper = 0;    //隐藏参数
     private double n = 0.33;    //隐藏参数
@@ -101,5 +102,13 @@ public class IFhnlpgBase {
 
     public void setN1(double n1) {
         this.n1 = n1;
+    }
+
+    public int getC_bei() {
+        return C_bei;
+    }
+
+    public void setC_bei(int c_bei) {
+        C_bei = c_bei;
     }
 }

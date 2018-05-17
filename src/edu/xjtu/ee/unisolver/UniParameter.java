@@ -10,6 +10,8 @@ public class UniParameter {
     private IFhnlpgResistance iFhnlpgResistance;
     private IFhnlpgRatio iFhnlpgRatio;
     private IFhnlpgLimit iFhnlpgLimit;
+    private IFhnlpgCool iFhnlpgCool;
+    private IFhnlpgTStatus iFhnlpgTStatus;
 
     public UniParameter() {
     }
@@ -68,5 +70,21 @@ public class UniParameter {
 
     public void setiFhnlpgLimit(IFhnlpgLimit iFhnlpgLimit) {
         this.iFhnlpgLimit = iFhnlpgLimit;
+    }
+
+    public IFhnlpgCool getiFhnlpgCool() {
+        return iFhnlpgCool;
+    }
+
+    public void setiFhnlpgCool(IFhnlpgCool iFhnlpgCool) {
+        this.iFhnlpgCool = iFhnlpgCool;
+    }
+
+    public IFhnlpgTStatus getiFhnlpgTStatus() {
+        return iFhnlpgTStatus;
+    }
+
+    public void setiFhnlpgTStatus(IFhnlpgTStatus iFhnlpgTStatus) {
+        this.iFhnlpgTStatus = iFhnlpgTStatus;
     }
 }
