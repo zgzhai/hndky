@@ -1,9 +1,15 @@
 package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
+import edu.xjtu.ee.dwfxpg.io.CLinePIJ;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
+import edu.xjtu.ee.dwfxpg.io.OFHXJ;
+import edu.xjtu.ee.dwfxpg.io.OZLCL;
 import edu.xjtu.ee.tools.MatrixEx;
 import edu.xjtu.ee.tools.VElement;
 import edu.xjtu.ee.tools.Vector;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/11/20.
@@ -19,6 +25,8 @@ public class CFHXJ extends CZLCL {
     private Vector c;
     private Matrix D;
     private Vector X;
+    private int status = 0;
+    private Matrix f;
 
     public static void main(String[] args) {
         // write your code here
@@ -26,6 +34,14 @@ public class CFHXJ extends CZLCL {
         c.init();
         c.solve();
         c.print();
+    }
+
+    public CFHXJ() {
+        super();
+    }
+
+    public CFHXJ(IDwfxpgDW dw) {
+        super(dw);
     }
 
     @Override
@@ -235,7 +251,8 @@ public class CFHXJ extends CZLCL {
         //判断是否为标准型
         if (n < m) {
             flag = 0;
-            System.out.println("不符合要求需引入松弛变量");
+            status = 1;
+            //System.out.println("不符合要求需引入松弛变量");
         } else {
             flag = 1;
             B = new MatrixEx(A).partCol(n - m, n - 1);
@@ -247,9 +264,10 @@ public class CFHXJ extends CZLCL {
                 int k = v.getIndex();
                 if (z < 0.000000001) {
                     flag = 0;       //所有判别数都小于0时达到最优解。
-                    System.out.println("已找到最优解!");
+                    status = 2;
+                    //System.out.println("已找到最优解!");
                     Matrix xB = MatrixEx.leftDiv(B, b.getMatrix().transpose()).transpose();
-                    Matrix f = cB.times(xB.transpose());
+                    f = cB.times(xB.transpose());
 
                     for (int i = 0; i < n; i++) {
                         int mark = 0;
@@ -266,15 +284,18 @@ public class CFHXJ extends CZLCL {
                         }
                     }
 
+                    /*
                     System.out.println("基向量为:");
                     X.print(8, 4);
                     System.out.println("目标函数值为:");
                     f.print(8, 4);
+                    */
                 } else {
                     //if(B\A(:,k)<=0),  B\A(;,k)中的每一个分量都小于零
                     if (MatrixEx.lte(MatrixEx.leftDiv(B, new MatrixEx(A).partCol(k, k)), 0)) {
                         flag = 0;
-                        System.out.println("此问题不存在最优解!"); //若B\A(:,k)的第k列均不大于0，则该问题不存在最优解
+                        status = 3;
+                        //System.out.println("此问题不存在最优解!"); //若B\A(:,k)的第k列均不大于0，则该问题不存在最优解
                     } else {
                         Matrix b1 = MatrixEx.leftDiv(B, b.getMatrix().transpose());
                         double temp = inf;
@@ -286,7 +307,7 @@ public class CFHXJ extends CZLCL {
                             }
                         }
 
-                        System.out.println("x(" + (k + 1) + ")进基, x(" + D.get(r, 1) + ")退基");
+                        //System.out.println("x(" + (k + 1) + ")进基, x(" + D.get(r, 1) + ")退基");
                         MatrixEx.setCol(B, r, A, k);
                         cB.set(0, r, c.get(k));  //确定进基退基变量后，相应的基矩阵及新基对应的目标值的c也相应改变
                         D.set(r, 1, k + 1);
@@ -295,5 +316,19 @@ public class CFHXJ extends CZLCL {
             }
         }
 
+    }
+
+    @Override
+    public OFHXJ output() {
+        OFHXJ ofhxj = new OFHXJ();
+        OZLCL ozlcl = super.output();
+        ofhxj.Y = ozlcl.Y;
+        ofhxj.Delta = ozlcl.Delta;
+        ofhxj.PIJ = ozlcl.PIJ;
+
+        ofhxj.status = status;
+        ofhxj.f = f.get(0, 0);
+        ofhxj.X = X.toArrayList();
+        return ofhxj;
     }
 }

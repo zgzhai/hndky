@@ -1,5 +1,10 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.dwfxpg.CBus;
+import edu.xjtu.ee.dwfxpg.CGenerator;
+import edu.xjtu.ee.dwfxpg.CLine;
+import edu.xjtu.ee.dwfxpg.CLoad;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
 import edu.xjtu.ee.fhnlpg.TStatus;
 import edu.xjtu.ee.fhnlpg.io.*;
 
@@ -19,8 +24,14 @@ public class Main {
             DQFHNLPG();
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHZT")) {
             FHZT();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("ZLCL")) {
+            ZLCL();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("PQ")) {
+            PQ();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("FHXJ")) {
+            FHXJ();
         } else {
-            DQFHNLPG();
+            FHXJ();
         }
     }
 
@@ -196,6 +207,7 @@ public class Main {
         load.add(new Load(32.2, 564.2, 564.2, 564.2, 73.8));
         load.add(new Load(32.9, 524.04, 524.04, 524.04, 74.1));
         load.add(new Load(32.5, 523.22, 523.22, 523.22, 72.8));
+        load.add(new Load(32.5, 524.24, 524.24, 524.24, 71.6));
         load.add(new Load(32.5, 524.24, 524.24, 524.24, 71.6));
         uniParameter.setiFhnlpgOnLoad(new IFhnlpgOnLoad(load));
 
@@ -423,6 +435,140 @@ public class Main {
             System.out.println(uniResult.errmsg);
         } else {
             uniResult.oFhzt.print();
+        }
+    }
+
+    public static void ZLCL() {
+        UniParameter uniParameter = new UniParameter();
+        //1.
+        ArrayList<CBus> Bus = new ArrayList<CBus>();
+        ArrayList<CLoad> Load = new ArrayList<CLoad>();
+        ArrayList<CGenerator> Generator = new ArrayList<CGenerator>();
+        ArrayList<CLine> Line = new ArrayList<CLine>();
+        Bus.add(new CBus(1, 0.0, 1));
+        Bus.add(new CBus(2, 0.0, 2));
+        Bus.add(new CBus(3, 0.0, 1));
+        Bus.add(new CBus(4, 0.0, 1));
+        Bus.add(new CBus(5, 0.0, 2));
+        Bus.add(new CBus(6, 0.0, 1));
+        Bus.add(new CBus(7, 0.0, 1));
+        Bus.add(new CBus(8, 0.0, 1));
+        Bus.add(new CBus(9, 0.0, 1));
+        Bus.add(new CBus(10, 0.0, 2));
+        Bus.add(new CBus(11, 0.0, 1));
+        Bus.add(new CBus(12, 0.0, 1));
+        Bus.add(new CBus(13, 0.0, 1));
+        Bus.add(new CBus(14, 0.0, 2));
+        Bus.add(new CBus(15, 0.0, 1));
+        Bus.add(new CBus(16, 0.0, 2));
+        Bus.add(new CBus(17, 0.0, 1));
+        Bus.add(new CBus(18, 0.0, 1));
+        Bus.add(new CBus(19, 0.0, 1));
+        Bus.add(new CBus(20, 0.0, 1));
+        Bus.add(new CBus(21, 0.0, 1));
+        Bus.add(new CBus(22, 0.0, 3));
+
+        Load.add(new CLoad(1, 20));
+        Load.add(new CLoad(3, 220));
+        Load.add(new CLoad(5, 258.5));
+        Load.add(new CLoad(6, 125));
+        Load.add(new CLoad(8, 54));
+        Load.add(new CLoad(10, 11.2));
+        Load.add(new CLoad(11, 215));
+        Load.add(new CLoad(13, 298.1));
+        Load.add(new CLoad(15, 60));
+        Load.add(new CLoad(18, 135));
+        Load.add(new CLoad(20, 41));
+        Load.add(new CLoad(21, 58.6));
+        Load.add(new CLoad(22, 29.2));
+
+        Generator.add(new CGenerator(1, 260));
+        Generator.add(new CGenerator(8, 658));
+        Generator.add(new CGenerator(9, 152.1));
+        Generator.add(new CGenerator(16, 260.2));
+        Generator.add(new CGenerator(19, 138.7));
+        Generator.add(new CGenerator(22, 70));
+
+        Line.add(new CLine(1, 2, 1, 0.02751));
+        Line.add(new CLine(1, 4, 1, 0.02341));
+        Line.add(new CLine(1, 9, 1, 0.00504));
+        Line.add(new CLine(1, 9, 2, 0.00504));
+        Line.add(new CLine(2, 3, 1, 0.09144));
+        Line.add(new CLine(2, 4, 1, 0.00497));
+        Line.add(new CLine(4, 5, 1, 0.09144));
+        Line.add(new CLine(4, 7, 1, 0.00551));
+        Line.add(new CLine(4, 7, 2, 0.00551));
+        Line.add(new CLine(4, 11, 1, 0.01108));
+        Line.add(new CLine(4, 12, 1, 0.01099));
+        Line.add(new CLine(5, 6, 1, 0.12008));
+        Line.add(new CLine(6, 7, 1, 0.09228));
+        Line.add(new CLine(7, 8, 1, 0.01319));
+        Line.add(new CLine(7, 8, 2, 0.01319));
+        Line.add(new CLine(8, 9, 1, 0.00316));
+        Line.add(new CLine(9, 10, 1, 0.06411));
+        Line.add(new CLine(9, 12, 1, 0.02475));
+        Line.add(new CLine(9, 12, 2, 0.02287));
+        Line.add(new CLine(11, 12, 2, 0.01084));
+        Line.add(new CLine(12, 13, 1, 0.10293));
+        Line.add(new CLine(12, 16, 1, 0.00996));
+        Line.add(new CLine(12, 17, 1, 0.00586));
+        Line.add(new CLine(13, 14, 1, 0.03167));
+        Line.add(new CLine(14, 15, 1, 0.04285));
+        Line.add(new CLine(15, 18, 1, 0.08608));
+        Line.add(new CLine(16, 17, 1, 0.01465));
+        Line.add(new CLine(16, 18, 1, 0.02847));
+        Line.add(new CLine(18, 19, 1, 0.01864));
+        Line.add(new CLine(18, 20, 1, 0.05737));
+        Line.add(new CLine(18, 22, 1, 0.08440));
+        Line.add(new CLine(19, 21, 1, 0.11680));
+        Line.add(new CLine(20, 21, 1, 0.03097));
+        Line.add(new CLine(21, 22, 1, 0.01093));
+        uniParameter.setiDwfxpgDW(new IDwfxpgDW(Bus, Load, Generator, Line));
+        //开始求解
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "ZLCL");
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oZlcl.print();
+        }
+    }
+
+    public static void PQ() {
+        UniParameter uniParameter = new UniParameter();
+    }
+
+    public static void FHXJ() {
+        UniParameter uniParameter = new UniParameter();
+        //1.
+        ArrayList<CBus> Bus = new ArrayList<CBus>();
+        ArrayList<CLoad> Load = new ArrayList<CLoad>();
+        ArrayList<CGenerator> Generator = new ArrayList<CGenerator>();
+        ArrayList<CLine> Line = new ArrayList<CLine>();
+        Bus.add(new CBus(1, 0.0, 1));
+        Bus.add(new CBus(2, 0.0, 2));
+        Bus.add(new CBus(3, 0.0, 3));
+
+        Load.add(new CLoad(1, 230));
+        Load.add(new CLoad(2, 580));
+        Load.add(new CLoad(3, 296));
+
+        Generator.add(new CGenerator(1, 420));
+        Generator.add(new CGenerator(2, 0));
+        Generator.add(new CGenerator(3, 560));
+
+        Line.add(new CLine(1, 2, 1, 0.00497, 224));
+        Line.add(new CLine(1, 3, 1, 0.00551, 289));
+        Line.add(new CLine(2, 3, 1, 0.00504, 251));
+
+        uniParameter.setiDwfxpgDW(new IDwfxpgDW(Bus, Load, Generator, Line));
+        //开始求解
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "FHXJ");
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oFhxj.print();
         }
     }
 }

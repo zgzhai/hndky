@@ -1,6 +1,9 @@
 package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
+import edu.xjtu.ee.dwfxpg.io.CLinePIJ;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
+import edu.xjtu.ee.dwfxpg.io.OZLCL;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,8 +25,8 @@ public class CZLCL {
     protected ArrayList<CLine> Line = new ArrayList<CLine>();
     private Matrix P;
     protected Matrix Y;
-    private Matrix Delta;
-    private Matrix PIJ;
+    public Matrix Delta;
+    public Matrix PIJ;
 
     public static void main(String[] args) {
         // write your code here
@@ -32,6 +35,26 @@ public class CZLCL {
         c.solve();
         c.print();
         //c.OutToFile();
+    }
+
+    public CZLCL() {
+        Bus = new ArrayList<CBus>();
+        hashMapBus = new HashMap<Integer, CBus>();
+        Load = new ArrayList<CLoad>();
+        hashMapLoad = new HashMap<Integer, Double>();
+        Generator = new ArrayList<CGenerator>();
+        hashMapGenerator = new HashMap<Integer, Double>();
+        Line = new ArrayList<CLine>();
+    }
+
+    public CZLCL(IDwfxpgDW dw) {
+        Bus = dw.getBus();
+        Load = dw.getLoad();
+        Generator = dw.getGenerator();
+        Line = dw.getLine();
+        hashMapBus = new HashMap<Integer, CBus>();
+        hashMapLoad = new HashMap<Integer, Double>();
+        hashMapGenerator = new HashMap<Integer, Double>();
     }
 
     public void init() {
@@ -256,4 +279,30 @@ public class CZLCL {
         }
     }
 
+    public OZLCL output() {
+        OZLCL ozlcl = new OZLCL();
+        ozlcl.Y = Y;
+        ArrayList<Double> d = new ArrayList<Double>();
+        for (int i = 0; i < Delta.getRowDimension(); i++) {
+            double v = Delta.get(i, 0);
+            while ((v * 180) / Math.PI <= -180) {
+                v = v + 2 * Math.PI;
+            }
+            while ((v * 180) / Math.PI >= 180) {
+                v = v - 2 * Math.PI;
+            }
+            d.add(v * 180 / Math.PI);
+        }
+        ozlcl.Delta = d;
+
+        ArrayList<CLinePIJ> p = new ArrayList<CLinePIJ>();
+        int i = 0;
+        for (CLine line : Line) {
+            p.add(new CLinePIJ(line.sid, line.eid, PIJ.get(i, 0)));
+            i++;
+        }
+
+        ozlcl.PIJ = p;
+        return ozlcl;
+    }
 }

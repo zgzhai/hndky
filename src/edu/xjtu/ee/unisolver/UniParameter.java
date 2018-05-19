@@ -1,5 +1,7 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
 import edu.xjtu.ee.fhnlpg.io.*;
 
 public class UniParameter {
@@ -12,6 +14,8 @@ public class UniParameter {
     private IFhnlpgLimit iFhnlpgLimit;
     private IFhnlpgCool iFhnlpgCool;
     private IFhnlpgTStatus iFhnlpgTStatus;
+    private IDwfxpgDW iDwfxpgDW;
+    private IDwfxpgPQ iDwfxpgPQ;
 
     public UniParameter() {
     }
@@ -86,5 +90,21 @@ public class UniParameter {
 
     public void setiFhnlpgTStatus(IFhnlpgTStatus iFhnlpgTStatus) {
         this.iFhnlpgTStatus = iFhnlpgTStatus;
+    }
+
+    public IDwfxpgDW getiDwfxpgDW() {
+        return iDwfxpgDW;
+    }
+
+    public void setiDwfxpgDW(IDwfxpgDW iDwfxpgDW) {
+        this.iDwfxpgDW = iDwfxpgDW;
+    }
+
+    public IDwfxpgPQ getiDwfxpgPQ() {
+        return iDwfxpgPQ;
+    }
+
+    public void setiDwfxpgPQ(IDwfxpgPQ iDwfxpgPQ) {
+        this.iDwfxpgPQ = iDwfxpgPQ;
     }
 }

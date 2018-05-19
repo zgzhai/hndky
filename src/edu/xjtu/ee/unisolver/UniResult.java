@@ -1,5 +1,8 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.dwfxpg.io.OFHXJ;
+import edu.xjtu.ee.dwfxpg.io.OPQ;
+import edu.xjtu.ee.dwfxpg.io.OZLCL;
 import edu.xjtu.ee.fhnlpg.io.*;
 
 public class UniResult {
@@ -12,4 +15,7 @@ public class UniResult {
     public OCqfhnlpg oCqfhnlpg;
     public ODqfhnlpg oDqfhnlpg;
     public OFhzt oFhzt;
+    public OZLCL oZlcl;
+    public OFHXJ oFhxj;
+    public OPQ oPq;
 }

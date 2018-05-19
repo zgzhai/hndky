@@ -1,5 +1,7 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.dwfxpg.CFHXJ;
+import edu.xjtu.ee.dwfxpg.CZLCL;
 import edu.xjtu.ee.fhnlpg.*;
 import edu.xjtu.ee.fhnlpg.io.*;
 
@@ -36,6 +38,18 @@ public class UniSolver {
             case "FHZT":
                 uniResult = processFHZT(uniParameter);
                 uniResult.mode = "FHZT";
+                break;
+            case "ZLCL":
+                uniResult = processZLCL(uniParameter);
+                uniResult.mode = "ZLCL";
+                break;
+            case "PQ":
+                uniResult = processPQ(uniParameter);
+                uniResult.mode = "PQ";
+                break;
+            case "FHXJ":
+                uniResult = processFHXJ(uniParameter);
+                uniResult.mode = "FHXJ";
                 break;
         }
         return uniResult;
@@ -202,11 +216,64 @@ public class UniSolver {
         if (uniParameter.getiFhnlpgOnLoad() == null) {
             uniResult.errcode = -1;
             uniResult.errmsg = "iFhnlpgOnload为空";
-        } else {
-            if (uniParameter.getiFhnlpgOnLoad().getT_amb().size() != 9) {
-                uniResult.errcode = -1;
-                uniResult.errmsg = "onload中load数组大小必须为9";
-            }
         }
+    }
+
+    private UniResult processZLCL(UniParameter uniParameter) {
+        UniResult uniResult = new UniResult();
+        if (uniParameter == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "uniParameter为空";
+            return uniResult;
+        }
+
+        if (uniParameter.getiDwfxpgDW() == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "iDwfxpgDW为空";
+            return uniResult;
+        }
+
+        CZLCL c = new CZLCL(uniParameter.getiDwfxpgDW());
+        c.solve();
+        uniResult.oZlcl = c.output();
+        return uniResult;
+    }
+
+    private UniResult processPQ(UniParameter uniParameter) {
+        UniResult uniResult = new UniResult();
+        if (uniParameter == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "uniParameter为空";
+            return uniResult;
+        }
+
+        if (uniParameter.getiDwfxpgPQ() == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "iDwfxpgPQ为空";
+            return uniResult;
+        }
+
+
+        return uniResult;
+    }
+
+    private UniResult processFHXJ(UniParameter uniParameter) {
+        UniResult uniResult = new UniResult();
+        if (uniParameter == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "uniParameter为空";
+            return uniResult;
+        }
+
+        if (uniParameter.getiDwfxpgDW() == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "iDwfxpgDW为空";
+            return uniResult;
+        }
+
+        CFHXJ c = new CFHXJ(uniParameter.getiDwfxpgDW());
+        c.solve();
+        uniResult.oFhxj = c.output();
+        return uniResult;
     }
 }
