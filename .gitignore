@@ -1,5 +1,6 @@
 .idea/
 ant/
 out/
+lib/
 hndky.iml
 output.txt
