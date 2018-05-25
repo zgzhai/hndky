@@ -25,13 +25,13 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHZT")) {
             FHZT();
         } else if (args.length > 0 && args[0].toUpperCase().equals("ZLCL")) {
-            ZLCL();
+            ZLCLandPQ("ZLCL");
         } else if (args.length > 0 && args[0].toUpperCase().equals("PQ")) {
-            PQ();
+            ZLCLandPQ("PQ");
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHXJ")) {
             FHXJ();
         } else {
-            FHXJ();
+            ZLCLandPQ("PQ");
         }
     }
 
@@ -438,7 +438,7 @@ public class Main {
         }
     }
 
-    public static void ZLCL() {
+    public static void ZLCLandPQ(String mode) {
         UniParameter uniParameter = new UniParameter();
         //1.
         ArrayList<CBus> Bus = new ArrayList<CBus>();
@@ -526,16 +526,12 @@ public class Main {
         uniParameter.setiDwfxpgDW(new IDwfxpgDW(Bus, Load, Generator, Line));
         //开始求解
         UniSolver uniSolver = new UniSolver();
-        UniResult uniResult = uniSolver.solve(uniParameter, "ZLCL");
+        UniResult uniResult = uniSolver.solve(uniParameter, mode);
         if (uniResult.errcode != 0) {
             System.out.println(uniResult.errmsg);
         } else {
-            uniResult.oZlcl.print();
+            if("ZLCL".equals(mode))uniResult.oZlcl.print();
         }
-    }
-
-    public static void PQ() {
-        UniParameter uniParameter = new UniParameter();
     }
 
     public static void FHXJ() {

@@ -1,6 +1,7 @@
 package edu.xjtu.ee.unisolver;
 
 import edu.xjtu.ee.dwfxpg.CFHXJ;
+import edu.xjtu.ee.dwfxpg.CPQ;
 import edu.xjtu.ee.dwfxpg.CZLCL;
 import edu.xjtu.ee.fhnlpg.*;
 import edu.xjtu.ee.fhnlpg.io.*;
@@ -247,13 +248,18 @@ public class UniSolver {
             return uniResult;
         }
 
+        /*
         if (uniParameter.getiDwfxpgPQ() == null) {
             uniResult.errcode = -1;
             uniResult.errmsg = "iDwfxpgPQ为空";
             return uniResult;
         }
+        */
 
-
+        CPQ cpq = new CPQ(5, 5, 0.00001);
+        cpq.init();       //数据初始化
+        cpq.solve();
+        cpq.print();
         return uniResult;
     }
 
