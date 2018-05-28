@@ -10,6 +10,9 @@ import edu.xjtu.ee.fhnlpg.io.*;
 
 import java.util.ArrayList;
 
+/**
+ * 使用说明：
+ */
 public class Main {
     public static void main(String[] args) {
         if (args.length > 0 && args[0].toUpperCase().equals("COOL")) {
