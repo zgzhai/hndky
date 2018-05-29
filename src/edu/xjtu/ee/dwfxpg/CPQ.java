@@ -1,6 +1,8 @@
 package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
+import edu.xjtu.ee.dwfxpg.io.OPQ;
 import edu.xjtu.ee.tools.*;
 
 /**
@@ -11,7 +13,7 @@ public class CPQ {
 
     public int x;        //节点数
     public int y;        //支路数
-    public double e;     //精度
+    public double e = 0.00001;     //精度
     public Vector TYPE;  //节点类型
     public Vector U;     //节点电压
     public Vector a;     //节点相角
@@ -40,6 +42,7 @@ public class CPQ {
     private VectorComplex deltaSij;
     private VectorComplex S;
     private Complex sumdeltaS;
+    private int kk;                  //迭代次数
 
 
     public static void main(String[] args) {
@@ -56,6 +59,50 @@ public class CPQ {
         this.e = e;
         Y = new MatrixComplex(x, x);
     }
+
+    public CPQ(IDwfxpgPQ iDwfxpgPQ) {
+        x = iDwfxpgPQ.getBus().size();
+        y = iDwfxpgPQ.getLine().size();
+        e = iDwfxpgPQ.getE();
+        Y = new MatrixComplex(x, x);
+
+        TYPE = new Vector(x);
+        U = new Vector(x);
+        a = new Vector(x);
+        P = new Vector(x);
+        Q = new Vector(x);
+        for (int i = 0; i < x; i++) {
+            TYPE.set(i, iDwfxpgPQ.getBus().get(i).type);
+            U.set(i, iDwfxpgPQ.getBus().get(i).U);
+            a.set(i, iDwfxpgPQ.getBus().get(i).a);
+            P.set(i, iDwfxpgPQ.getBus().get(i).P);
+            Q.set(i, iDwfxpgPQ.getBus().get(i).Q);
+        }
+
+        I = new Vector(y);
+        J = new Vector(y);
+        Rij = new Vector(y);
+        Xij = new Vector(y);
+        B0 = new Vector(y);
+        RT = new Vector(y);
+        XT = new Vector(y);
+        KT = new Vector(y);
+        W = new Vector(y);
+
+        for (int i = 0; i < y; i++) {
+            I.set(i, iDwfxpgPQ.getLine().get(i).sid);
+            J.set(i, iDwfxpgPQ.getLine().get(i).eid);
+            Rij.set(i, iDwfxpgPQ.getLine().get(i).Rij);
+            Xij.set(i, iDwfxpgPQ.getLine().get(i).Xij);
+            B0.set(i, iDwfxpgPQ.getLine().get(i).B0);
+            RT.set(i, iDwfxpgPQ.getLine().get(i).RT);
+            XT.set(i, iDwfxpgPQ.getLine().get(i).XT);
+            KT.set(i, iDwfxpgPQ.getLine().get(i).KT);
+            W.set(i, iDwfxpgPQ.getLine().get(i).W);
+        }
+
+    }
+
 
     public Complex Zij(int m) {
         return new Complex(Rij.get(m), Xij.get(m));
@@ -259,7 +306,8 @@ public class CPQ {
             }
         }
 
-        System.out.println("迭代次数k为: " + k);
+        kk = k;
+        //System.out.println("迭代次数k为: " + k);
     }
 
     private void modifydeltaQi(Vector deltaQi, int pqnum, Vector pq) {
@@ -425,7 +473,30 @@ public class CPQ {
         sumdeltaS = new Complex(S.getReal().sum(), S.getImag().sum());
     }
 
+    public OPQ output() {
+        OPQ opq = new OPQ();
+        opq.kk = kk;
+        opq.Sph = Sph;
+        opq.U = U;
+        opq.a = a;
+        opq.S = S;
+        opq.P = P;
+        opq.Q = Q;
+        opq.I = I;
+        opq.J = J;
+        opq.Sij = Sij;
+        opq.Sji = Sji;
+        opq.sumdeltaS = sumdeltaS;
+        opq.deltaSij = deltaSij;
+
+        return opq;
+
+    }
+
     public void print() {
+
+        System.out.println("迭代次数k为: " + kk);
+
         Sph.print("平衡节点1的复功率Sph为: = ", 8, 6);
 
         U.print("节点电压U为:", 8, 6);

@@ -5,7 +5,7 @@ import edu.xjtu.ee.dwfxpg.CGenerator;
 import edu.xjtu.ee.dwfxpg.CLine;
 import edu.xjtu.ee.dwfxpg.CLoad;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
-import edu.xjtu.ee.fhnlpg.TStatus;
+import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
 import edu.xjtu.ee.fhnlpg.io.*;
 
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHZT")) {
             FHZT();
         } else if (args.length > 0 && args[0].toUpperCase().equals("ZLCL")) {
-            ZLCLandPQ("ZLCL");
+            ZLCL();
         } else if (args.length > 0 && args[0].toUpperCase().equals("PQ")) {
-            ZLCLandPQ("PQ");
+            PQ();
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHXJ")) {
             FHXJ();
         } else {
-            ZLCLandPQ("PQ");
+            System.out.println("welcome to unisolver， please input mode [COOL, HST, ZHCL, PQ ... ...]");
         }
     }
 
@@ -135,7 +135,6 @@ public class Main {
             uniResult.oHst.print();
         }
     }
-
 
     public static void ZCFHNLPG() {
         UniParameter uniParameter = new UniParameter();
@@ -441,7 +440,7 @@ public class Main {
         }
     }
 
-    public static void ZLCLandPQ(String mode) {
+    public static void ZLCL() {
         UniParameter uniParameter = new UniParameter();
         //1.
         ArrayList<CBus> Bus = new ArrayList<CBus>();
@@ -529,12 +528,44 @@ public class Main {
         uniParameter.setiDwfxpgDW(new IDwfxpgDW(Bus, Load, Generator, Line));
         //开始求解
         UniSolver uniSolver = new UniSolver();
-        UniResult uniResult = uniSolver.solve(uniParameter, mode);
+        UniResult uniResult = uniSolver.solve(uniParameter, "ZLCL");
         if (uniResult.errcode != 0) {
             System.out.println(uniResult.errmsg);
         } else {
-            if("ZLCL".equals(mode))uniResult.oZlcl.print();
+            uniResult.oZlcl.print();
         }
+    }
+
+    public static void PQ() {
+        UniParameter uniParameter = new UniParameter();
+        //1.
+        ArrayList<CBus> Bus = new ArrayList<CBus>();
+        ArrayList<CLine> Line = new ArrayList<CLine>();
+
+        Bus.add(new CBus(1, 3, 1.05, 0, 0, 0));
+        Bus.add(new CBus(2, 1, 1.05, 0, -3.7, -1.3));
+        Bus.add(new CBus(3, 1, 1.05, 0, -2, -1));
+        Bus.add(new CBus(4, 1, 1.05, 0, -1.6, -0.8));
+        Bus.add(new CBus(5, 2, 1.05, 0, 5, 0));
+
+        Line.add(new CLine(1, 2, 0, 0, 0, 0, 0.03, 1.05, 0));
+        Line.add(new CLine(2, 3, 0.08, 0.3, 0.5, 0, 0, 0, 0));
+        Line.add(new CLine(2, 4, 0.1, 0.35, 0, 0, 0, 0, 0));
+        Line.add(new CLine(3, 4, 0.04, 0.25, 0.5, 0, 0, 0, 0));
+        Line.add(new CLine(3, 5, 0, 0, 0, 0, 0.015, 1.05, 1));
+
+        uniParameter.setiDwfxpgPQ(new IDwfxpgPQ(Bus, Line));
+
+        //开始求解
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "PQ");
+
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oPq.print();
+        }
+
     }
 
     public static void FHXJ() {

@@ -1,5 +1,6 @@
 package edu.xjtu.ee.unisolver;
 
+import edu.xjtu.ee.dwfxpg.CBus;
 import edu.xjtu.ee.dwfxpg.CFHXJ;
 import edu.xjtu.ee.dwfxpg.CPQ;
 import edu.xjtu.ee.dwfxpg.CZLCL;
@@ -234,6 +235,12 @@ public class UniSolver {
             return uniResult;
         }
 
+        if(!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())){
+            uniResult.errcode = -1;
+            uniResult.errmsg = "节点编号必选从1开始，连续增加";
+            return uniResult;
+        }
+
         CZLCL c = new CZLCL(uniParameter.getiDwfxpgDW());
         c.solve();
         uniResult.oZlcl = c.output();
@@ -248,18 +255,21 @@ public class UniSolver {
             return uniResult;
         }
 
-        /*
         if (uniParameter.getiDwfxpgPQ() == null) {
             uniResult.errcode = -1;
             uniResult.errmsg = "iDwfxpgPQ为空";
             return uniResult;
         }
-        */
 
-        CPQ cpq = new CPQ(5, 5, 0.00001);
-        cpq.init();       //数据初始化
+        if(!checkNodeSN(uniParameter.getiDwfxpgPQ().getBus())){
+            uniResult.errcode = -1;
+            uniResult.errmsg = "节点编号必选从1开始，连续增加";
+            return uniResult;
+        }
+
+        CPQ cpq = new CPQ(uniParameter.getiDwfxpgPQ());
         cpq.solve();
-        cpq.print();
+        uniResult.oPq = cpq.output();
         return uniResult;
     }
 
@@ -277,9 +287,26 @@ public class UniSolver {
             return uniResult;
         }
 
+        if(!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())){
+            uniResult.errcode = -1;
+            uniResult.errmsg = "节点编号必选从1开始，连续增加";
+            return uniResult;
+        }
         CFHXJ c = new CFHXJ(uniParameter.getiDwfxpgDW());
         c.solve();
         uniResult.oFhxj = c.output();
         return uniResult;
+    }
+
+    private Boolean checkNodeSN(ArrayList<CBus> Bus) {
+        int size = Bus.size();
+        int sum1 = (size + 1) * size / 2;
+        int sum2 = 0;
+        for (int i = 0; i < size; i++) {
+            sum2 += Bus.get(i).id;
+        }
+        if (sum1 == sum2) return true;
+
+        return false;
     }
 }

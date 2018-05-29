@@ -1,7 +1,6 @@
 package edu.xjtu.ee.dwfxpg.io;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class OFHXJ extends OZLCL {
     public int status;    //1:不符合要求需引入松弛变量, 2:已找到最优解!, 3:此问题不存在最优解
