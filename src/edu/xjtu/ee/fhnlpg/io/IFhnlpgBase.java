@@ -6,7 +6,7 @@ public class IFhnlpgBase {
     private int kind = 3;       //默认值
     private int Y_text = 1;     //接口参数
     private int Y_temdata = 1;  //接口参数
-    private int Y_cool = 1;     //接口参数
+    private double Y_cool = 1;  //接口参数
     private int interval = 10;  //接口参数
     private int C_bei = 1;      //隐藏参数
     private int Y_resis = 1;    //隐藏参数
@@ -17,7 +17,7 @@ public class IFhnlpgBase {
     public IFhnlpgBase() {
     }
 
-    public IFhnlpgBase(int y_text, int y_temdata, int y_cool, int interval) {
+    public IFhnlpgBase(int y_text, int y_temdata, double y_cool, int interval) {
         Y_text = y_text;
         Y_temdata = y_temdata;
         Y_cool = y_cool;
@@ -56,11 +56,11 @@ public class IFhnlpgBase {
         Y_temdata = y_temdata;
     }
 
-    public int getY_cool() {
+    public double getY_cool() {
         return Y_cool;
     }
 
-    public void setY_cool(int y_cool) {
+    public void setY_cool(double y_cool) {
         Y_cool = y_cool;
     }
 

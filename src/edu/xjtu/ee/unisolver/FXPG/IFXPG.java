@@ -5,6 +5,8 @@ package edu.xjtu.ee.unisolver.FXPG;
  */
 public class IFXPG {
     private int score = 80;           //健康评分
+    private String scoreMsg = "";          //状态评价的风险因素描述
+    private String diagnoseResult = "";    //诊断结果：异常状态描述
     private double t = 10;            //运行年限（年）
     private double V = 180;            //变压器容量（MVA）
     private int x = 0;               //设备标识
@@ -18,6 +20,7 @@ public class IFXPG {
 
     public IFXPG(int score, double t, double v, int x, double i) {
         this.score = score;
+
         this.t = t;
         V = v;
         this.x = x;
@@ -78,5 +81,21 @@ public class IFXPG {
 
     public void setK2(double k2) {
         this.k2 = k2;
+    }
+
+    public String getScoreMsg() {
+        return scoreMsg;
+    }
+
+    public void setScoreMsg(String scoreMsg) {
+        this.scoreMsg = scoreMsg;
+    }
+
+    public String getDiagnoseResult() {
+        return diagnoseResult;
+    }
+
+    public void setDiagnoseResult(String diagnoseResult) {
+        this.diagnoseResult = diagnoseResult;
     }
 }

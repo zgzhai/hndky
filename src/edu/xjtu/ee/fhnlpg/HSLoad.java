@@ -26,7 +26,7 @@ public class HSLoad extends HS {
             I_H_current = new Vector(n_iters, 0);
             p_sun = new Vector(n_iters, 0);
             for (int i = 0; i < n_iters; i++) {
-                T_amb.set(i, in_T_amb + 10);
+                T_amb.set(i, in_T_amb + iFhnlpgLimit.getT_amb_offset());
                 I_H_current.set(i, iFhnlpgLimit.getI_H_current_coef() * in_I_H_current);
                 p_sun.set(i, in_p_sun);
             }
@@ -215,7 +215,7 @@ public class HSLoad extends HS {
         } //while end
     }
 
-    private void calcK(){
+    private void calcK() {
         if (Flimit_IC > 1) {
             System.out.println("存在潜伏性故障，变压器过负荷运行有风险，建议尽快检修。");
             K = (Flimit_IC - 1) * (K - 0.01);
@@ -240,6 +240,8 @@ public class HSLoad extends HS {
         oZcfhnlpg.YXTJ = YXTJ;
         oZcfhnlpg.Flimit_IC = Flimit_IC;
         oZcfhnlpg.K = K;
+        oZcfhnlpg.V_G = V_G.toArrayList();
+        oZcfhnlpg.XDLHSL = V_G.get(V_G.getSize() - 1);
         return oZcfhnlpg;
     }
 }

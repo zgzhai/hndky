@@ -577,6 +577,8 @@ public class HS {
         hst.T_top_C = m_onload.T_top_C.toArrayList();
         hst.HST = T_hs_G.get(T_hs_G.getSize() - 1);
         hst.TOPT = m_onload.T_top_C.get(m_onload.T_top_C.getSize() - 1);
+        hst.T_wnd_G = T_wnd_G.toArrayList();
+        hst.WSDT = T_wnd_G.get(T_wnd_G.getSize() - 1);
         return hst;
     }
 }

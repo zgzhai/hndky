@@ -37,7 +37,7 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("FXPG")) {
             FXPG();
         } else {
-            FXPG();
+            DQFHNLPG();
             System.out.println("welcome to unisolver， please input mode : ");
             System.out.println("COOL");
             System.out.println("HST");
@@ -55,7 +55,7 @@ public class Main {
     public static void COOL() {
         UniParameter uniParameter = new UniParameter();
         //1.
-        uniParameter.setiFhnlpgCool(new IFhnlpgCool(6, 6, 6, 6, 0.2, 0.2, 60, 80, 0.7, 70, 85, 0.8));
+        uniParameter.setiFhnlpgCool(new IFhnlpgCool(70, 85, 451, 564));
         UniSolver uniSolver = new UniSolver();
         UniResult uniResult = uniSolver.solve(uniParameter, "COOL");
         if (uniResult.errcode != 0) {
@@ -121,8 +121,11 @@ public class Main {
         uniParameter.setiFhnlpgRatio(new IFhnlpgRatio(ratio));
 
         //4. 变压器温升
-        IFhnlpgTRise iFhnlpgTRise = new IFhnlpgTRise(new TRiseV(41.2, 28.28, 45.9, 32, 82169, 512386, 564.9, 564.9, 2699.4),
-                new TRiseV(41.2, 28.28, 45.9, 32, 82169, 512386, 564.9, 564.9, 2699.4));
+        TRiseV tRiseV100 = new TRiseV(41.2, 28.28, 45.9, 32, 82169, 512386, 564.9, 564.9, 2699.4);
+        TRiseV tRiseV70  = new TRiseV(41.2, 28.28, 45.9, 32, 82169, 512386, 564.9, 564.9, 2699.4);
+        IFhnlpgTRise iFhnlpgTRise = new IFhnlpgTRise(tRiseV100,
+                tRiseV70);
+
         uniParameter.setiFhnlpgTRise(iFhnlpgTRise);
 
         //5.初始数据
@@ -618,7 +621,10 @@ public class Main {
 
     public static void FXPG() {
         UniParameter uniParameter = new UniParameter();
-        uniParameter.setiFxpg(new IFXPG());
+        IFXPG ifxpg = new IFXPG();
+        ifxpg.setDiagnoseResult("变压器受潮");
+        ifxpg.setScoreMsg("变压器漏油");
+         uniParameter.setiFxpg(ifxpg);
         //开始求解
         UniSolver uniSolver = new UniSolver();
         UniResult uniResult = uniSolver.solve(uniParameter, "FXPG");

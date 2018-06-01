@@ -93,6 +93,8 @@ public class FXPG {
         OFXPG ofxpg = new OFXPG();
         ofxpg.riskLevel = riskLevel;
         ofxpg.riskDisp = riskDisp;
+        ofxpg.diagnoseResult = ifxpg.getDiagnoseResult();
+        ofxpg.scoreMsg = ifxpg.getScoreMsg();
         return ofxpg;
     }
 

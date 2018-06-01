@@ -17,6 +17,8 @@ public class COOL {
     private double TH1;
     private double K1;
     private double ratio;
+    private double I_H;    //高压侧负荷电流
+    private double I_H_r;  //高压侧额定电流
 
     public static void main(String[] args) {
         COOL cool = new COOL();

@@ -7,8 +7,10 @@ import java.util.ArrayList;
 public class OHst {
     public ArrayList<Double> T_hs_G;
     public ArrayList<Double> T_top_C;
+    public ArrayList<Double> T_wnd_G;
     public double HST;
     public double TOPT;
+    public double WSDT;
 
     public void print() {
         int l = 8;
@@ -21,5 +23,9 @@ public class OHst {
         System.out.println("T_top_C="); // 输出参数
         new Vector(T_top_C).print(l, dot);
         System.out.println(String.format("TOPT= %-8.4f", TOPT)); //输出参数
+        System.out.println("T_wnd_G="); // 输出参数
+        new Vector(T_wnd_G).print(l, dot);
+        System.out.println(String.format("WSDT= %-8.4f", WSDT)); //输出参数
+
     }
 }

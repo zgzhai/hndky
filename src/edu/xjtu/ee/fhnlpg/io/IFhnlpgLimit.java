@@ -10,6 +10,7 @@ public class IFhnlpgLimit {
     private double Tlimit_hs = 120;             //热点温度约束                     //隐藏参数
     private double Llimit_L_coef = 10;          //相对寿命损失约束(系数)            //隐藏参数
     private double IC = 100;                    //变压器状态评分值                  //隐藏参数
+    private double T_amb_offset = 10;           //环境温度的调整值                  //隐藏参数
     private double T_amb = 34;                  //load1,2,3
     private double I_H_current = 564;           //load1,2
     private double I_H_current_coef = 1;        //load1,2
@@ -97,5 +98,13 @@ public class IFhnlpgLimit {
 
     public void setI_H_current_coef(double i_H_current_coef) {
         I_H_current_coef = i_H_current_coef;
+    }
+
+    public double getT_amb_offset() {
+        return T_amb_offset;
+    }
+
+    public void setT_amb_offset(double t_amb_offset) {
+        T_amb_offset = t_amb_offset;
     }
 }

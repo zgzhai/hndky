@@ -86,8 +86,7 @@ public class UniSolver {
                 uniParameter.getiFhnlpgCool().getTH1(),
                 uniParameter.getiFhnlpgCool().getK1());
         cool.solve(uniParameter.getiFhnlpgCool().getT2(),
-                uniParameter.getiFhnlpgCool().getTH2(),
-                uniParameter.getiFhnlpgCool().getK2());
+                uniParameter.getiFhnlpgCool().getTH2(), uniParameter.getiFhnlpgCool().getI_H()/uniParameter.getiFhnlpgCool().getI_H_r());
         uniResult.oCool = cool.output();
         return uniResult;
     }
