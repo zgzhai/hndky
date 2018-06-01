@@ -6,6 +6,7 @@ import edu.xjtu.ee.dwfxpg.CPQ;
 import edu.xjtu.ee.dwfxpg.CZLCL;
 import edu.xjtu.ee.fhnlpg.*;
 import edu.xjtu.ee.fhnlpg.io.*;
+import edu.xjtu.ee.unisolver.FXPG.FXPG;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,9 @@ public class UniSolver {
                 uniResult = processFHXJ(uniParameter);
                 uniResult.mode = "FHXJ";
                 break;
+            case "FXPG":
+                uniResult = processFXPG(uniParameter);
+                uniResult.mode = "FXPG";
         }
         return uniResult;
     }
@@ -235,7 +239,7 @@ public class UniSolver {
             return uniResult;
         }
 
-        if(!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())){
+        if (!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())) {
             uniResult.errcode = -1;
             uniResult.errmsg = "节点编号必选从1开始，连续增加";
             return uniResult;
@@ -261,7 +265,7 @@ public class UniSolver {
             return uniResult;
         }
 
-        if(!checkNodeSN(uniParameter.getiDwfxpgPQ().getBus())){
+        if (!checkNodeSN(uniParameter.getiDwfxpgPQ().getBus())) {
             uniResult.errcode = -1;
             uniResult.errmsg = "节点编号必选从1开始，连续增加";
             return uniResult;
@@ -287,7 +291,7 @@ public class UniSolver {
             return uniResult;
         }
 
-        if(!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())){
+        if (!checkNodeSN(uniParameter.getiDwfxpgDW().getBus())) {
             uniResult.errcode = -1;
             uniResult.errmsg = "节点编号必选从1开始，连续增加";
             return uniResult;
@@ -295,6 +299,26 @@ public class UniSolver {
         CFHXJ c = new CFHXJ(uniParameter.getiDwfxpgDW());
         c.solve();
         uniResult.oFhxj = c.output();
+        return uniResult;
+    }
+
+    private UniResult processFXPG(UniParameter uniParameter) {
+        UniResult uniResult = new UniResult();
+        if (uniParameter == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "uniParameter为空";
+            return uniResult;
+        }
+
+        if (uniParameter.getiFxpg() == null) {
+            uniResult.errcode = -1;
+            uniResult.errmsg = "iFxpg为空";
+            return uniResult;
+        }
+
+        FXPG f = new FXPG(uniParameter.getiFxpg());
+        f.solve();
+        uniResult.oFxpg = f.output();
         return uniResult;
     }
 

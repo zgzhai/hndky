@@ -3,6 +3,7 @@ package edu.xjtu.ee.unisolver;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
 import edu.xjtu.ee.fhnlpg.io.*;
+import edu.xjtu.ee.unisolver.FXPG.IFXPG;
 
 public class UniParameter {
     private IFhnlpgBase iFhnlpgBase;
@@ -16,6 +17,7 @@ public class UniParameter {
     private IFhnlpgTStatus iFhnlpgTStatus;
     private IDwfxpgDW iDwfxpgDW;
     private IDwfxpgPQ iDwfxpgPQ;
+    private IFXPG iFxpg;
 
     public UniParameter() {
     }
@@ -106,5 +108,13 @@ public class UniParameter {
 
     public void setiDwfxpgPQ(IDwfxpgPQ iDwfxpgPQ) {
         this.iDwfxpgPQ = iDwfxpgPQ;
+    }
+
+    public IFXPG getiFxpg() {
+        return iFxpg;
+    }
+
+    public void setiFxpg(IFXPG iFxpg) {
+        this.iFxpg = iFxpg;
     }
 }

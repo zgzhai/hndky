@@ -7,6 +7,7 @@ import edu.xjtu.ee.dwfxpg.CLoad;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
 import edu.xjtu.ee.fhnlpg.io.*;
+import edu.xjtu.ee.unisolver.FXPG.IFXPG;
 
 import java.util.ArrayList;
 
@@ -33,8 +34,21 @@ public class Main {
             PQ();
         } else if (args.length > 0 && args[0].toUpperCase().equals("FHXJ")) {
             FHXJ();
+        } else if (args.length > 0 && args[0].toUpperCase().equals("FXPG")) {
+            FXPG();
         } else {
-            System.out.println("welcome to unisolver， please input mode [COOL, HST, ZHCL, PQ ... ...]");
+            FXPG();
+            System.out.println("welcome to unisolver， please input mode : ");
+            System.out.println("COOL");
+            System.out.println("HST");
+            System.out.println("ZCFHNLPG");
+            System.out.println("CQFHNLPG");
+            System.out.println("DQFHNLPG");
+            System.out.println("FHZT");
+            System.out.println("ZLCL");
+            System.out.println("PQ");
+            System.out.println("FHXJ");
+            System.out.println("FXPG");
         }
     }
 
@@ -599,6 +613,19 @@ public class Main {
             System.out.println(uniResult.errmsg);
         } else {
             uniResult.oFhxj.print();
+        }
+    }
+
+    public static void FXPG() {
+        UniParameter uniParameter = new UniParameter();
+        uniParameter.setiFxpg(new IFXPG());
+        //开始求解
+        UniSolver uniSolver = new UniSolver();
+        UniResult uniResult = uniSolver.solve(uniParameter, "FXPG");
+        if (uniResult.errcode != 0) {
+            System.out.println(uniResult.errmsg);
+        } else {
+            uniResult.oFxpg.print();
         }
     }
 }
