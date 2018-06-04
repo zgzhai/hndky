@@ -16,20 +16,23 @@ public class CLine {
 
     /**
      * 直流潮流算法时使用
+     *
      * @param sid
      * @param eid
      * @param sn
      * @param resistance
      */
+    /*
     public CLine(int sid, int eid, int sn, double resistance) {
         this.sid = sid;
         this.eid = eid;
         this.sn = sn;
         this.resistance = resistance;
     }
-
+    */
     /**
-     * 负荷消减算法时使用
+     * 直流潮流法和负荷消减算法时使用
+     *
      * @param sid
      * @param eid
      * @param sn
@@ -46,25 +49,17 @@ public class CLine {
 
     /**
      * PQ法分支输入
-     * @param sid
-     * @param eid
-     * @param rij
-     * @param xij
-     * @param b0
-     * @param RT
-     * @param XT
-     * @param KT
-     * @param w
      */
-    public CLine(int sid, int eid, double rij, double xij, double b0, double RT, double XT, double KT, double w) {
+    public CLine(int sid, int eid, double Rij, double Xij, double B0, double RT, double XT, double KT, double W, double capacity) {
         this.sid = sid;
         this.eid = eid;
-        Rij = rij;
-        Xij = xij;
-        B0 = b0;
+        this.Rij = Rij;
+        this.Xij = Xij;
+        this.B0 = B0;
         this.RT = RT;
         this.XT = XT;
         this.KT = KT;
-        W = w;
+        this.W = W;
+        this.capacity = capacity;
     }
 }

@@ -46,9 +46,9 @@ public class CFHXJ extends CZLCL {
 
     @Override
     public void init() {
-        Bus.add(new CBus(1, 0.0, 1));
-        Bus.add(new CBus(2, 0.0, 2));
-        Bus.add(new CBus(3, 0.0, 3));
+        Bus.add(new CBus(1, 1));
+        Bus.add(new CBus(2, 2));
+        Bus.add(new CBus(3, 3));
 
         Load.add(new CLoad(1, 230));
         Load.add(new CLoad(2, 580));

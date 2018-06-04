@@ -1,9 +1,13 @@
 package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
+import edu.xjtu.ee.dwfxpg.io.BusMsg;
 import edu.xjtu.ee.dwfxpg.io.IDwfxpgPQ;
+import edu.xjtu.ee.dwfxpg.io.LineMsg;
 import edu.xjtu.ee.dwfxpg.io.OPQ;
 import edu.xjtu.ee.tools.*;
+
+import java.util.ArrayList;
 
 /**
  * 采用PQ法求解
@@ -29,6 +33,7 @@ public class CPQ {
     public Vector XT;         //变压器电抗
     public Vector KT;         //标准变比
     public Vector W;          //这算标志
+    public Vector Capacity;   //容量
     ///////////////以上为输入数据/////////
 
     public MatrixComplex Y;   //导纳复矩阵
@@ -88,6 +93,7 @@ public class CPQ {
         XT = new Vector(y);
         KT = new Vector(y);
         W = new Vector(y);
+        Capacity = new Vector(y);
 
         for (int i = 0; i < y; i++) {
             I.set(i, iDwfxpgPQ.getLine().get(i).sid);
@@ -99,6 +105,7 @@ public class CPQ {
             XT.set(i, iDwfxpgPQ.getLine().get(i).XT);
             KT.set(i, iDwfxpgPQ.getLine().get(i).KT);
             W.set(i, iDwfxpgPQ.getLine().get(i).W);
+            Capacity.set(i, iDwfxpgPQ.getLine().get(i).capacity);
         }
 
     }
@@ -476,18 +483,53 @@ public class CPQ {
     public OPQ output() {
         OPQ opq = new OPQ();
         opq.kk = kk;
-        opq.Sph = Sph;
-        opq.U = U;
-        opq.a = a;
-        opq.S = S;
-        opq.P = P;
-        opq.Q = Q;
-        opq.I = I;
-        opq.J = J;
-        opq.Sij = Sij;
-        opq.Sji = Sji;
-        opq.sumdeltaS = sumdeltaS;
-        opq.deltaSij = deltaSij;
+        if (kk <= 20) {
+            opq.Sph = Sph;
+            opq.U = U;
+            opq.a = a;
+            opq.S = S;
+            opq.P = P;
+            opq.Q = Q;
+            opq.I = I;
+            opq.J = J;
+            opq.Sij = Sij;
+            opq.Sji = Sji;
+            opq.sumdeltaS = sumdeltaS;
+            opq.deltaSij = deltaSij;
+
+            Vector zhilushiji = new Vector(y);
+            opq.lineMsgs = new ArrayList<LineMsg>();
+            for (int m = 0; m < y; m++) {
+                if (XT.get(m) == 0) {
+                    zhilushiji.set(m, Sij.get(m).det() / Math.sqrt(3));//线路实际负载电流
+                } else {
+                    zhilushiji.set(m, Sij.get(m).det());//变压器支路负载功率
+                }
+
+                double rongliang = zhilushiji.get(m) * 100 / Capacity.get(m);
+                if (rongliang > 60) {
+                    String msg = String.format("节点%d到节点%d支路负载率较大有越限风险，负载率约为:  %-2.2f%%", (int) I.get(m), (int) J.get(m), rongliang);
+                    opq.lineMsgs.add(new LineMsg((int) I.get(m), (int) J.get(m), msg, 1));
+                } else {
+                    String msg = String.format("此状态下节点%d到节点%d支路负荷率无越限风险", (int) I.get(m), (int) J.get(m));
+                    opq.lineMsgs.add(new LineMsg((int) I.get(m), (int) J.get(m), msg, 2));
+                }
+
+
+            }
+
+            opq.busMsgs = new ArrayList<BusMsg>();
+            for (int m = 0; m < x; m++) {
+                if (U.get(m) > 1.05 || U.get(m) < 0.95) {
+                    String msg = String.format("第%d节点电压有越限风险，上下限超过5%%", m + 1);
+                    opq.busMsgs.add(new BusMsg(m + 1, msg, 1));
+                } else {
+                    String msg = String.format("此状态下第%d节点电压无越限风险", m + 1);
+                    opq.busMsgs.add(new BusMsg(m + 1, msg, 2));
+                }
+            }
+
+        }
 
         return opq;
 

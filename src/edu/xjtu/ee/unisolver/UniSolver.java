@@ -86,7 +86,7 @@ public class UniSolver {
                 uniParameter.getiFhnlpgCool().getTH1(),
                 uniParameter.getiFhnlpgCool().getK1());
         cool.solve(uniParameter.getiFhnlpgCool().getT2(),
-                uniParameter.getiFhnlpgCool().getTH2(), uniParameter.getiFhnlpgCool().getI_H()/uniParameter.getiFhnlpgCool().getI_H_r());
+                uniParameter.getiFhnlpgCool().getTH2(), uniParameter.getiFhnlpgCool().getI_H() / uniParameter.getiFhnlpgCool().getI_H_r());
         uniResult.oCool = cool.output();
         return uniResult;
     }
@@ -273,6 +273,9 @@ public class UniSolver {
         CPQ cpq = new CPQ(uniParameter.getiDwfxpgPQ());
         cpq.solve();
         uniResult.oPq = cpq.output();
+        if (uniResult.oPq.kk > 20) {
+            uniResult.errmsg = "PQ分解法无法收敛，请转入潮流的线性估算";
+        }
         return uniResult;
     }
 

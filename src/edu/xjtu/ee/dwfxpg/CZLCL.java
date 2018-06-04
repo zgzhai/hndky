@@ -58,28 +58,29 @@ public class CZLCL {
     }
 
     public void init() {
-        Bus.add(new CBus(1, 0.0, 1));
-        Bus.add(new CBus(2, 0.0, 2));
-        Bus.add(new CBus(3, 0.0, 1));
-        Bus.add(new CBus(4, 0.0, 1));
-        Bus.add(new CBus(5, 0.0, 2));
-        Bus.add(new CBus(6, 0.0, 1));
-        Bus.add(new CBus(7, 0.0, 1));
-        Bus.add(new CBus(8, 0.0, 1));
-        Bus.add(new CBus(9, 0.0, 1));
-        Bus.add(new CBus(10, 0.0, 2));
-        Bus.add(new CBus(11, 0.0, 1));
-        Bus.add(new CBus(12, 0.0, 1));
-        Bus.add(new CBus(13, 0.0, 1));
-        Bus.add(new CBus(14, 0.0, 2));
-        Bus.add(new CBus(15, 0.0, 1));
-        Bus.add(new CBus(16, 0.0, 2));
-        Bus.add(new CBus(17, 0.0, 1));
-        Bus.add(new CBus(18, 0.0, 1));
-        Bus.add(new CBus(19, 0.0, 1));
-        Bus.add(new CBus(20, 0.0, 1));
-        Bus.add(new CBus(21, 0.0, 1));
-        Bus.add(new CBus(22, 0.0, 3));
+
+        Bus.add(new CBus(1, 1));
+        Bus.add(new CBus(2, 2));
+        Bus.add(new CBus(3, 1));
+        Bus.add(new CBus(4, 1));
+        Bus.add(new CBus(5, 2));
+        Bus.add(new CBus(6, 1));
+        Bus.add(new CBus(7, 1));
+        Bus.add(new CBus(8, 1));
+        Bus.add(new CBus(9, 1));
+        Bus.add(new CBus(10, 2));
+        Bus.add(new CBus(11, 1));
+        Bus.add(new CBus(12, 1));
+        Bus.add(new CBus(13, 1));
+        Bus.add(new CBus(14, 2));
+        Bus.add(new CBus(15, 1));
+        Bus.add(new CBus(16, 2));
+        Bus.add(new CBus(17, 1));
+        Bus.add(new CBus(18, 1));
+        Bus.add(new CBus(19, 1));
+        Bus.add(new CBus(20, 1));
+        Bus.add(new CBus(21, 1));
+        Bus.add(new CBus(22, 3));
 
         Load.add(new CLoad(1, 20));
         Load.add(new CLoad(3, 220));
@@ -101,41 +102,6 @@ public class CZLCL {
         Generator.add(new CGenerator(16, 260.2));
         Generator.add(new CGenerator(19, 138.7));
         Generator.add(new CGenerator(22, 70));
-
-        Line.add(new CLine(1, 2, 1, 0.02751));
-        Line.add(new CLine(1, 4, 1, 0.02341));
-        Line.add(new CLine(1, 9, 1, 0.00504));
-        Line.add(new CLine(1, 9, 2, 0.00504));
-        Line.add(new CLine(2, 3, 1, 0.09144));
-        Line.add(new CLine(2, 4, 1, 0.00497));
-        Line.add(new CLine(4, 5, 1, 0.09144));
-        Line.add(new CLine(4, 7, 1, 0.00551));
-        Line.add(new CLine(4, 7, 2, 0.00551));
-        Line.add(new CLine(4, 11, 1, 0.01108));
-        Line.add(new CLine(4, 12, 1, 0.01099));
-        Line.add(new CLine(5, 6, 1, 0.12008));
-        Line.add(new CLine(6, 7, 1, 0.09228));
-        Line.add(new CLine(7, 8, 1, 0.01319));
-        Line.add(new CLine(7, 8, 2, 0.01319));
-        Line.add(new CLine(8, 9, 1, 0.00316));
-        Line.add(new CLine(9, 10, 1, 0.06411));
-        Line.add(new CLine(9, 12, 1, 0.02475));
-        Line.add(new CLine(9, 12, 2, 0.02287));
-        Line.add(new CLine(11, 12, 2, 0.01084));
-        Line.add(new CLine(12, 13, 1, 0.10293));
-        Line.add(new CLine(12, 16, 1, 0.00996));
-        Line.add(new CLine(12, 17, 1, 0.00586));
-        Line.add(new CLine(13, 14, 1, 0.03167));
-        Line.add(new CLine(14, 15, 1, 0.04285));
-        Line.add(new CLine(15, 18, 1, 0.08608));
-        Line.add(new CLine(16, 17, 1, 0.01465));
-        Line.add(new CLine(16, 18, 1, 0.02847));
-        Line.add(new CLine(18, 19, 1, 0.01864));
-        Line.add(new CLine(18, 20, 1, 0.05737));
-        Line.add(new CLine(18, 22, 1, 0.08440));
-        Line.add(new CLine(19, 21, 1, 0.11680));
-        Line.add(new CLine(20, 21, 1, 0.03097));
-        Line.add(new CLine(21, 22, 1, 0.01093));
 
     }
 

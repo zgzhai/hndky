@@ -5,6 +5,8 @@ import edu.xjtu.ee.tools.Complex;
 import edu.xjtu.ee.tools.Vector;
 import edu.xjtu.ee.tools.VectorComplex;
 
+import java.util.ArrayList;
+
 public class OPQ {
     public Vector U;     //节点电压
     public Vector a;     //节点相角
@@ -19,11 +21,14 @@ public class OPQ {
     public VectorComplex S;
     public Complex sumdeltaS;
     public int kk;                  //迭代次数
+    public ArrayList<LineMsg> lineMsgs;
+    public ArrayList<BusMsg> busMsgs;
 
 
     public void print() {
 
         int y = I.getSize();
+        int x = busMsgs.size();
 
         System.out.println("迭代次数k为: " + kk);
 
@@ -51,5 +56,12 @@ public class OPQ {
 
         deltaSij.print("线路功率损耗deltaSij为:", 8, 6);
 
+        for (int i = 0; i < y; i++) {
+            System.out.println(lineMsgs.get(i).msg1);
+        }
+
+        for (int i = 0; i < x; i++) {
+            System.out.println(busMsgs.get(i).msg1);
+        }
     }
 }
