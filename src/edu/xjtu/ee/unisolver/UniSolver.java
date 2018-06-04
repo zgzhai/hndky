@@ -273,7 +273,8 @@ public class UniSolver {
         CPQ cpq = new CPQ(uniParameter.getiDwfxpgPQ());
         cpq.solve();
         uniResult.oPq = cpq.output();
-        if (uniResult.oPq.kk > 20) {
+        if (uniResult.oPq.k > 20) {
+            uniResult.errcode = -1;
             uniResult.errmsg = "PQ分解法无法收敛，请转入潮流的线性估算";
         }
         return uniResult;

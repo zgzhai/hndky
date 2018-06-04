@@ -1,9 +1,8 @@
 package edu.xjtu.ee.dwfxpg;
 
 import Jama.Matrix;
-import edu.xjtu.ee.dwfxpg.io.CLinePIJ;
-import edu.xjtu.ee.dwfxpg.io.IDwfxpgDW;
-import edu.xjtu.ee.dwfxpg.io.OZLCL;
+import edu.xjtu.ee.dwfxpg.io.*;
+import edu.xjtu.ee.tools.Vector;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -246,21 +245,36 @@ public class CZLCL {
     }
 
     public OZLCL output() {
+        int nb = Bus.size();
+        int nl = Line.size();
         OZLCL ozlcl = new OZLCL();
-        ozlcl.Y = Y;
+        //ozlcl.Y = Y;
+        //计算Delta, 节点相角
         ArrayList<Double> d = new ArrayList<Double>();
+        Vector fValue = new Vector(nb);
         for (int i = 0; i < Delta.getRowDimension(); i++) {
-            double v = Delta.get(i, 0);
-            while ((v * 180) / Math.PI <= -180) {
-                v = v + 2 * Math.PI;
+            if (Bus.get(i).type == 3) {
+                d.add(0.0);
+                fValue.set(i, 0.0);
+            } else {
+                double v = Delta.get(i, 0);
+                while ((v * 180) / Math.PI <= -180) {
+                    v = v + 2 * Math.PI;
+                }
+                while ((v * 180) / Math.PI >= 180) {
+                    v = v - 2 * Math.PI;
+                }
+                double f = v * 180 / Math.PI;
+                d.add(f);
+                fValue.set(i, f);
             }
-            while ((v * 180) / Math.PI >= 180) {
-                v = v - 2 * Math.PI;
-            }
-            d.add(v * 180 / Math.PI);
         }
         ozlcl.Delta = d;
-
+        ozlcl.busMsgs = new ArrayList<BusMsg>();
+        for (int i = 0; i < nb; i++) {
+            ozlcl.busMsgs.add(new BusMsg(i + 1, String.format("节点%d的角度%f", i + 1, d.get(i))));
+        }
+        //计算PIJ
         ArrayList<CLinePIJ> p = new ArrayList<CLinePIJ>();
         int i = 0;
         for (CLine line : Line) {
@@ -269,6 +283,47 @@ public class CZLCL {
         }
 
         ozlcl.PIJ = p;
+
+        //电网风险输出
+        //计算相角差
+        Vector xiangjiaocha = new Vector(nl);
+        for (i = 0; i < nl; i++) {
+            int I = Line.get(i).sid;
+            int J = Line.get(i).eid;
+            xiangjiaocha.set(i, Math.cos(fValue.get(I - 1) - fValue.get(J - 1)));
+        }
+
+        Vector zhilushiji = new Vector(nl);
+        Vector rongliang = new Vector(nl);
+        Vector zhilubiaoshi = new Vector(nl);
+        for (i = 0; i < nl; i++) {
+            rongliang.set(i, Line.get(i).capacity);
+            zhilubiaoshi.set(i, Line.get(i).sn);
+        }
+
+        ozlcl.lineMsgs = new ArrayList<LineMsg>();
+        for (i = 0; i < nl; i++) {
+            int I = Line.get(i).sid;
+            int J = Line.get(i).eid;
+            if ((int) zhilubiaoshi.get(i) == 1) {
+                double v = PIJ.get(i, 0) / (Math.sqrt(3) * xiangjiaocha.get(i));
+                zhilushiji.set(i, v);
+            } else {
+                zhilushiji.set(i, PIJ.get(i, 0));
+            }
+
+            zhilushiji.set(i, Math.abs(zhilushiji.get(i)));
+            rongliang.set(i, 100 * zhilushiji.get(i) / rongliang.get(i));
+            if (rongliang.get(i) > 60) {
+                String msg = String.format("节点%d到节点%d支路负载率较大有越限风险，负载率约为:  %2.2f%%", I, J, rongliang.get(i));
+                ozlcl.lineMsgs.add(new LineMsg(I, J, msg, 1));
+            } else {
+                String msg = String.format("此状态下节点%d到节点%d支路负载率无越限风险", I, J);
+                ozlcl.lineMsgs.add(new LineMsg(I, J, msg, 2));
+            }
+        }
+
+        ozlcl.setRongliang(rongliang);
         return ozlcl;
     }
 }

@@ -13,4 +13,9 @@ public class BusMsg {
         this.msg1 = msg1;
         this.status = status;
     }
+
+    public BusMsg(int id, String msg1) {
+        this.id = id;
+        this.msg1 = msg1;
+    }
 }

@@ -482,7 +482,7 @@ public class CPQ {
 
     public OPQ output() {
         OPQ opq = new OPQ();
-        opq.kk = kk;
+        opq.k = kk;
         if (kk <= 20) {
             opq.Sph = Sph;
             opq.U = U;

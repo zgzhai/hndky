@@ -38,7 +38,7 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("FXPG")) {
             FXPG();
         } else {
-            FHXJ();
+            PQ();
             System.out.println("welcome to unisolver， please input mode : ");
             System.out.println("COOL");
             System.out.println("HST");

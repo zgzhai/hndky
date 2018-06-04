@@ -20,7 +20,7 @@ public class OPQ {
     public VectorComplex deltaSij;
     public VectorComplex S;
     public Complex sumdeltaS;
-    public int kk;                  //迭代次数
+    public int k;                  //迭代次数
     public ArrayList<LineMsg> lineMsgs;
     public ArrayList<BusMsg> busMsgs;
 
@@ -30,7 +30,7 @@ public class OPQ {
         int y = I.getSize();
         int x = busMsgs.size();
 
-        System.out.println("迭代次数k为: " + kk);
+        System.out.println("迭代次数k为: " + k);
 
         Sph.print("平衡节点1的复功率Sph为: = ", 8, 6);
 

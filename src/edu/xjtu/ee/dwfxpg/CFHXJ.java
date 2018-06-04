@@ -66,7 +66,23 @@ public class CFHXJ extends CZLCL {
     @Override
     public void solve() {
         super.solve();
-        OTP();
+        int panduantiaojian = panduantiaojian(super.output().getRongliang());
+        if (panduantiaojian == 1) {
+            OTP();
+        } else {
+            status = 0;
+        }
+    }
+
+    private int panduantiaojian(Vector rongliang) {
+        int flag = 0;
+        for (int i = 0; i < rongliang.getSize(); i++) {
+            if (rongliang.get(i) > 100) {
+                flag = 1;
+                break;
+            }
+        }
+        return flag;
     }
 
     private void OTP() {
@@ -290,6 +306,13 @@ public class CFHXJ extends CZLCL {
                     System.out.println("目标函数值为:");
                     f.print(8, 4);
                     */
+                    if (f.get(0, 0) <= 0) {
+                        status = 4;
+                    } else {
+                        status = 5;
+                    }
+
+
                 } else {
                     //if(B\A(:,k)<=0),  B\A(;,k)中的每一个分量都小于零
                     if (MatrixEx.lte(MatrixEx.leftDiv(B, new MatrixEx(A).partCol(k, k)), 0)) {
@@ -321,14 +344,42 @@ public class CFHXJ extends CZLCL {
     @Override
     public OFHXJ output() {
         OFHXJ ofhxj = new OFHXJ();
+        /*
         OZLCL ozlcl = super.output();
-        ofhxj.Y = ozlcl.Y;
+        //ofhxj.Y = ozlcl.Y;
         ofhxj.Delta = ozlcl.Delta;
         ofhxj.PIJ = ozlcl.PIJ;
-
+        */
         ofhxj.status = status;
-        ofhxj.f = f.get(0, 0);
-        ofhxj.X = X.toArrayList();
+        if (status != 0) {
+            ofhxj.f = f.get(0, 0);
+            //ofhxj.X = X.toArrayList();
+        }
+
+        switch (status) {
+            case 0:
+                ofhxj.msg1 = "此状态下不需要负荷削减，请加强监控";
+                break;
+            case 1:
+                ofhxj.msg1 = "不符合要求需引入松弛变量";
+                break;
+            case 2:
+                ofhxj.msg1 = "已找到最优解";
+                break;
+            case 3:
+                ofhxj.msg1 = "此状态下不存在优化最优解! 请加强重载线路及重载变压器的运行监控，过载设备请根据变压器负荷能力评估结果进行负荷转移！";
+                break;
+            case 4:
+                ofhxj.msg1 = "此种状态下不需要削减负荷，请加强重载线路及重载变压器的运行监控";
+                break;
+            case 5:
+                ofhxj.msg1 = String.format("此种状态下可以进行负荷转移以优化电网静态稳定性，重载线路受端及重载变压器最少需要转移的负荷量总量约为:%f  p.u.，请根据主变负荷能力评估结果进行优化", ofhxj.f);
+                break;
+            default:
+                ofhxj.msg1 = String.format("未知状态，status=%d", status);
+                break;
+        }
+
         return ofhxj;
     }
 }
