@@ -33,17 +33,13 @@ public class CBus {
      * PQ法节点输入
      * @param id
      * @param type
-     * @param u
-     * @param a
-     * @param p
-     * @param q
      */
-    public CBus(int id, int type, double u, double a, double p, double q) {
+    public CBus(int id, int type, double U, double a, double P, double Q) {
         this.id = id;
         this.type = type;
-        U = u;
+        this.U = U;
         this.a = a;
-        P = p;
-        Q = q;
+        this.P = P;
+        this.Q = Q;
     }
 }

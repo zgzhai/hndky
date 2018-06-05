@@ -562,7 +562,7 @@ public class Main {
 
     public static void FXPG() {
         UniParameter uniParameter = new UniParameter();
-        IFXPG ifxpg = new IFXPG();
+        IFXPG ifxpg = new IFXPG(80, 10, 180, 0, 800);
         ifxpg.setDiagnoseResult("变压器受潮");
         ifxpg.setScoreMsg("变压器漏油");
         uniParameter.setiFxpg(ifxpg);

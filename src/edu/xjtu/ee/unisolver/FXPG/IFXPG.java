@@ -18,13 +18,12 @@ public class IFXPG {
     public IFXPG() {
     }
 
-    public IFXPG(int score, double t, double v, int x, double i) {
+    public IFXPG(int score, double t, double V, int x, double I) {
         this.score = score;
-
         this.t = t;
-        V = v;
+        this.V = V;
         this.x = x;
-        I = i;
+        this.I = I;
     }
 
     public int getScore() {
