@@ -265,6 +265,10 @@ public class Vector {
         return size;
     }
 
+    public double[] getA() {
+        return A;
+    }
+
     /**
      * 行列式转换为矩阵
      *

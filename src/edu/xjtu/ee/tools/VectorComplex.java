@@ -90,4 +90,20 @@ public class VectorComplex {
         }
         System.out.println("]");
     }
+
+    public Complex[] getC() {
+        return c;
+    }
+
+    public void setC(Complex[] c) {
+        this.c = c;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

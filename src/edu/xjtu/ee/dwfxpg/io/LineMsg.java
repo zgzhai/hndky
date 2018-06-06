@@ -15,4 +15,20 @@ public class LineMsg {
         this.msg1 = msg1;
         this.status = status;
     }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public int getEid() {
+        return eid;
+    }
+
+    public String getMsg1() {
+        return msg1;
+    }
+
+    public int getStatus() {
+        return status;
+    }
 }

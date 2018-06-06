@@ -18,4 +18,16 @@ public class BusMsg {
         this.id = id;
         this.msg1 = msg1;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getMsg1() {
+        return msg1;
+    }
+
+    public int getStatus() {
+        return status;
+    }
 }
