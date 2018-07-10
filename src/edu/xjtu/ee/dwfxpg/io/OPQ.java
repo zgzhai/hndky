@@ -25,6 +25,126 @@ public class OPQ {
     public ArrayList<BusMsg> busMsgs;
 
 
+    public Vector getU() {
+        return U;
+    }
+
+    public void setU(Vector u) {
+        U = u;
+    }
+
+    public Vector getA() {
+        return a;
+    }
+
+    public void setA(Vector a) {
+        this.a = a;
+    }
+
+    public Vector getP() {
+        return P;
+    }
+
+    public void setP(Vector p) {
+        P = p;
+    }
+
+    public Vector getQ() {
+        return Q;
+    }
+
+    public void setQ(Vector q) {
+        Q = q;
+    }
+
+    public Vector getI() {
+        return I;
+    }
+
+    public void setI(Vector i) {
+        I = i;
+    }
+
+    public Vector getJ() {
+        return J;
+    }
+
+    public void setJ(Vector j) {
+        J = j;
+    }
+
+    public Complex getSph() {
+        return Sph;
+    }
+
+    public void setSph(Complex sph) {
+        Sph = sph;
+    }
+
+    public VectorComplex getSij() {
+        return Sij;
+    }
+
+    public void setSij(VectorComplex sij) {
+        Sij = sij;
+    }
+
+    public VectorComplex getSji() {
+        return Sji;
+    }
+
+    public void setSji(VectorComplex sji) {
+        Sji = sji;
+    }
+
+    public VectorComplex getDeltaSij() {
+        return deltaSij;
+    }
+
+    public void setDeltaSij(VectorComplex deltaSij) {
+        this.deltaSij = deltaSij;
+    }
+
+    public VectorComplex getS() {
+        return S;
+    }
+
+    public void setS(VectorComplex s) {
+        S = s;
+    }
+
+    public Complex getSumdeltaS() {
+        return sumdeltaS;
+    }
+
+    public void setSumdeltaS(Complex sumdeltaS) {
+        this.sumdeltaS = sumdeltaS;
+    }
+
+    public int getK() {
+        return k;
+    }
+
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    public ArrayList<LineMsg> getLineMsgs() {
+        return lineMsgs;
+    }
+
+    public void setLineMsgs(ArrayList<LineMsg> lineMsgs) {
+        this.lineMsgs = lineMsgs;
+    }
+
+    public ArrayList<BusMsg> getBusMsgs() {
+        return busMsgs;
+    }
+
+    public void setBusMsgs(ArrayList<BusMsg> busMsgs) {
+        this.busMsgs = busMsgs;
+    }
+
     public void print() {
 
         int y = I.getSize();

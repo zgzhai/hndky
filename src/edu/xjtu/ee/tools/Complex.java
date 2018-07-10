@@ -29,6 +29,14 @@ public class Complex {
         return b;
     }
 
+    public void setA(double a) {
+        this.a = a;
+    }
+
+    public void setB(double b) {
+        this.b = b;
+    }
+
     /**
      * 倒数
      *

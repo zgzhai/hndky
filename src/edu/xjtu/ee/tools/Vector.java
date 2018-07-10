@@ -481,4 +481,44 @@ public class Vector {
         }
         return arrayList;
     }
+
+    public void setA(double[] a) {
+        A = a;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public static int getCOL() {
+        return COL;
+    }
+
+    public static int getROW() {
+        return ROW;
+    }
+
+    public static int getEQ() {
+        return EQ;
+    }
+
+    public static int getNEQ() {
+        return NEQ;
+    }
+
+    public static int getGT() {
+        return GT;
+    }
+
+    public static int getGTE() {
+        return GTE;
+    }
+
+    public static int getLT() {
+        return LT;
+    }
+
+    public static int getLTE() {
+        return LTE;
+    }
 }

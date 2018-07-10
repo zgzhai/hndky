@@ -6,4 +6,12 @@ public class OCool {
     public void print() {
         System.out.println(ratio);
     }
+
+    public String getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
+    }
 }

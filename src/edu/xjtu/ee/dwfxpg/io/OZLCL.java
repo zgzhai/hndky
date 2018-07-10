@@ -15,6 +15,38 @@ public class OZLCL {
     public ArrayList<BusMsg> busMsgs;
     private Vector rongliang;
 
+    public ArrayList<Double> getDelta() {
+        return Delta;
+    }
+
+    public void setDelta(ArrayList<Double> delta) {
+        Delta = delta;
+    }
+
+    public ArrayList<CLinePIJ> getPIJ() {
+        return PIJ;
+    }
+
+    public void setPIJ(ArrayList<CLinePIJ> PIJ) {
+        this.PIJ = PIJ;
+    }
+
+    public ArrayList<LineMsg> getLineMsgs() {
+        return lineMsgs;
+    }
+
+    public void setLineMsgs(ArrayList<LineMsg> lineMsgs) {
+        this.lineMsgs = lineMsgs;
+    }
+
+    public ArrayList<BusMsg> getBusMsgs() {
+        return busMsgs;
+    }
+
+    public void setBusMsgs(ArrayList<BusMsg> busMsgs) {
+        this.busMsgs = busMsgs;
+    }
+
     public void print() {
         //System.out.println("Y=\r\n");
         //Y.print(10, 2);

@@ -31,4 +31,20 @@ public class LineMsg {
     public int getStatus() {
         return status;
     }
+
+    public void setSid(int sid) {
+        this.sid = sid;
+    }
+
+    public void setEid(int eid) {
+        this.eid = eid;
+    }
+
+    public void setMsg1(String msg1) {
+        this.msg1 = msg1;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

@@ -12,6 +12,54 @@ public class OHst {
     public double TOPT;
     public double WSDT;
 
+    public ArrayList<Double> getT_hs_G() {
+        return T_hs_G;
+    }
+
+    public void setT_hs_G(ArrayList<Double> t_hs_G) {
+        T_hs_G = t_hs_G;
+    }
+
+    public ArrayList<Double> getT_top_C() {
+        return T_top_C;
+    }
+
+    public void setT_top_C(ArrayList<Double> t_top_C) {
+        T_top_C = t_top_C;
+    }
+
+    public ArrayList<Double> getT_wnd_G() {
+        return T_wnd_G;
+    }
+
+    public void setT_wnd_G(ArrayList<Double> t_wnd_G) {
+        T_wnd_G = t_wnd_G;
+    }
+
+    public double getHST() {
+        return HST;
+    }
+
+    public void setHST(double HST) {
+        this.HST = HST;
+    }
+
+    public double getTOPT() {
+        return TOPT;
+    }
+
+    public void setTOPT(double TOPT) {
+        this.TOPT = TOPT;
+    }
+
+    public double getWSDT() {
+        return WSDT;
+    }
+
+    public void setWSDT(double WSDT) {
+        this.WSDT = WSDT;
+    }
+
     public void print() {
         int l = 8;
         int dot = 4;

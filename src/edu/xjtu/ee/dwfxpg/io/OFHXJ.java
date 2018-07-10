@@ -26,4 +26,28 @@ public class OFHXJ extends OZLCL {
         }
         */
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getMsg1() {
+        return msg1;
+    }
+
+    public void setMsg1(String msg1) {
+        this.msg1 = msg1;
+    }
+
+    public double getF() {
+        return f;
+    }
+
+    public void setF(double f) {
+        this.f = f;
+    }
 }

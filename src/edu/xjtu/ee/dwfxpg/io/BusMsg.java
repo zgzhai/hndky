@@ -30,4 +30,16 @@ public class BusMsg {
     public int getStatus() {
         return status;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMsg1(String msg1) {
+        this.msg1 = msg1;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

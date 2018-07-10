@@ -11,6 +11,46 @@ public class OZcfhnlpg extends OHst {
     public ArrayList<Double> V_G;
     public double XDLHSL;
 
+    public double getK() {
+        return K;
+    }
+
+    public void setK(double k) {
+        K = k;
+    }
+
+    public double getFlimit_IC() {
+        return Flimit_IC;
+    }
+
+    public void setFlimit_IC(double flimit_IC) {
+        Flimit_IC = flimit_IC;
+    }
+
+    public String getYXTJ() {
+        return YXTJ;
+    }
+
+    public void setYXTJ(String YXTJ) {
+        this.YXTJ = YXTJ;
+    }
+
+    public ArrayList<Double> getV_G() {
+        return V_G;
+    }
+
+    public void setV_G(ArrayList<Double> v_G) {
+        V_G = v_G;
+    }
+
+    public double getXDLHSL() {
+        return XDLHSL;
+    }
+
+    public void setXDLHSL(double XDLHSL) {
+        this.XDLHSL = XDLHSL;
+    }
+
     public void print() {
         super.print();
         System.out.println(String.format("K= %-8.4f", K)); //输出参数
