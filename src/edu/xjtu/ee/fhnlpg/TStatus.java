@@ -48,19 +48,19 @@ public class TStatus {
 
     public void solve() {
         if (operation.TH_hs >= Tlimit_hs || operation.TH_top >= Tlimit_top) {
-            result = "变压器过热引起的过负荷";
+            result = "当前变压器过热引起的过负荷";
         } else if (operation.I_H_C >= nameplate.I_H_r) {
-            result = "变压器高压侧过负荷";
+            result = "当前变压器高压侧过负荷";
         } else if (operation.I_M_C >= nameplate.I_M_r) {
-            result = "变压器中压侧过负荷";
+            result = "当前变压器中压侧过负荷";
         } else if (operation.I_L_C >= nameplate.I_L_r) {
-            result = "变压器低压侧过负荷";
+            result = "当前变压器低压侧过负荷";
         } else if (operation.I_H_C >= 0.8 * nameplate.I_H_r) {
-            result = "变压器重载";
+            result = "当前变压器重载";
         } else if (operation.I_H_C >= 0.5 * nameplate.I_H_r) {
-            result = "变压器正常负荷运行";
+            result = "当前变压器正常负荷运行";
         } else {
-            result = "变压器轻载";
+            result = "当前变压器轻载";
         }
     }
 

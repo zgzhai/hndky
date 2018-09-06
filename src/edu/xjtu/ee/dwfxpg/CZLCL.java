@@ -295,11 +295,14 @@ public class CZLCL {
 
         Vector zhilushiji = new Vector(nl);
         Vector rongliang = new Vector(nl);
+        Vector fuhezhuanyi = new Vector(nl);
         Vector zhilubiaoshi = new Vector(nl);
         for (i = 0; i < nl; i++) {
             rongliang.set(i, Line.get(i).capacity);
+            fuhezhuanyi.set(i, Line.get(i).capacity);
             zhilubiaoshi.set(i, Line.get(i).sn);
         }
+
 
         ozlcl.lineMsgs = new ArrayList<LineMsg>();
         for (i = 0; i < nl; i++) {
@@ -323,6 +326,14 @@ public class CZLCL {
             }
         }
 
+        for (i = 0; i < nl; i++) {
+            if (rongliang.get(i) > 90) {
+                fuhezhuanyi.set(i, 2 * fuhezhuanyi.get(i) * (rongliang.get(i) - 80));
+            } else {
+                fuhezhuanyi.set(i, -1);
+            }
+        }
+        ozlcl.setFuhezhuanyi(fuhezhuanyi);
         ozlcl.setRongliang(rongliang);
         return ozlcl;
     }

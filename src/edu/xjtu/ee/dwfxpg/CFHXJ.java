@@ -77,7 +77,7 @@ public class CFHXJ extends CZLCL {
     private int panduantiaojian(Vector rongliang) {
         int flag = 0;
         for (int i = 0; i < rongliang.getSize(); i++) {
-            if (rongliang.get(i) > 100) {
+            if (rongliang.get(i) > 90) {
                 flag = 1;
                 break;
             }
@@ -350,6 +350,7 @@ public class CFHXJ extends CZLCL {
         ofhxj.Delta = ozlcl.Delta;
         ofhxj.PIJ = ozlcl.PIJ;
         */
+        ofhxj.setFuhezhuanyi(super.output().getFuhezhuanyi());
         ofhxj.status = status;
         if (status != 0) {
             ofhxj.f = f.get(0, 0);
@@ -358,7 +359,7 @@ public class CFHXJ extends CZLCL {
 
         switch (status) {
             case 0:
-                ofhxj.msg1 = "此状态下不需要负荷削减，请加强监控";
+                ofhxj.msg1 = "此状态下不需要负荷削减，请继续监控";
                 break;
             case 1:
                 ofhxj.msg1 = "不符合要求需引入松弛变量";
@@ -367,13 +368,13 @@ public class CFHXJ extends CZLCL {
                 ofhxj.msg1 = "已找到最优解";
                 break;
             case 3:
-                ofhxj.msg1 = "此状态下不存在优化最优解! 请加强重载线路及重载变压器的运行监控，过载设备请根据变压器负荷能力评估结果进行负荷转移！";
+                ofhxj.msg1 = "此状态下不存在潮流优化最优解! 请加强重载线路及重载变压器的运行监控，可参考负荷转移建议！";
                 break;
             case 4:
-                ofhxj.msg1 = "此种状态下不需要削减负荷，请加强重载线路及重载变压器的运行监控";
+                ofhxj.msg1 = "此种状态下不需要削减负荷，可参考负荷转移建议！";
                 break;
             case 5:
-                ofhxj.msg1 = String.format("此种状态下可以进行负荷转移以优化电网静态稳定性，重载线路受端及重载变压器最少需要转移的负荷量总量约为:%f  p.u.，请根据主变负荷能力评估结果进行优化", ofhxj.f);
+                ofhxj.msg1 = String.format("此种状态下可以进行负荷转移以优化电网静态稳定性，可参考负荷转移建议！");
                 break;
             default:
                 ofhxj.msg1 = String.format("未知状态，status=%d", status);

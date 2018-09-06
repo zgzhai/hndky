@@ -76,6 +76,20 @@ public class IFhnlpgLimit {
         this.IC = IC;
     }
 
+    public void setIC(String ICStr) {
+        if ("正常状态".equals(ICStr)) {
+            this.IC = 95;
+        } else if ("注意状态".equals(ICStr)) {
+            this.IC = 85;
+        }else if ("异常状态".equals(ICStr)) {
+            this.IC = 75;
+        }else if ("严重状态".equals(ICStr)) {
+            this.IC = 65;
+        }else {
+            this.IC = 100;
+        }
+    }
+
     public double getT_amb() {
         return T_amb;
     }

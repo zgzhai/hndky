@@ -14,6 +14,7 @@ public class OZLCL {
     public ArrayList<LineMsg> lineMsgs;
     public ArrayList<BusMsg> busMsgs;
     private Vector rongliang;
+    private Vector fuhezhuanyi;
 
     public ArrayList<Double> getDelta() {
         return Delta;
@@ -76,5 +77,13 @@ public class OZLCL {
 
     public void setRongliang(Vector rongliang) {
         this.rongliang = rongliang;
+    }
+
+    public Vector getFuhezhuanyi() {
+        return fuhezhuanyi;
+    }
+
+    public void setFuhezhuanyi(Vector fuhezhuanyi) {
+        this.fuhezhuanyi = fuhezhuanyi;
     }
 }

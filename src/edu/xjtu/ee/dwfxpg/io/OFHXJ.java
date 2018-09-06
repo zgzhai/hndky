@@ -50,4 +50,31 @@ public class OFHXJ extends OZLCL {
     public void setF(double f) {
         this.f = f;
     }
+
+    public String getFuzhuanyiMsg(String riskLevel){
+        String constStr = "无需进行负荷转移，建议根据变压器风险预测结果控制风险!";
+        String constStr2 = "输入的风险等级错误，不在A,B,C,D范围";
+        if(riskLevel.indexOf("A")>=0 || riskLevel.indexOf("B")>=0){
+            int index = getFuzhuanyiVal();
+            if(index>=0){
+                 double zhuanyi  = super.getFuhezhuanyi().get(index);
+                 return String.format("建议此处变电站至少向附近站点转移 %-7.2f MW的负荷，负荷转移后请重新校核主变风险！", zhuanyi);
+            }else {
+                return  constStr;
+            }
+        }else if(riskLevel.indexOf("C")>=0 || riskLevel.indexOf("D")>=0){
+            return  constStr;
+        }else {
+            return constStr2;
+        }
+    }
+
+    private int getFuzhuanyiVal(){
+        for(int i=0;i<super.getFuhezhuanyi().getSize();i++){
+            if(super.getFuhezhuanyi().get(i)>0){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

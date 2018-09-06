@@ -26,6 +26,24 @@ public class IFXPG {
         this.I = I;
     }
 
+    public IFXPG(String scoreStr, double t, double V, int x, double I) {
+        if ("正常状态".equals(scoreStr)) {
+            this.score = 95;
+        } else if ("注意状态".equals(scoreStr)) {
+            this.score = 85;
+        }else if ("异常状态".equals(scoreStr)) {
+            this.score = 75;
+        }else if ("严重状态".equals(scoreStr)) {
+            this.score = 65;
+        }else {
+            this.score = 100;
+        }
+        this.t = t;
+        this.V = V;
+        this.x = x;
+        this.I = I;
+    }
+
     public int getScore() {
         return score;
     }

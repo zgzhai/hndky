@@ -38,7 +38,7 @@ public class Main {
         } else if (args.length > 0 && args[0].toUpperCase().equals("FXPG")) {
             FXPG();
         } else {
-            PQ();
+            FHXJ();
             System.out.println("welcome to unisolver， please input mode : ");
             System.out.println("COOL");
             System.out.println("HST");
@@ -647,6 +647,7 @@ public class Main {
             System.out.println(uniResult.errmsg);
         } else {
             uniResult.oFhxj.print();
+            uniResult.oFhxj.getFuzhuanyiMsg("传入风险预测的此结果：ofxpg.riskLevel");
         }
     }
 
