@@ -217,7 +217,7 @@ public class CFHXJ extends CZLCL {
         }
 
         for (int i = 0; i < Bus.size(); i++) {
-            A.set(2 * T.getColumnDimension() + Bus.size(), i, -1);
+            A.set(2 * T.getRowDimension() + Bus.size(), i, -1);
         }
 
         int index = 0;
