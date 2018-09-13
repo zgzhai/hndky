@@ -1,0 +1,1 @@
+ 		   Sij(m)=(U(I(m))*cos(a(I(m)))+i*U(I(m))*sin(a(I(m))))*((U(I(m))*cos(a(I(m)))-i*U(I(m))*sin(a(I(m))))*(-i*B0(m)/2)+(U(I(m))*cos(a(I(m)))-i*U(I(m))*sin(a(I(m)))-U(J(m))*cos(a(J(m)))+i*U(J(m))*sin(a(J(m))))*conj(-Y(I(m),J(m)))); 
